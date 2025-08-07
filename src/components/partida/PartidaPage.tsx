@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useMatchesStore, useOptimisticUpdates } from "@/stores";
 import Header from "./Header";
 import LoadingState from "./LoadingState";
 import NotFoundState from "./NotFoundState";
@@ -35,48 +36,27 @@ interface Match {
 
 export default function PartidaPage() {
   const params = useParams();
-  const [match, setMatch] = useState<Match | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [addingGame, setAddingGame] = useState(false);
+  
+  // Zustand stores
+  const { currentMatch: match, fetchMatch, addGameToMatch, loading, error } = useMatchesStore();
+  const { invalidateCache } = useOptimisticUpdates();
 
   useEffect(() => {
-    if (params.id) {
-      fetchMatch();
+    if (params.id && typeof params.id === 'string') {
+      fetchMatch(params.id);
     }
-  }, [params.id]);
-
-  const fetchMatch = async () => {
-    try {
-      const response = await fetch(`/api/matches/${params.id}`);
-      const data = await response.json();
-      setMatch(data);
-    } catch (error) {
-      console.error("Erro ao buscar partida:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [params.id, fetchMatch]);
 
   const addGame = async (winnerId: string) => {
-    setAddingGame(true);
     try {
-      const response = await fetch(`/api/matches/${params.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          action: "add_game",
-          winnerId,
-        }),
-      });
-
-      const updatedMatch = await response.json();
-      setMatch(updatedMatch);
+      if (params.id && typeof params.id === 'string') {
+        await addGameToMatch(params.id, winnerId);
+        
+        // Invalidar cache para atualizar rankings
+        await invalidateCache('game');
+      }
     } catch (error) {
       console.error("Erro ao adicionar jogo:", error);
-    } finally {
-      setAddingGame(false);
     }
   };
 
@@ -95,7 +75,7 @@ export default function PartidaPage() {
       <main className="p-4 max-w-md mx-auto">
         <div className="space-y-6 mt-6">
           <ScoreBoard match={match} />
-          <AddGameSection match={match} addingGame={addingGame} onAddGame={addGame} />
+          <AddGameSection match={match} addingGame={loading} onAddGame={addGame} />
           <GameHistory games={match.games} match={match} />
         </div>
       </main>

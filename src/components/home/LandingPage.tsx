@@ -1,10 +1,14 @@
+"use client";
+
 import Header from "./Header";
 import StartMatchCard from "./StartMatchCard";
 import RankingsSection from "./RankingsSection";
 import HistorySection from "./HistorySection";
 import Footer from "./Footer";
+import { usePreloadPageData } from "@/stores";
 
 export default function LandingPage() {
+  usePreloadPageData('home');
   return (
     <div className="min-h-screen">
       <Header />

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Clock, Trophy, Users, Calendar, Database, Zap, Shield, Sword, Target } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { useHistoryStore, usePreloadPageData } from "@/stores";
 
 interface Player {
   id: string;
@@ -34,24 +34,11 @@ interface Match {
 }
 
 export default function HistoricoPage() {
-  const [matches, setMatches] = useState<Match[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchMatches();
-  }, []);
-
-  const fetchMatches = async () => {
-    try {
-      const response = await fetch("/api/historico");
-      const data = await response.json();
-      setMatches(data);
-    } catch (error) {
-      console.error("Erro ao buscar histórico:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Zustand store
+  const { matches, loading, error } = useHistoryStore();
+  
+  // Pré-carregamento
+  usePreloadPageData('history');
 
   const getMatchStatus = (match: Match) => {
     if (match.isFinished) {

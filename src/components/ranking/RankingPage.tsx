@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useRankingsStore, usePreloadPageData } from "@/stores";
 import Header from "./Header";
 import LoadingState from "./LoadingState";
 import NotFoundState from "./NotFoundState";
@@ -10,30 +11,24 @@ import EmptyRanking from "./EmptyRanking";
 import RankingList from "./RankingList";
 import OtherRankings from "./OtherRankings";
 import SystemStatus from "./SystemStatus";
-import { RankingData } from "./types";
 
 export default function RankingPage() {
   const params = useParams();
-  const [ranking, setRanking] = useState<RankingData | null>(null);
-  const [loading, setLoading] = useState(true);
+  
+  // Zustand store
+  const { rankings, fetchRanking, loading, error } = useRankingsStore();
+  
+  // Pré-carregamento
+  usePreloadPageData('ranking');
 
   useEffect(() => {
-    if (params.period) {
-      fetchRanking();
+    if (params.period && typeof params.period === 'string') {
+      fetchRanking(params.period as 'semana' | 'mes' | 'ano');
     }
-  }, [params.period]);
+  }, [params.period, fetchRanking]);
 
-  const fetchRanking = async () => {
-    try {
-      const response = await fetch(`/api/rankings/${params.period}`);
-      const data = await response.json();
-      setRanking(data);
-    } catch (error) {
-      console.error("Erro ao buscar ranking:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const period = params.period as string;
+  const ranking = rankings[period];
 
   if (loading) {
     return <LoadingState />;
@@ -42,8 +37,6 @@ export default function RankingPage() {
   if (!ranking) {
     return <NotFoundState />;
   }
-
-  const period = params.period as string;
 
   return (
     <div className="min-h-screen relative">

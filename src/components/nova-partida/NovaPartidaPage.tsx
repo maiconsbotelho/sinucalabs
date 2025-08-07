@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { usePlayersStore, useMatchesStore, usePreloadPageData, useOptimisticUpdates } from "@/stores";
 import Header from "./Header";
 import LoadingScreen from "./LoadingScreen";
 import ProgressIndicator from "./ProgressIndicator";
@@ -17,40 +18,22 @@ interface Player {
 
 export default function NovaPartidaPage() {
   const router = useRouter();
-  const [players, setPlayers] = useState<Player[]>([]);
+  
+  // Zustand stores
+  const { players, loading: playersLoading } = usePlayersStore();
+  const { createMatch: createMatchAPI, loading: matchLoading } = useMatchesStore();
+  const { invalidateCache } = useOptimisticUpdates();
+  
+  // Local state
   const [step, setStep] = useState<"team1" | "team2" | "confirm">("team1");
   const [team1, setTeam1] = useState<Player[]>([]);
   const [team2, setTeam2] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [creating, setCreating] = useState(false);
 
-  useEffect(() => {
-    fetchPlayers();
-  }, []);
+  // Pré-carregamento
+  usePreloadPageData('nova-partida');
 
-  const fetchPlayers = async () => {
-    try {
-      const response = await fetch("/api/players");
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (Array.isArray(data)) {
-        setPlayers(data);
-      } else {
-        console.error("Resposta da API não é um array:", data);
-        setPlayers([]);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar jogadores:", error);
-      setPlayers([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const loading = playersLoading;
+  const creating = matchLoading;
 
   const handlePlayerSelect = (player: Player) => {
     if (step === "team1") {
@@ -91,27 +74,20 @@ export default function NovaPartidaPage() {
   };
 
   const createMatch = async () => {
-    setCreating(true);
     try {
-      const response = await fetch("/api/matches", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          team1Player1Id: team1[0].id,
-          team1Player2Id: team1[1].id,
-          team2Player1Id: team2[0].id,
-          team2Player2Id: team2[1].id,
-        }),
+      const matchId = await createMatchAPI({
+        team1Player1Id: team1[0].id,
+        team1Player2Id: team1[1].id,
+        team2Player1Id: team2[0].id,
+        team2Player2Id: team2[1].id,
       });
 
-      const match = await response.json();
-      router.push(`/partida/${match.id}`);
+      // Invalidar cache para atualizar outras páginas
+      await invalidateCache('match');
+      
+      router.push(`/partida/${matchId}`);
     } catch (error) {
       console.error("Erro ao criar partida:", error);
-    } finally {
-      setCreating(false);
     }
   };
 
