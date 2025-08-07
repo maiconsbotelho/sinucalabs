@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { supabaseAdmin, Player } from "@/lib/supabase";
 import { getWeekRange, getMonthRange, getYearRange } from "@/lib/utils";
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ period: string }> }) {
@@ -29,109 +29,35 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         return NextResponse.json({ error: "Período inválido. Use: semana, mes ou ano" }, { status: 400 });
     }
 
-    // Buscar todos os jogos no período
-    const games = await prisma.game.findMany({
-      where: {
-        createdAt: {
-          gte: startDate,
-          lte: endDate,
-        },
-      },
-      include: {
-        winner: true,
-        match: {
-          include: {
-            team1Player1: true,
-            team1Player2: true,
-            team2Player1: true,
-            team2Player2: true,
-          },
-        },
-      },
-    });
+    // Por enquanto, vamos retornar ranking básico baseado apenas nos jogadores
+    // TODO: Implementar ranking real quando a tabela games estiver criada
+    const { data: players, error } = await supabaseAdmin
+      .from('players')
+      .select('*')
+      .order('name', { ascending: true });
 
-    // Calcular estatísticas por jogador
-    const playerStats = new Map<
-      string,
-      {
-        player: any;
-        wins: number;
-        losses: number;
-        gamesPlayed: number;
-        winRate: number;
-      }
-    >();
+    if (error) {
+      console.error("Erro ao buscar jogadores:", error);
+      return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 });
+    }
 
-    // Inicializar todos os jogadores
-    const allPlayers = await prisma.player.findMany();
-    allPlayers.forEach((player) => {
-      playerStats.set(player.id, {
-        player,
-        wins: 0,
-        losses: 0,
-        gamesPlayed: 0,
-        winRate: 0,
-      });
-    });
-
-    // Processar cada jogo
-    games.forEach((game) => {
-      const match = game.match;
-      const allMatchPlayers = [match.team1Player1, match.team1Player2, match.team2Player1, match.team2Player2];
-
-      // Determinar qual dupla venceu
-      const team1PlayerIds = [match.team1Player1.id, match.team1Player2.id];
-      const isTeam1Winner = team1PlayerIds.includes(game.winner.id);
-
-      const winningTeam = isTeam1Winner
-        ? [match.team1Player1, match.team1Player2]
-        : [match.team2Player1, match.team2Player2];
-
-      const losingTeam = isTeam1Winner
-        ? [match.team2Player1, match.team2Player2]
-        : [match.team1Player1, match.team1Player2];
-
-      // Atualizar estatísticas dos vencedores
-      winningTeam.forEach((player) => {
-        const stats = playerStats.get(player.id);
-        if (stats) {
-          stats.wins++;
-          stats.gamesPlayed++;
-        }
-      });
-
-      // Atualizar estatísticas dos perdedores
-      losingTeam.forEach((player) => {
-        const stats = playerStats.get(player.id);
-        if (stats) {
-          stats.losses++;
-          stats.gamesPlayed++;
-        }
-      });
-    });
-
-    // Calcular taxa de vitória e ordenar
-    const rankings = Array.from(playerStats.values())
-      .map((stats) => ({
-        ...stats,
-        winRate: stats.gamesPlayed > 0 ? (stats.wins / stats.gamesPlayed) * 100 : 0,
-      }))
-      .filter((stats) => stats.gamesPlayed > 0) // Apenas jogadores que jogaram
-      .sort((a, b) => {
-        // Ordenar por taxa de vitória, depois por número de vitórias
-        if (b.winRate !== a.winRate) {
-          return b.winRate - a.winRate;
-        }
-        return b.wins - a.wins;
-      })
-      .slice(0, 3); // TOP 3
+    // Ranking mock temporário
+    const mockRankings = (players || []).slice(0, 3).map((player: Player, index) => ({
+      player,
+      wins: Math.floor(Math.random() * 10) + 5,
+      losses: Math.floor(Math.random() * 5) + 1,
+      gamesPlayed: Math.floor(Math.random() * 15) + 6,
+      winRate: 75 - (index * 15),
+      position: index + 1
+    }));
 
     return NextResponse.json({
       period,
-      startDate,
-      endDate,
-      rankings,
-      totalGames: games.length,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      rankings: mockRankings,
+      totalGames: mockRankings.reduce((total, r) => total + r.gamesPlayed, 0),
+      note: "Rankings temporários - será atualizado quando a tabela games for criada"
     });
   } catch (error) {
     console.error("Erro ao buscar ranking:", error);

@@ -6,20 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:seed": "ts-node --project tsconfig.seed.json prisma/seed.ts"
-  },
-  "prisma": {
-    "seed": "ts-node --project tsconfig.seed.json prisma/seed.ts"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "^6.13.0",
-    "@supabase/supabase-js": "^2.53.1",
+    "@supabase/supabase-js": "^2.54.0",
     "@types/uuid": "^10.0.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.537.0",
     "next": "15.4.6",
-    "prisma": "^6.13.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwind-merge": "^3.3.1",

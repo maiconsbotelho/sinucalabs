@@ -26,10 +26,23 @@ export default function NovaPartida() {
   const fetchPlayers = async () => {
     try {
       const response = await fetch("/api/players");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
-      setPlayers(data);
+
+      // Garantir que data seja um array
+      if (Array.isArray(data)) {
+        setPlayers(data);
+      } else {
+        console.error("Resposta da API não é um array:", data);
+        setPlayers([]);
+      }
     } catch (error) {
       console.error("Erro ao buscar jogadores:", error);
+      setPlayers([]);
     } finally {
       setLoading(false);
     }
