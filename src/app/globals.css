@@ -13,7 +13,7 @@
   --retro-yellow: 255 255 0;
   --retro-orange: 255 140 0;
   --retro-green: 50 205 50;
-  
+
   /* UI Colors */
   --background: var(--retro-dark);
   --foreground: var(--retro-light);
@@ -41,7 +41,7 @@
 body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
-  font-family: var(--font-mono), 'Courier New', monospace;
+  font-family: var(--font-mono), "Courier New", monospace;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -52,9 +52,7 @@ body {
 }
 
 .bg-retro-grid {
-  background-image: 
-    linear-gradient(cyan 1px, transparent 1px),
-    linear-gradient(90deg, cyan 1px, transparent 1px);
+  background-image: linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -69,101 +67,135 @@ body {
 }
 
 .retro-glow {
-  box-shadow: 
-    0 0 5px currentColor,
-    0 0 10px currentColor,
-    0 0 15px currentColor;
+  box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
 }
 
 .retro-border {
   border: 2px solid;
-  border-image: linear-gradient(45deg, 
-    rgb(var(--retro-cyan)), 
-    rgb(var(--retro-pink)), 
-    rgb(var(--retro-purple))
-  ) 1;
+  border-image: linear-gradient(45deg, rgb(var(--retro-cyan)), rgb(var(--retro-pink)), rgb(var(--retro-purple))) 1;
 }
 
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), 'Orbitron', monospace;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display), "Orbitron", monospace;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
-  
+
   h1 {
-    @apply text-2xl md:text-3xl;
+    font-size: 1.5rem;
   }
-  
+
   h2 {
-    @apply text-xl md:text-2xl;
+    font-size: 1.25rem;
   }
-  
+
   h3 {
-    @apply text-lg md:text-xl;
+    font-size: 1.125rem;
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 1.875rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
   }
 }
 
 @layer components {
   /* Buttons */
   .btn {
-    @apply inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-200 relative overflow-hidden;
-    font-family: var(--font-display), 'Orbitron', monospace;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 200ms;
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-display), "Orbitron", monospace;
   }
-  
+
   .btn:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     transition: left 0.5s;
   }
-  
+
   .btn:hover:before {
     left: 100%;
   }
-  
+
   .btn:focus-visible {
-    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(var(--primary)), 0 0 0 4px rgb(var(--background));
   }
-  
+
   .btn:disabled {
-    @apply pointer-events-none opacity-50;
+    pointer-events: none;
+    opacity: 0.5;
   }
-  
+
   .btn-primary {
-    @apply bg-gradient-to-r from-retro-cyan to-retro-pink text-retro-dark border-2 border-transparent;
+    background: linear-gradient(to right, rgb(var(--retro-cyan)), rgb(var(--retro-pink)));
+    color: rgb(var(--retro-dark));
+    border: 2px solid transparent;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   }
-  
+
   .btn-primary:hover {
-    @apply scale-105;
+    transform: scale(1.05);
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
   }
-  
+
   .btn-secondary {
-    @apply bg-transparent border-2 border-retro-cyan text-retro-cyan;
+    background: transparent;
+    border: 2px solid rgb(var(--retro-cyan));
+    color: rgb(var(--retro-cyan));
   }
-  
+
   .btn-secondary:hover {
-    @apply bg-retro-cyan text-retro-dark scale-105;
+    background: rgb(var(--retro-cyan));
+    color: rgb(var(--retro-dark));
+    transform: scale(1.05);
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   }
-  
+
   /* Cards */
   .card {
-    @apply rounded-xl border-2 border-retro-purple/30 bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm relative overflow-hidden;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    border: 2px solid rgba(138, 43, 226, 0.3);
+    background: linear-gradient(to bottom right, rgba(var(--card), 0.8), rgba(var(--card), 0.6));
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
-  
+
   .card:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -171,79 +203,107 @@ body {
     height: 1px;
     background: linear-gradient(90deg, transparent, rgb(var(--retro-cyan)), transparent);
   }
-  
+
   .card-glow {
-    @apply card;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(0, 255, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    border: 2px solid rgba(138, 43, 226, 0.3);
+    background: linear-gradient(to bottom right, rgba(var(--card), 0.8), rgba(var(--card), 0.6));
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
-  
+
   /* Inputs */
   .input {
-    @apply flex h-12 w-full rounded-lg border-2 border-retro-purple/50 bg-background/50 px-4 py-2 text-sm transition-all duration-200 backdrop-blur-sm;
-    font-family: var(--font-mono), 'Courier New', monospace;
+    display: flex;
+    height: 3rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 2px solid rgba(138, 43, 226, 0.5);
+    background: rgba(var(--background), 0.5);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    transition: all 200ms;
+    backdrop-filter: blur(8px);
+    font-family: var(--font-mono), "Courier New", monospace;
   }
-  
+
   .input:focus-visible {
-    @apply outline-none border-retro-cyan;
+    outline: none;
+    border-color: rgb(var(--retro-cyan));
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
   }
-  
+
   .input:disabled {
-    @apply cursor-not-allowed opacity-50;
+    cursor: not-allowed;
+    opacity: 0.5;
   }
-  
+
   .input::placeholder {
-    @apply text-muted-foreground;
+    color: rgb(var(--muted-foreground));
   }
-  
+
   /* Progress Bars */
   .progress-bar {
-    @apply w-full bg-secondary/30 rounded-full h-3 overflow-hidden relative;
+    width: 100%;
+    background: rgba(var(--secondary), 0.3);
+    border-radius: 9999px;
+    height: 0.75rem;
+    overflow: hidden;
+    position: relative;
   }
-  
+
   .progress-fill {
-    @apply h-full bg-gradient-to-r from-retro-cyan to-retro-pink rounded-full transition-all duration-500 relative;
+    height: 100%;
+    background: linear-gradient(to right, rgb(var(--retro-cyan)), rgb(var(--retro-pink)));
+    border-radius: 9999px;
+    transition: all 500ms;
+    position: relative;
     box-shadow: 0 0 10px currentColor;
   }
-  
+
   .progress-fill:after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
     animation: shimmer 2s infinite;
   }
-  
+
   /* Ranking Items */
   .rank-item {
-    @apply card p-4 transition-all duration-300 hover:scale-[1.02];
+    border-radius: 0.75rem;
+    border: 2px solid rgba(138, 43, 226, 0.3);
+    background: linear-gradient(to bottom right, rgba(var(--card), 0.8), rgba(var(--card), 0.6));
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    transition: all 300ms;
   }
-  
+
+  .rank-item:hover {
+    transform: scale(1.02);
+  }
+
   .rank-item.rank-1 {
-    @apply border-yellow-400/50;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(255, 215, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.2);
   }
-  
+
   .rank-item.rank-2 {
-    @apply border-gray-300/50;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(192, 192, 192, 0.2);
+    border-color: rgba(192, 192, 192, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(192, 192, 192, 0.2);
   }
-  
+
   .rank-item.rank-3 {
-    @apply border-amber-600/50;
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(205, 127, 50, 0.2);
+    border-color: rgba(205, 127, 50, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(205, 127, 50, 0.2);
   }
 }
 
@@ -251,43 +311,43 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .bg-retro-cyan {
     background-color: rgb(var(--retro-cyan));
   }
-  
+
   .bg-retro-pink {
     background-color: rgb(var(--retro-pink));
   }
-  
+
   .bg-retro-purple {
     background-color: rgb(var(--retro-purple));
   }
-  
+
   .text-retro-cyan {
     color: rgb(var(--retro-cyan));
   }
-  
+
   .text-retro-pink {
     color: rgb(var(--retro-pink));
   }
-  
+
   .text-retro-purple {
     color: rgb(var(--retro-purple));
   }
-  
+
   .text-retro-dark {
     color: rgb(var(--retro-dark));
   }
-  
+
   .border-retro-cyan {
     border-color: rgb(var(--retro-cyan));
   }
-  
+
   .border-retro-pink {
     border-color: rgb(var(--retro-pink));
   }
-  
+
   .border-retro-purple {
     border-color: rgb(var(--retro-purple));
   }
@@ -295,22 +355,32 @@ body {
 
 /* Animations */
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { 
+  0%,
+  100% {
     box-shadow: 0 0 5px currentColor;
   }
-  50% { 
+  50% {
     box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
   }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .animate-pulse-glow {

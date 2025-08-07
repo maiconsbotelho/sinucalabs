@@ -29,10 +29,10 @@ export default function RootLayout({
         <div className="min-h-screen bg-gradient-to-br from-retro-dark via-retro-purple/10 to-retro-cyan/10 relative overflow-hidden">
           {/* Retro Grid Background */}
           <div className="absolute inset-0 bg-retro-grid opacity-5 pointer-events-none"></div>
-          
+
           {/* Scanlines Effect */}
           <div className="absolute inset-0 bg-scanlines opacity-10 pointer-events-none"></div>
-          
+
           {children}
         </div>
       </body>

@@ -5,8 +5,9 @@ Uma aplicação moderna com design retro futurista para gerenciamento de partida
 ## ✨ Características do Design
 
 ### 🎨 Tema Retro Futurista
+
 - **Paleta de Cores**: Ciano neon, rosa pink, roxo e verde limitados
-- **Tipografia**: 
+- **Tipografia**:
   - JetBrains Mono para textos gerais
   - Orbitron para títulos e elementos de destaque
 - **Efeitos Visuais**:
@@ -16,6 +17,7 @@ Uma aplicação moderna com design retro futurista para gerenciamento de partida
   - Animações de pulsação e flutuação
 
 ### 🚀 Componentes Visuais
+
 - **Cards com Glassmorphism**: Transparência e blur effects
 - **Botões com Hover**: Efeitos de shimmer e escala
 - **Loading Screens**: Spinners duplos com cores neon
@@ -23,6 +25,7 @@ Uma aplicação moderna com design retro futurista para gerenciamento de partida
 - **Interface Terminal**: Textos monospace com indicadores de sistema
 
 ### 🎮 Experiência do Usuário
+
 - **Feedback Visual**: Animações suaves e responsivas
 - **Estados Interativos**: Hover effects em todos os elementos clicáveis
 - **Hierarquia Visual**: Cores e tamanhos que guiam o usuário
@@ -40,12 +43,14 @@ Uma aplicação moderna com design retro futurista para gerenciamento de partida
 ## 📱 Funcionalidades
 
 ### ⚡ Core Features
+
 - ✅ **Nova Partida**: Interface step-by-step para seleção de times
 - ✅ **Rankings**: TOP 3 por semana, mês e ano
 - ✅ **Histórico**: Database visual de partidas passadas
 - ✅ **Gerenciamento**: Controle de jogadores e scores
 
 ### 🎯 Interface Highlights
+
 - **Header Dinâmico**: Com navegação e status do sistema
 - **Cards Interativos**: Hover effects e animações suaves
 - **Loading States**: Indicadores visuais com tema retro
@@ -72,6 +77,7 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador para ver o resu
 ## 🎨 Customização Visual
 
 ### Cores Primárias
+
 ```css
 --retro-cyan: 0 255 255     /* Elementos principais */
 --retro-pink: 255 20 147    /* Destaques e CTAs */
@@ -80,6 +86,7 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador para ver o resu
 ```
 
 ### Efeitos Especiais
+
 - **Scanlines**: Efeito de tela retrô
 - **Grid Pattern**: Fundo com grade ciberpunk
 - **Neon Glow**: Brilho em elementos importantes
@@ -104,8 +111,9 @@ src/
 ## 🎮 Tema Gaming
 
 O design foi inspirado em:
+
 - **Jogos Arcade dos Anos 80**: Cores neon e tipografia pixelada
-- **Sci-Fi Retrô**: Interfaces futuristas com estética vintage  
+- **Sci-Fi Retrô**: Interfaces futuristas com estética vintage
 - **Cyberpunk**: Paleta escura com acentos luminosos
 - **Terminal Hacker**: Textos monospace e indicadores de sistema
 
