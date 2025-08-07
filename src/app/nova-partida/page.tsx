@@ -1,5 +1,5 @@
-import PartidaPage from "@/components/PartidaPage";
+import NovaPartidaPage from "@/components/nova-partida/NovaPartidaPage";
 
 export default function NovaPartida() {
-  return <PartidaPage />;
+  return <NovaPartidaPage />;
 }

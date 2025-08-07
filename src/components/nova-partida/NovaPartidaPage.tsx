@@ -2,20 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "./nova-partida/Header";
-import LoadingScreen from "./nova-partida/LoadingScreen";
-import ProgressIndicator from "./nova-partida/ProgressIndicator";
-import TeamSelection from "./nova-partida/TeamSelection";
-import PlayersList from "./nova-partida/PlayersList";
-import ConfirmationScreen from "./nova-partida/ConfirmationScreen";
-import NavigationButtons from "./nova-partida/NavigationButtons";
+import Header from "./Header";
+import LoadingScreen from "./LoadingScreen";
+import ProgressIndicator from "./ProgressIndicator";
+import TeamSelection from "./TeamSelection";
+import PlayersList from "./PlayersList";
+import ConfirmationScreen from "./ConfirmationScreen";
+import NavigationButtons from "./NavigationButtons";
 
 interface Player {
   id: string;
   name: string;
 }
 
-export default function PartidaPage() {
+export default function NovaPartidaPage() {
   const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
   const [step, setStep] = useState<"team1" | "team2" | "confirm">("team1");
