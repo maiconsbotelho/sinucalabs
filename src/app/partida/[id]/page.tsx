@@ -1,87 +1,87 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, Trophy, Plus, Users } from 'lucide-react'
-import { useParams } from 'next/navigation'
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { ArrowLeft, Trophy, Plus, Users } from "lucide-react";
+import { useParams } from "next/navigation";
 
 interface Player {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 interface Game {
-  id: string
-  gameNumber: number
-  winner: Player
-  createdAt: string
+  id: string;
+  gameNumber: number;
+  winner: Player;
+  createdAt: string;
 }
 
 interface Match {
-  id: string
-  team1Player1: Player
-  team1Player2: Player
-  team2Player1: Player
-  team2Player2: Player
-  team1Wins: number
-  team2Wins: number
-  games: Game[]
-  isActive: boolean
+  id: string;
+  team1Player1: Player;
+  team1Player2: Player;
+  team2Player1: Player;
+  team2Player2: Player;
+  team1Wins: number;
+  team2Wins: number;
+  games: Game[];
+  isActive: boolean;
 }
 
 export default function PartidaPage() {
-  const params = useParams()
-  const [match, setMatch] = useState<Match | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [addingGame, setAddingGame] = useState(false)
+  const params = useParams();
+  const [match, setMatch] = useState<Match | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [addingGame, setAddingGame] = useState(false);
 
   useEffect(() => {
     if (params.id) {
-      fetchMatch()
+      fetchMatch();
     }
-  }, [params.id])
+  }, [params.id]);
 
   const fetchMatch = async () => {
     try {
-      const response = await fetch(`/api/matches/${params.id}`)
-      const data = await response.json()
-      setMatch(data)
+      const response = await fetch(`/api/matches/${params.id}`);
+      const data = await response.json();
+      setMatch(data);
     } catch (error) {
-      console.error('Erro ao buscar partida:', error)
+      console.error("Erro ao buscar partida:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const addGame = async (winnerId: string) => {
-    setAddingGame(true)
+    setAddingGame(true);
     try {
       const response = await fetch(`/api/matches/${params.id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          action: 'add_game',
+          action: "add_game",
           winnerId,
         }),
-      })
-      
-      const updatedMatch = await response.json()
-      setMatch(updatedMatch)
+      });
+
+      const updatedMatch = await response.json();
+      setMatch(updatedMatch);
     } catch (error) {
-      console.error('Erro ao adicionar jogo:', error)
+      console.error("Erro ao adicionar jogo:", error);
     } finally {
-      setAddingGame(false)
+      setAddingGame(false);
     }
-  }
+  };
 
   const getTeamWinner = (game: Game) => {
-    if (!match) return null
-    
-    const team1PlayerIds = [match.team1Player1.id, match.team1Player2.id]
-    return team1PlayerIds.includes(game.winner.id) ? 'team1' : 'team2'
-  }
+    if (!match) return null;
+
+    const team1PlayerIds = [match.team1Player1.id, match.team1Player2.id];
+    return team1PlayerIds.includes(game.winner.id) ? "team1" : "team2";
+  };
 
   if (loading) {
     return (
@@ -91,7 +91,7 @@ export default function PartidaPage() {
           <p className="text-muted-foreground">Carregando partida...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!match) {
@@ -104,7 +104,7 @@ export default function PartidaPage() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -118,7 +118,8 @@ export default function PartidaPage() {
           <div className="flex-1">
             <h1 className="text-xl font-bold text-primary">Partida em Andamento</h1>
             <p className="text-sm text-muted-foreground">
-              {match.games.length} jogo{match.games.length !== 1 ? 's' : ''} disputado{match.games.length !== 1 ? 's' : ''}
+              {match.games?.length || 0} jogo{(match.games?.length || 0) !== 1 ? "s" : ""} disputado
+              {(match.games?.length || 0) !== 1 ? "s" : ""}
             </p>
           </div>
         </div>
@@ -135,8 +136,8 @@ export default function PartidaPage() {
               </div>
               <h3 className="font-semibold text-sm mb-1">Dupla 1</h3>
               <div className="text-xs text-muted-foreground space-y-1">
-                <div>{match.team1Player1.name}</div>
-                <div>{match.team1Player2.name}</div>
+                <div>{match.team1Player1?.name || 'Jogador 1'}</div>
+                <div>{match.team1Player2?.name || 'Jogador 2'}</div>
               </div>
               <div className="mt-3">
                 <div className="text-2xl font-bold text-primary">{match.team1Wins}</div>
@@ -158,8 +159,8 @@ export default function PartidaPage() {
               </div>
               <h3 className="font-semibold text-sm mb-1">Dupla 2</h3>
               <div className="text-xs text-muted-foreground space-y-1">
-                <div>{match.team2Player1.name}</div>
-                <div>{match.team2Player2.name}</div>
+                <div>{match.team2Player1?.name || 'Jogador 3'}</div>
+                <div>{match.team2Player2?.name || 'Jogador 4'}</div>
               </div>
               <div className="mt-3">
                 <div className="text-2xl font-bold text-primary">{match.team2Wins}</div>
@@ -174,10 +175,8 @@ export default function PartidaPage() {
               <Plus className="w-5 h-5" />
               Registrar Resultado
             </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Clique na dupla vencedora do jogo:
-            </p>
-            
+            <p className="text-sm text-muted-foreground mb-4">Clique na dupla vencedora do jogo:</p>
+
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => addGame(match.team1Player1.id)}
@@ -188,12 +187,13 @@ export default function PartidaPage() {
                   <Trophy className="w-6 h-6 mx-auto mb-2 text-primary" />
                   <div className="font-medium text-sm">Dupla 1</div>
                   <div className="text-xs text-muted-foreground mt-1">
-                    {match.team1Player1.name}<br/>
+                    {match.team1Player1.name}
+                    <br />
                     {match.team1Player2.name}
                   </div>
                 </div>
               </button>
-              
+
               <button
                 onClick={() => addGame(match.team2Player1.id)}
                 disabled={addingGame}
@@ -203,13 +203,14 @@ export default function PartidaPage() {
                   <Trophy className="w-6 h-6 mx-auto mb-2 text-primary" />
                   <div className="font-medium text-sm">Dupla 2</div>
                   <div className="text-xs text-muted-foreground mt-1">
-                    {match.team2Player1.name}<br/>
+                    {match.team2Player1.name}
+                    <br />
                     {match.team2Player2.name}
                   </div>
                 </div>
               </button>
             </div>
-            
+
             {addingGame && (
               <div className="mt-4 text-center">
                 <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
@@ -221,12 +222,12 @@ export default function PartidaPage() {
           </div>
 
           {/* Histórico de Jogos */}
-          {match.games.length > 0 && (
+          {match.games && match.games.length > 0 && (
             <div className="card p-4">
               <h3 className="font-semibold mb-4">Histórico dos Jogos</h3>
               <div className="space-y-2">
                 {match.games.map((game) => {
-                  const teamWinner = getTeamWinner(game)
+                  const teamWinner = getTeamWinner(game);
                   return (
                     <div key={game.id} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                       <div className="flex items-center gap-3">
@@ -234,17 +235,13 @@ export default function PartidaPage() {
                           <span className="text-sm font-medium text-primary">{game.gameNumber}</span>
                         </div>
                         <div>
-                          <div className="font-medium text-sm">
-                            {teamWinner === 'team1' ? 'Dupla 1' : 'Dupla 2'}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            Vencedor: {game.winner.name}
-                          </div>
+                          <div className="font-medium text-sm">{teamWinner === "team1" ? "Dupla 1" : "Dupla 2"}</div>
+                          <div className="text-xs text-muted-foreground">Vencedor: {game.winner.name}</div>
                         </div>
                       </div>
                       <Trophy className="w-5 h-5 text-primary" />
                     </div>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -252,5 +249,5 @@ export default function PartidaPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

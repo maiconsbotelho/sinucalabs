@@ -31,10 +31,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     // Por enquanto, vamos retornar ranking básico baseado apenas nos jogadores
     // TODO: Implementar ranking real quando a tabela games estiver criada
-    const { data: players, error } = await supabaseAdmin
-      .from('players')
-      .select('*')
-      .order('name', { ascending: true });
+    const { data: players, error } = await supabaseAdmin.from("players").select("*").order("name", { ascending: true });
 
     if (error) {
       console.error("Erro ao buscar jogadores:", error);
@@ -47,8 +44,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       wins: Math.floor(Math.random() * 10) + 5,
       losses: Math.floor(Math.random() * 5) + 1,
       gamesPlayed: Math.floor(Math.random() * 15) + 6,
-      winRate: 75 - (index * 15),
-      position: index + 1
+      winRate: 75 - index * 15,
+      position: index + 1,
     }));
 
     return NextResponse.json({
@@ -57,7 +54,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       endDate: endDate.toISOString(),
       rankings: mockRankings,
       totalGames: mockRankings.reduce((total, r) => total + r.gamesPlayed, 0),
-      note: "Rankings temporários - será atualizado quando a tabela games for criada"
+      note: "Rankings temporários - será atualizado quando a tabela games for criada",
     });
   } catch (error) {
     console.error("Erro ao buscar ranking:", error);

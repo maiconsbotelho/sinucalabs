@@ -32,5 +32,10 @@ ALTER TABLE public.matches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.games ENABLE ROW LEVEL SECURITY;
 
 -- Criar políticas básicas (permitir tudo por enquanto)
-CREATE POLICY IF NOT EXISTS "Enable all operations for matches" ON public.matches FOR ALL USING (true);
-CREATE POLICY IF NOT EXISTS "Enable all operations for games" ON public.games FOR ALL USING (true);
+-- Primeiro remover políticas existentes se houver
+DROP POLICY IF EXISTS "Enable all operations for matches" ON public.matches;
+DROP POLICY IF EXISTS "Enable all operations for games" ON public.games;
+
+-- Criar as políticas
+CREATE POLICY "Enable all operations for matches" ON public.matches FOR ALL USING (true);
+CREATE POLICY "Enable all operations for games" ON public.games FOR ALL USING (true);
