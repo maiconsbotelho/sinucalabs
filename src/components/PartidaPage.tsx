@@ -15,7 +15,7 @@ interface Player {
   name: string;
 }
 
-export default function LandingPage() {
+export default function PartidaPage() {
   const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
   const [step, setStep] = useState<"team1" | "team2" | "confirm">("team1");
@@ -135,23 +135,13 @@ export default function LandingPage() {
               team2={team2}
               onPlayerSelect={handlePlayerSelect}
             />
-            <NavigationButtons
-              step={step}
-              canProceed={canProceed()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
+            <NavigationButtons step={step} canProceed={canProceed()} onNext={handleNext} onBack={handleBack} />
           </div>
         )}
 
         {step === "confirm" && (
           <>
-            <ConfirmationScreen
-              team1={team1}
-              team2={team2}
-              creating={creating}
-              onCreateMatch={createMatch}
-            />
+            <ConfirmationScreen team1={team1} team2={team2} creating={creating} onCreateMatch={createMatch} />
             <NavigationButtons
               step={step}
               canProceed={true}
