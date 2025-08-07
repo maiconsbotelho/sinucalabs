@@ -13,8 +13,8 @@ interface TeamSelectionProps {
 
 export default function TeamSelection({ step, team1, team2 }: TeamSelectionProps) {
   return (
-    <div className="card-glow p-4 mb-4">
-      <div className="flex items-center gap-2 mb-3">
+    <div className="card-glow p-[10px] mb-4">
+      <div className="flex items-center gap-[10px] mb-3">
         {step === "team1" ? (
           <>
             <Shield className="w-6 h-6 text-retro-cyan" />

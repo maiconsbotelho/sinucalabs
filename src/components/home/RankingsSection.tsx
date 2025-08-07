@@ -27,8 +27,8 @@ export default function RankingsSection() {
   ];
 
   return (
-    <div className="card p-[16px] relative group mt-[32px]">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="card p-[10px] relative group mt-[32px]">
+      <div className="flex items-center gap-[10px] mb-4">
         <BarChart3 className="w-6 h-6 text-retro-pink" />
         <h2 className="text-lg font-display font-bold text-retro-light">RANKINGS</h2>
       </div>
@@ -38,10 +38,10 @@ export default function RankingsSection() {
           <Link
             key={ranking.href}
             href={ranking.href}
-            className={`block p-3 rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 border border-${ranking.borderColor} hover:border-${ranking.hoverBorder} transition-all duration-300 hover:scale-[1.02] group`}
+            className={`block p-[10px] rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 border border-${ranking.borderColor} hover:border-${ranking.hoverBorder} transition-all duration-300 hover:scale-[1.02] group`}
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-[10px]">
                 <div className={`w-1.5 h-1.5 bg-${ranking.color} rounded-full animate-pulse`}></div>
                 <span className={`font-display font-semibold text-${ranking.color} text-sm`}>{ranking.title}</span>
               </div>

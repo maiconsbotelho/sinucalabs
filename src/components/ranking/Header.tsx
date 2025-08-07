@@ -12,16 +12,16 @@ export default function Header({ period, totalGames }: HeaderProps) {
   const IconComponent = config.icon;
 
   return (
-    <header className="p-3 border-b border-retro-cyan/30 relative">
-      <div className="max-w-sm mx-auto flex items-center gap-3 relative z-10">
+    <header className="p-[10px] border-b border-retro-cyan/30 relative">
+      <div className="max-w-sm mx-auto flex items-center gap-[10px] relative z-10">
         <Link
           href="/"
-          className="p-2 rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
+          className="p-[10px] rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
         >
           <ArrowLeft className="w-4 h-4 text-retro-cyan group-hover:scale-110 transition-transform" />
         </Link>
         <div className="flex-1">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-[10px]">
             <IconComponent className={`w-6 h-6 text-${config.color} animate-float`} />
             <div>
               <h1 className={`text-lg font-display font-bold text-${config.color}`}>

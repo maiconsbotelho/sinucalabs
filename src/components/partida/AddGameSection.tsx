@@ -20,18 +20,18 @@ interface AddGameSectionProps {
 
 export default function AddGameSection({ match, addingGame, onAddGame }: AddGameSectionProps) {
   return (
-    <div className="card p-4">
-      <h3 className="font-semibold mb-4 flex items-center gap-2">
+    <div className="card p-[10px]">
+      <h3 className="font-semibold mb-4 flex items-center gap-[10px]">
         <Plus className="w-5 h-5" />
         Registrar Resultado
       </h3>
       <p className="text-sm text-muted-foreground mb-4">Clique na dupla vencedora do jogo:</p>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-[10px]">
         <button
           onClick={() => onAddGame(match.team1Player1.id)}
           disabled={addingGame}
-          className="p-4 rounded-lg border border-border hover:bg-primary/10 hover:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-[10px] rounded-lg border border-border hover:bg-primary/10 hover:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <div className="text-center">
             <Trophy className="w-6 h-6 mx-auto mb-2 text-primary" />
@@ -47,7 +47,7 @@ export default function AddGameSection({ match, addingGame, onAddGame }: AddGame
         <button
           onClick={() => onAddGame(match.team2Player1.id)}
           disabled={addingGame}
-          className="p-4 rounded-lg border border-border hover:bg-primary/10 hover:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-[10px] rounded-lg border border-border hover:bg-primary/10 hover:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <div className="text-center">
             <Trophy className="w-6 h-6 mx-auto mb-2 text-primary" />
@@ -63,7 +63,7 @@ export default function AddGameSection({ match, addingGame, onAddGame }: AddGame
 
       {addingGame && (
         <div className="mt-4 text-center">
-          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="inline-flex items-center gap-[10px] text-sm text-muted-foreground">
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
             Registrando resultado...
           </div>

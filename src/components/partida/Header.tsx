@@ -14,9 +14,9 @@ interface HeaderProps {
 
 export default function Header({ gamesCount }: HeaderProps) {
   return (
-    <header className="p-4 border-b border-border">
-      <div className="max-w-md mx-auto flex items-center gap-4">
-        <Link href="/" className="p-2 hover:bg-secondary/50 rounded-lg transition-colors">
+    <header className="p-[10px] border-b border-border">
+      <div className="max-w-md mx-auto flex items-center gap-[10px]">
+        <Link href="/" className="p-[10px] hover:bg-secondary/50 rounded-lg transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">

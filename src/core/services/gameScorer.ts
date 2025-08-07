@@ -13,7 +13,7 @@ export class GameScorer {
     } else if (team2PlayerIds.includes(winnerId)) {
       return 2;
     }
-    
+
     return null;
   }
 
@@ -46,14 +46,17 @@ export class GameScorer {
   /**
    * Verifica se a partida deveria estar finalizada
    */
-  static shouldFinishMatch(team1Score: number, team2Score: number, maxScore: number = 3): boolean {
+  static shouldFinishMatch(team1Score: number, team2Score: number, maxScore: number = 10): boolean {
     return Math.max(team1Score, team2Score) >= maxScore;
   }
 
   /**
    * Calcula estatísticas da partida
    */
-  static calculateMatchStats(team1Score: number, team2Score: number): {
+  static calculateMatchStats(
+    team1Score: number,
+    team2Score: number
+  ): {
     totalGames: number;
     winner: number;
     isFinished: boolean;
@@ -63,7 +66,7 @@ export class GameScorer {
     const totalGames = team1Score + team2Score;
     const winner = this.determineMatchWinner(team1Score, team2Score);
     const isFinished = this.shouldFinishMatch(team1Score, team2Score);
-    
+
     return {
       totalGames,
       winner,
@@ -97,7 +100,10 @@ export class GameScorer {
   /**
    * Determina vantagem de um time
    */
-  static getTeamAdvantage(team1Score: number, team2Score: number): {
+  static getTeamAdvantage(
+    team1Score: number,
+    team2Score: number
+  ): {
     leadingTeam: 1 | 2 | null;
     advantage: number;
     isClosegame: boolean;
@@ -156,7 +162,7 @@ export class GameScorer {
   static isCompetitiveMatch(team1Score: number, team2Score: number): boolean {
     const totalGames = team1Score + team2Score;
     const difference = Math.abs(team1Score - team2Score);
-    
+
     // Considera competitiva se a diferença for pequena em relação ao total de jogos
     return totalGames >= 4 && difference <= 2;
   }

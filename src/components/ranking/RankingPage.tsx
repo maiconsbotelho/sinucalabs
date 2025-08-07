@@ -42,7 +42,7 @@ export default function RankingPage() {
     <div className="min-h-screen relative">
       <Header period={period} totalGames={ranking.totalGames} />
 
-      <main className="p-3 max-w-sm mx-auto relative z-10">
+      <main className="p-[10px] max-w-sm mx-auto relative z-10">
         <div className="space-y-4 mt-4">
           <PeriodInfo startDate={ranking.startDate} endDate={ranking.endDate} />
 

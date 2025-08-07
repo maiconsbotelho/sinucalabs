@@ -3,7 +3,7 @@ import { Users, Gamepad2 } from "lucide-react";
 
 export default function StartMatchCard() {
   return (
-    <div className="card-glow p-[16px] text-center overflow-hidden mt-[32] group">
+    <div className="card-glow p-[10px] text-center overflow-hidden mt-[32] group">
       <div className="absolute inset-0 bg-gradient-to-r from-retro-cyan/5 via-retro-pink/5 to-retro-purple/5 animate-pulse"></div>
 
       <div className="relative z-10">

@@ -59,9 +59,9 @@ export default function RankingList({ rankings, period }: RankingListProps) {
             key={`${stats.team.player1.id}-${stats.team.player2.id}`}
             className={`${getRankStyle(position)} relative group`}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-[10px]">
               {/* Position Badge - Compact */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-[10px]">
                 <div className={getPositionBadge(position)}>{position}</div>
                 {getRankIcon(position)}
               </div>
@@ -77,7 +77,7 @@ export default function RankingList({ rankings, period }: RankingListProps) {
                     {stats.team.player2.name}
                   </h3>
                 </div>
-                <div className="flex items-center gap-3 font-mono text-xs text-retro-light/60 mt-1">
+                <div className="flex items-center gap-[10px] font-mono text-xs text-retro-light/60 mt-1">
                   <span className="flex items-center gap-1">
                     <div className="w-1.5 h-1.5 bg-retro-green rounded-full"></div>
                     {stats.wins}W

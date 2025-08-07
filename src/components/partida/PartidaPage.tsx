@@ -72,7 +72,7 @@ export default function PartidaPage() {
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
       <Header gamesCount={match.games?.length || 0} />
 
-      <main className="p-4 max-w-md mx-auto">
+      <main className="p-[10px] max-w-md mx-auto">
         <div className="space-y-6 mt-6">
           <ScoreBoard match={match} />
           <AddGameSection match={match} addingGame={loading} onAddGame={addGame} />

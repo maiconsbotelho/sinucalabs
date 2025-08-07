@@ -22,14 +22,14 @@ export default function ConfirmationScreen({
     <div className="space-y-4 mt-4">
       {/* Team 1 - Compact */}
       <div className="card p-[10px] border-retro-cyan/50">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-[10px] mb-3">
           <Shield className="w-6 h-6 text-retro-cyan" />
           <h3 className="font-display font-bold text-lg text-retro-cyan">TEAM ALPHA</h3>
         </div>
         <div className="space-y-2">
           {team1.map((player, index) => (
-            <div key={player.id} className="p-2 bg-retro-cyan/10 rounded-lg border border-retro-cyan/30">
-              <div className="flex items-center gap-2">
+            <div key={player.id} className="p-[10px] bg-retro-cyan/10 rounded-lg border border-retro-cyan/30">
+              <div className="flex items-center gap-[10px]">
                 <Cpu className="w-4 h-4 text-retro-cyan" />
                 <span className="font-display font-semibold text-retro-cyan text-sm">{player.name}</span>
                 <span className="font-mono text-xs text-retro-cyan/60">W_{index + 1}</span>
@@ -51,14 +51,14 @@ export default function ConfirmationScreen({
 
       {/* Team 2 - Compact */}
       <div className="card p-[10px] border-retro-pink/50">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-[10px] mb-3">
           <Sword className="w-6 h-6 text-retro-pink" />
           <h3 className="font-display font-bold text-lg text-retro-pink">TEAM BETA</h3>
         </div>
         <div className="space-y-2">
           {team2.map((player, index) => (
-            <div key={player.id} className="p-2 bg-retro-pink/10 rounded-lg border border-retro-pink/30">
-              <div className="flex items-center gap-2">
+            <div key={player.id} className="p-[10px] bg-retro-pink/10 rounded-lg border border-retro-pink/30">
+              <div className="flex items-center gap-[10px]">
                 <Cpu className="w-4 h-4 text-retro-pink" />
                 <span className="font-display font-semibold text-retro-pink text-sm">{player.name}</span>
                 <span className="font-mono text-xs text-retro-pink/60">W_{index + 1}</span>
@@ -69,7 +69,7 @@ export default function ConfirmationScreen({
       </div>
 
       {/* Battle Info - Compact */}
-      <div className="text-center mt-[32px] p-3 bg-retro-purple/10 rounded-lg border border-retro-purple/30">
+      <div className="text-center mt-[32px] p-[10px] bg-retro-purple/10 rounded-lg border border-retro-purple/30">
         <div className="font-mono text-xs text-retro-purple/80 tracking-wider">
           [SYSTEM] Pool table ready. Awaiting authorization.
         </div>

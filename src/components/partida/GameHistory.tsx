@@ -35,14 +35,14 @@ export default function GameHistory({ games, match }: GameHistoryProps) {
   }
 
   return (
-    <div className="card p-4">
+    <div className="card p-[10px]">
       <h3 className="font-semibold mb-4">Histórico dos Jogos</h3>
       <div className="space-y-2">
         {games.map((game) => {
           const teamWinner = getTeamWinner(game);
           return (
-            <div key={game.id} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
-              <div className="flex items-center gap-3">
+            <div key={game.id} className="flex items-center justify-between p-[10px] bg-secondary/30 rounded-lg">
+              <div className="flex items-center gap-[10px]">
                 <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                   <span className="text-sm font-medium text-primary">{game.gameNumber}</span>
                 </div>

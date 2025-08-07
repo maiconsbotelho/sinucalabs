@@ -8,8 +8,8 @@ interface OtherRankingsProps {
 
 export default function OtherRankings({ currentPeriod }: OtherRankingsProps) {
   return (
-    <div className="card p-4">
-      <h3 className="font-display font-bold text-base text-retro-light mb-3 flex items-center gap-2">
+    <div className="card p-[10px]">
+      <h3 className="font-display font-bold text-base text-retro-light mb-3 flex items-center gap-[10px]">
         <div className="w-1.5 h-1.5 bg-retro-cyan rounded-full animate-pulse"></div>
         OTHER RANKINGS
       </h3>
@@ -23,10 +23,10 @@ export default function OtherRankings({ currentPeriod }: OtherRankingsProps) {
               <Link
                 key={key}
                 href={`/ranking/${key}`}
-                className={`block p-3 rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 border border-${config.color}/20 hover:border-${config.color}/50 transition-all duration-300 hover:scale-[1.02] group`}
+                className={`block p-[10px] rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 border border-${config.color}/20 hover:border-${config.color}/50 transition-all duration-300 hover:scale-[1.02] group`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-[10px]">
                     <IconComponent className={`w-5 h-5 text-${config.color}`} />
                     <span className={`font-display font-semibold text-${config.color} text-sm`}>
                       TOP 3 {config.name.toUpperCase()}

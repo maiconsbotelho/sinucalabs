@@ -33,7 +33,7 @@ export default function RetroLoading({
         <div className="font-mono text-retro-cyan/60 text-sm tracking-wider">{submessage}</div>
 
         {/* Progress Dots */}
-        <div className="flex items-center justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-[10px] mt-6">
           <div className="w-2 h-2 bg-retro-cyan rounded-full animate-pulse" style={{ animationDelay: "0s" }}></div>
           <div className="w-2 h-2 bg-retro-pink rounded-full animate-pulse" style={{ animationDelay: "0.2s" }}></div>
           <div className="w-2 h-2 bg-retro-purple rounded-full animate-pulse" style={{ animationDelay: "0.4s" }}></div>

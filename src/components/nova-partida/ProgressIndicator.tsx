@@ -6,8 +6,8 @@ interface ProgressIndicatorProps {
 
 export default function ProgressIndicator({ step }: ProgressIndicatorProps) {
   return (
-    <div className="flex items-center gap-3 mb-6">
-      <div className="flex-1 flex items-center gap-2">
+    <div className="flex items-center gap-[10px] mb-6">
+      <div className="flex-1 flex items-center gap-[10px]">
         <div
           className={`w-8 h-8 rounded-full border-2 flex items-center justify-center font-display text-xs font-bold transition-all duration-300 ${
             step === "team1"

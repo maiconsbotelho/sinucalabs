@@ -87,16 +87,16 @@ export default function HistoricoPage() {
   return (
     <div className="min-h-screen relative">
       {/* Header - Mobile Optimized */}
-      <header className="p-3 border-b border-retro-cyan/30 relative">
-        <div className="max-w-sm mx-auto flex items-center gap-3 relative z-10">
+      <header className="p-[10px] border-b border-retro-cyan/30 relative">
+        <div className="max-w-sm mx-auto flex items-center gap-[10px] relative z-10">
           <Link
             href="/"
-            className="p-2 rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
+            className="p-[10px] rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
           >
             <ArrowLeft className="w-4 h-4 text-retro-cyan group-hover:scale-110 transition-transform" />
           </Link>
           <div className="flex-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-[10px]">
               <Database className="w-6 h-6 text-retro-cyan animate-pulse" />
               <div>
                 <h1 className="text-lg font-display font-bold text-retro-cyan">MATCH DATABASE</h1>
@@ -109,10 +109,10 @@ export default function HistoricoPage() {
         </div>
       </header>
 
-      <main className="p-3 max-w-sm mx-auto relative z-10">
+      <main className="p-[10px] max-w-sm mx-auto relative z-10">
         <div className="space-y-3 mt-4">
           {matches.length === 0 ? (
-            <div className="card-glow p-6 text-center">
+            <div className="card-glow p-[10px] text-center">
               <Database className="w-12 h-12 mx-auto text-retro-purple/60 mb-4 animate-float" />
               <h3 className="font-display font-bold text-lg text-retro-light mb-2">DATABASE EMPTY</h3>
               <p className="font-mono text-retro-light/60 text-xs mb-4 tracking-wide">
@@ -134,7 +134,7 @@ export default function HistoricoPage() {
                   href={`/partida/${match.id}`}
                   className="block card hover:scale-[1.02] transition-all duration-300 group relative overflow-hidden"
                 >
-                  <div className="p-4 relative z-10">
+                  <div className="p-[10px] relative z-10">
                     {/* Match Header - Compact */}
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-1">
@@ -153,14 +153,14 @@ export default function HistoricoPage() {
                     <div className="space-y-2">
                       {/* Team Alpha - Compact */}
                       <div
-                        className={`relative p-3 rounded-lg border-2 transition-all duration-300 ${
+                        className={`relative p-[10px] rounded-lg border-2 transition-all duration-300 ${
                           match.winner === "team1"
                             ? "bg-retro-green/10 border-retro-green/50 shadow-neon-cyan"
                             : "bg-retro-cyan/10 border-retro-cyan/30"
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-[10px]">
                             {match.winner === "team1" ? (
                               <Trophy className="w-4 h-4 text-retro-green animate-pulse-glow" />
                             ) : (
@@ -186,14 +186,14 @@ export default function HistoricoPage() {
 
                       {/* Team Beta - Compact */}
                       <div
-                        className={`relative p-3 rounded-lg border-2 transition-all duration-300 ${
+                        className={`relative p-[10px] rounded-lg border-2 transition-all duration-300 ${
                           match.winner === "team2"
                             ? "bg-retro-green/10 border-retro-green/50 shadow-neon-pink"
                             : "bg-retro-pink/10 border-retro-pink/30"
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-[10px]">
                             {match.winner === "team2" ? (
                               <Trophy className="w-4 h-4 text-retro-green animate-pulse-glow" />
                             ) : (

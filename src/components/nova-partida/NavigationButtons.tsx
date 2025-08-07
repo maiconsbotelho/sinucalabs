@@ -19,7 +19,7 @@ export default function NavigationButtons({
 }: NavigationButtonsProps) {
   if (step === "confirm") {
     return (
-      <div className="flex gap-3 mt-[32px]">
+      <div className="flex gap-[10px] mt-[32px]">
         <button 
           onClick={onBack} 
           className="btn btn-secondary flex-1 text-sm py-2" 
@@ -34,12 +34,12 @@ export default function NavigationButtons({
           className="btn btn-primary flex-1 disabled:opacity-50 relative overflow-hidden text-sm py-2"
         >
           {creating ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-[10px]">
               <div className="w-4 h-4 border-2 border-retro-dark border-t-transparent rounded-full animate-spin"></div>
               INIT...
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-[10px]">
               <Play className="w-4 h-4" />
               START BATTLE
             </div>
@@ -50,7 +50,7 @@ export default function NavigationButtons({
   }
 
   return (
-    <div className="flex gap-3 mt-6">
+    <div className="flex gap-[10px] mt-6">
       {step === "team2" && (
         <button onClick={onBack} className="btn btn-secondary flex-1 text-sm py-2">
           <ArrowLeft className="w-4 h-4 mr-2" />

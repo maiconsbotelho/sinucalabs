@@ -46,7 +46,7 @@ export default function PlayersList({
             key={player.id}
             onClick={() => !disabled && onPlayerSelect(player)}
             disabled={disabled}
-            className={`w-full p-3 rounded-lg border-2 transition-all duration-300 relative group ${
+            className={`w-full p-[10px] rounded-lg border-2 transition-all duration-300 relative group ${
               disabled
                 ? "bg-muted/20 border-muted/30 text-muted-foreground cursor-not-allowed opacity-50"
                 : selected
@@ -57,7 +57,7 @@ export default function PlayersList({
             }`}
           >
             <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-[10px]">
                 <div
                   className={`w-2 h-2 rounded-full ${
                     selected ? (step === "team1" ? "bg-retro-cyan" : "bg-retro-pink") : "bg-retro-purple/50"

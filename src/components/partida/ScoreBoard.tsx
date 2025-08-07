@@ -20,9 +20,9 @@ interface ScoreBoardProps {
 
 export default function ScoreBoard({ match }: ScoreBoardProps) {
   return (
-    <div className="grid grid-cols-3 gap-4 items-center">
+    <div className="grid grid-cols-3 gap-[10px] items-center">
       {/* Dupla 1 */}
-      <div className="card p-4 text-center">
+      <div className="card p-[10px] text-center">
         <div className="mb-2">
           <Users className="w-6 h-6 mx-auto text-primary" />
         </div>
@@ -45,7 +45,7 @@ export default function ScoreBoard({ match }: ScoreBoardProps) {
       </div>
 
       {/* Dupla 2 */}
-      <div className="card p-4 text-center">
+      <div className="card p-[10px] text-center">
         <div className="mb-2">
           <Users className="w-6 h-6 mx-auto text-primary" />
         </div>
