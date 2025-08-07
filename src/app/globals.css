@@ -3,120 +3,29 @@
 @tailwind utilities;
 
 :root {
-  /* Retro Dark Theme */
+  /* Retro Theme Colors */
   --retro-dark: 10 5 15;
-  --retro-darker: 5 2 8;
   --retro-light: 240 240 255;
   --retro-cyan: 0 255 255;
   --retro-pink: 255 20 147;
   --retro-purple: 138 43 226;
-  --retro-yellow: 255 255 0;
-  --retro-orange: 255 140 0;
   --retro-green: 50 205 50;
 
   /* UI Colors */
   --background: var(--retro-dark);
   --foreground: var(--retro-light);
   --card: 20 10 25;
-  --card-foreground: var(--retro-light);
-  --primary: var(--retro-cyan);
-  --primary-foreground: var(--retro-dark);
-  --secondary: 40 20 50;
-  --secondary-foreground: var(--retro-light);
-  --muted: 60 30 75;
-  --muted-foreground: 180 180 200;
-  --accent: var(--retro-pink);
-  --accent-foreground: var(--retro-light);
-  --destructive: 220 38 127;
-  --destructive-foreground: var(--retro-light);
   --border: 80 40 100;
-  --input: 40 20 50;
-  --ring: var(--retro-cyan);
-}
-
-* {
-  border-color: rgb(var(--border));
 }
 
 body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
   font-family: var(--font-mono), "Courier New", monospace;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Retro Effects */
-.bg-retro-dark {
-  background-color: rgb(var(--retro-dark));
-}
-
-.bg-retro-grid {
-  background-image: linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.bg-scanlines {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 255, 255, 0.03) 2px,
-    rgba(0, 255, 255, 0.03) 4px
-  );
-}
-
-.retro-glow {
-  box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
-}
-
-.retro-border {
-  border: 2px solid;
-  border-image: linear-gradient(45deg, rgb(var(--retro-cyan)), rgb(var(--retro-pink)), rgb(var(--retro-purple))) 1;
-}
-
-@layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-display), "Orbitron", monospace;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-  }
-
-  h3 {
-    font-size: 1.125rem;
-  }
-
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 1.875rem;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-    }
-
-    h3 {
-      font-size: 1.25rem;
-    }
-  }
 }
 
 @layer components {
-  /* Buttons */
+  /* Botões essenciais */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -133,34 +42,9 @@ body {
     font-family: var(--font-display), "Orbitron", monospace;
   }
 
-  .btn:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-  }
-
-  .btn:hover:before {
-    left: 100%;
-  }
-
-  .btn:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px rgb(var(--primary)), 0 0 0 4px rgb(var(--background));
-  }
-
-  .btn:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
   .btn-primary {
-    background: linear-gradient(to right, rgb(var(--retro-cyan)), rgb(var(--retro-pink)));
-    color: rgb(var(--retro-dark));
+    background: linear-gradient(to right, rgb(0 255 255), rgb(255 20 147));
+    color: rgb(10 5 15);
     border: 2px solid transparent;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   }
@@ -172,18 +56,18 @@ body {
 
   .btn-secondary {
     background: transparent;
-    border: 2px solid rgb(var(--retro-cyan));
-    color: rgb(var(--retro-cyan));
+    border: 2px solid rgb(0 255 255);
+    color: rgb(0 255 255);
   }
 
   .btn-secondary:hover {
-    background: rgb(var(--retro-cyan));
-    color: rgb(var(--retro-dark));
+    background: rgb(0 255 255);
+    color: rgb(10 5 15);
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   }
 
-  /* Cards */
+  /* Cards essenciais */
   .card {
     border-radius: 0.75rem;
     border: 2px solid rgba(138, 43, 226, 0.3);
@@ -191,17 +75,7 @@ body {
     backdrop-filter: blur(8px);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-
-  .card:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgb(var(--retro-cyan)), transparent);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   .card-glow {
@@ -211,80 +85,35 @@ body {
     backdrop-filter: blur(8px);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 255, 0.1);
   }
 
-  /* Inputs */
-  .input {
-    display: flex;
-    height: 3rem;
-    width: 100%;
-    border-radius: 0.5rem;
-    border: 2px solid rgba(138, 43, 226, 0.5);
-    background: rgba(var(--background), 0.5);
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    transition: all 200ms;
-    backdrop-filter: blur(8px);
-    font-family: var(--font-mono), "Courier New", monospace;
-  }
-
-  .input:focus-visible {
-    outline: none;
-    border-color: rgb(var(--retro-cyan));
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-  }
-
-  .input:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-
-  .input::placeholder {
-    color: rgb(var(--muted-foreground));
-  }
-
-  /* Progress Bars */
+  /* Progress bar para rankings */
   .progress-bar {
     width: 100%;
-    background: rgba(var(--secondary), 0.3);
+    background: rgba(64, 32, 80, 0.3);
     border-radius: 9999px;
     height: 0.75rem;
     overflow: hidden;
-    position: relative;
   }
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(to right, rgb(var(--retro-cyan)), rgb(var(--retro-pink)));
+    background: linear-gradient(to right, rgb(0 255 255), rgb(255 20 147));
     border-radius: 9999px;
     transition: all 500ms;
-    position: relative;
     box-shadow: 0 0 10px currentColor;
   }
 
-  .progress-fill:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-    animation: shimmer 2s infinite;
-  }
-
-  /* Ranking Items */
+  /* Ranking items */
   .rank-item {
     border-radius: 0.75rem;
     border: 2px solid rgba(138, 43, 226, 0.3);
     background: linear-gradient(to bottom right, rgba(var(--card), 0.8), rgba(var(--card), 0.6));
     backdrop-filter: blur(8px);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     padding: 1rem;
     transition: all 300ms;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   .rank-item:hover {
@@ -308,61 +137,47 @@ body {
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .text-retro-cyan {
+    color: rgb(var(--retro-cyan));
+  }
+  .text-retro-pink {
+    color: rgb(var(--retro-pink));
+  }
+  .text-retro-purple {
+    color: rgb(var(--retro-purple));
+  }
+  .text-retro-dark {
+    color: rgb(var(--retro-dark));
+  }
+  .text-retro-light {
+    color: rgb(var(--retro-light));
   }
 
   .bg-retro-cyan {
     background-color: rgb(var(--retro-cyan));
   }
-
   .bg-retro-pink {
     background-color: rgb(var(--retro-pink));
   }
-
   .bg-retro-purple {
     background-color: rgb(var(--retro-purple));
-  }
-
-  .text-retro-cyan {
-    color: rgb(var(--retro-cyan));
-  }
-
-  .text-retro-pink {
-    color: rgb(var(--retro-pink));
-  }
-
-  .text-retro-purple {
-    color: rgb(var(--retro-purple));
-  }
-
-  .text-retro-dark {
-    color: rgb(var(--retro-dark));
   }
 
   .border-retro-cyan {
     border-color: rgb(var(--retro-cyan));
   }
-
   .border-retro-pink {
     border-color: rgb(var(--retro-pink));
   }
-
   .border-retro-purple {
     border-color: rgb(var(--retro-purple));
   }
-}
-
-/* Animations */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
+  .border-retro-green {
+    border-color: rgb(var(--retro-green));
   }
 }
 
+/* Animações essenciais */
 @keyframes pulse-glow {
   0%,
   100% {
@@ -386,7 +201,6 @@ body {
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
-
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
