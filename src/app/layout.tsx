@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="dark">
       <body className={`${jetbrainsMono.variable} ${orbitron.variable} font-mono antialiased bg-retro-dark`}>
-        <div>
+        <div className="p-[10px]">
           {/* Retro Grid Background */}
           <div className="absolute inset-0 bg-retro-grid opacity-5 pointer-events-none"></div>
 

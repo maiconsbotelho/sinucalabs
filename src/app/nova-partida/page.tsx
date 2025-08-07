@@ -142,7 +142,7 @@ export default function NovaPartida() {
     <div className="min-h-screen relative">
       {/* Header - Mobile Optimized */}
       <header className="p-3 border-b border-retro-cyan/30 relative">
-        <div className="max-w-sm mx-auto flex items-center gap-3 relative z-10">
+        <div className="max-w-sm mx-auto flex items-center gap-[30px] relative z-10">
           <Link
             href="/"
             className="p-2 rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
@@ -163,7 +163,7 @@ export default function NovaPartida() {
         </div>
       </header>
 
-      <main className="p-3 max-w-sm mx-auto relative z-10">
+      <main className=" max-w-sm mt-[32px] mx-auto relative z-10">
         {step !== "confirm" && (
           <div className="space-y-4 mt-4">
             {/* Progress - Compact Mobile */}
@@ -290,7 +290,7 @@ export default function NovaPartida() {
         {step === "confirm" && (
           <div className="space-y-4 mt-4">
             {/* Team 1 - Compact */}
-            <div className="card p-4 border-retro-cyan/50">
+            <div className="card p-[10px] border-retro-cyan/50">
               <div className="flex items-center gap-2 mb-3">
                 <Shield className="w-6 h-6 text-retro-cyan" />
                 <h3 className="font-display font-bold text-lg text-retro-cyan">TEAM ALPHA</h3>
@@ -309,9 +309,9 @@ export default function NovaPartida() {
             </div>
 
             {/* VS Separator - Compact */}
-            <div className="text-center relative py-2">
+            <div className="text-center relative py-[10px]">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-retro-cyan via-retro-pink to-retro-purple rounded-full animate-pulse-glow">
-                <span className="font-display font-bold text-lg text-retro-dark">VS</span>
+                <span className="font-display font-bold text-lg text-white p-[10px]">VS</span>
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-24 h-24 border-2 border-retro-purple/30 rounded-full animate-ping"></div>
@@ -319,7 +319,7 @@ export default function NovaPartida() {
             </div>
 
             {/* Team 2 - Compact */}
-            <div className="card p-4 border-retro-pink/50">
+            <div className="card p-[10px] border-retro-pink/50">
               <div className="flex items-center gap-2 mb-3">
                 <Sword className="w-6 h-6 text-retro-pink" />
                 <h3 className="font-display font-bold text-lg text-retro-pink">TEAM BETA</h3>
@@ -338,7 +338,7 @@ export default function NovaPartida() {
             </div>
 
             {/* Actions - Mobile Optimized */}
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-3 mt-[32px]">
               <button onClick={handleBack} className="btn btn-secondary flex-1 text-sm py-2" disabled={creating}>
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 MODIFY
@@ -363,7 +363,7 @@ export default function NovaPartida() {
             </div>
 
             {/* Battle Info - Compact */}
-            <div className="text-center mt-4 p-3 bg-retro-purple/10 rounded-lg border border-retro-purple/30">
+            <div className="text-center mt-[32px] p-3 bg-retro-purple/10 rounded-lg border border-retro-purple/30">
               <div className="font-mono text-xs text-retro-purple/80 tracking-wider">
                 [SYSTEM] Battle arena ready. Awaiting authorization.
               </div>

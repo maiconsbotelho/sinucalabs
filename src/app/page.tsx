@@ -110,7 +110,7 @@ export default function Home() {
           </div>
 
           {/* Recent Matches - Compact */}
-          <div className="card p-4">
+          <div className="card p-[10px]  mt-[32px]">
             <h2 className="text-base font-display font-bold text-retro-light mb-3 flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-retro-cyan rounded-full animate-pulse"></div>
               HISTÓRICO
@@ -130,10 +130,8 @@ export default function Home() {
           </div>
 
           {/* Footer Info - Minimal */}
-          <div className="text-center py-3 mt-[">
-            <div className="text-xs font-mono text-retro-cyan/40 tracking-wider">
-              SYSTEM STATUS: ONLINE • LAB.NETWORK.ACTIVE
-            </div>
+          <div className="text-center  mt-[32px]">
+            <div className="text-xs font-mono text-retro-cyan/40 tracking-wider">SYSTEM STATUS: ONLINE • 2025</div>
             <div className="w-16 h-px bg-gradient-to-r from-transparent via-retro-cyan/30 to-transparent mx-auto mt-1"></div>
           </div>
         </div>
