@@ -101,7 +101,8 @@ export default function RankingPage() {
   };
 
   const getPositionBadge = (position: number) => {
-    const baseClass = "w-12 h-12 rounded-full border-2 flex items-center justify-center font-display text-lg font-bold";
+    const baseClass =
+      "w-10 h-10 rounded-full border-2 flex items-center justify-center font-display text-base font-bold";
     switch (position) {
       case 1:
         return `${baseClass} border-yellow-400 bg-yellow-400/20 text-yellow-400 animate-pulse-glow`;
@@ -145,23 +146,23 @@ export default function RankingPage() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Header */}
-      <header className="p-4 border-b border-retro-cyan/30 relative">
-        <div className="max-w-md mx-auto flex items-center gap-4 relative z-10">
+      {/* Header - Mobile Optimized */}
+      <header className="p-3 border-b border-retro-cyan/30 relative">
+        <div className="max-w-sm mx-auto flex items-center gap-3 relative z-10">
           <Link
             href="/"
-            className="p-3 rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
+            className="p-2 rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
           >
-            <ArrowLeft className="w-5 h-5 text-retro-cyan group-hover:scale-110 transition-transform" />
+            <ArrowLeft className="w-4 h-4 text-retro-cyan group-hover:scale-110 transition-transform" />
           </Link>
           <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <IconComponent className={`w-8 h-8 text-${config.color} animate-float`} />
+            <div className="flex items-center gap-2">
+              <IconComponent className={`w-6 h-6 text-${config.color} animate-float`} />
               <div>
-                <h1 className={`text-xl font-display font-bold text-${config.color}`}>
+                <h1 className={`text-lg font-display font-bold text-${config.color}`}>
                   TOP 3 {config.name.toUpperCase()}
                 </h1>
-                <div className="font-mono text-sm text-retro-light/60">
+                <div className="font-mono text-xs text-retro-light/60">
                   {ranking.totalGames} battle{ranking.totalGames !== 1 ? "s" : ""} recorded
                 </div>
               </div>
@@ -170,14 +171,14 @@ export default function RankingPage() {
         </div>
       </header>
 
-      <main className="p-4 max-w-md mx-auto relative z-10">
-        <div className="space-y-6 mt-6">
-          {/* Period Info */}
-          <div className="card p-6 text-center relative overflow-hidden">
+      <main className="p-3 max-w-sm mx-auto relative z-10">
+        <div className="space-y-4 mt-4">
+          {/* Period Info - Compact */}
+          <div className="card p-4 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-retro-cyan/5 via-retro-pink/5 to-retro-purple/5 animate-pulse"></div>
             <div className="relative z-10">
-              <div className="font-display text-lg font-bold text-retro-light mb-2">BATTLE PERIOD</div>
-              <div className="font-mono text-sm text-retro-cyan/80 tracking-wider">
+              <div className="font-display text-base font-bold text-retro-light mb-2">BATTLE PERIOD</div>
+              <div className="font-mono text-xs text-retro-cyan/80 tracking-wider">
                 {formatDate(new Date(ranking.startDate))} → {formatDate(new Date(ranking.endDate))}
               </div>
             </div>
@@ -185,19 +186,19 @@ export default function RankingPage() {
 
           {/* Rankings */}
           {ranking.rankings.length === 0 ? (
-            <div className="card-glow p-8 text-center">
-              <TrendingUp className="w-16 h-16 mx-auto text-retro-purple/60 mb-6 animate-float" />
-              <h3 className="font-display font-bold text-xl text-retro-light mb-3">NO DATA FOUND</h3>
-              <p className="font-mono text-retro-light/60 text-sm mb-6 tracking-wide">
+            <div className="card-glow p-6 text-center">
+              <TrendingUp className="w-12 h-12 mx-auto text-retro-purple/60 mb-4 animate-float" />
+              <h3 className="font-display font-bold text-lg text-retro-light mb-2">NO DATA FOUND</h3>
+              <p className="font-mono text-retro-light/60 text-xs mb-4 tracking-wide">
                 [SYSTEM] No battles recorded in this period
               </p>
-              <Link href="/nova-partida" className="btn btn-primary">
-                <Zap className="w-5 h-5 mr-2" />
+              <Link href="/nova-partida" className="btn btn-primary text-sm py-2">
+                <Zap className="w-4 h-4 mr-2" />
                 INITIATE FIRST BATTLE
               </Link>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {ranking.rankings.map((stats, index) => {
                 const position = index + 1;
                 return (
@@ -205,50 +206,54 @@ export default function RankingPage() {
                     key={`${stats.team.player1.id}-${stats.team.player2.id}`}
                     className={`${getRankStyle(position)} relative group`}
                   >
-                    <div className="flex items-center gap-4">
-                      {/* Position Badge */}
-                      <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3">
+                      {/* Position Badge - Compact */}
+                      <div className="flex items-center gap-2">
                         <div className={getPositionBadge(position)}>{position}</div>
                         {getRankIcon(position)}
                       </div>
 
-                      {/* Team Info */}
+                      {/* Team Info - Mobile Layout */}
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-display font-bold text-lg text-retro-light">{stats.team.player1.name}</h3>
-                          <span className="text-retro-cyan font-mono text-sm">+</span>
-                          <h3 className="font-display font-bold text-lg text-retro-light">{stats.team.player2.name}</h3>
+                        <div className="flex items-center gap-1 mb-1">
+                          <h3 className="font-display font-bold text-sm text-retro-light truncate max-w-[80px]">
+                            {stats.team.player1.name}
+                          </h3>
+                          <span className="text-retro-cyan font-mono text-xs">+</span>
+                          <h3 className="font-display font-bold text-sm text-retro-light truncate max-w-[80px]">
+                            {stats.team.player2.name}
+                          </h3>
                         </div>
-                        <div className="flex items-center gap-4 font-mono text-sm text-retro-light/60 mt-1">
+                        <div className="flex items-center gap-3 font-mono text-xs text-retro-light/60 mt-1">
                           <span className="flex items-center gap-1">
-                            <div className="w-2 h-2 bg-retro-green rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-retro-green rounded-full"></div>
                             {stats.wins}W
                           </span>
                           <span className="flex items-center gap-1">
-                            <div className="w-2 h-2 bg-retro-pink rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-retro-pink rounded-full"></div>
                             {stats.losses}L
                           </span>
                           <span className="flex items-center gap-1">
                             <Target className="w-3 h-3" />
-                            {stats.gamesPlayed} battles
+                            {stats.gamesPlayed}
                           </span>
                         </div>
                       </div>
 
-                      {/* Win Rate */}
+                      {/* Win Rate - Compact */}
                       <div className="text-right">
-                        <div className={`text-2xl font-display font-bold text-${config.color}`}>
+                        <div className={`text-lg font-display font-bold text-${config.color}`}>
                           {stats.winRate.toFixed(1)}%
                         </div>
-                        <div className="font-mono text-xs text-retro-light/60 tracking-wider">WIN RATE</div>
+                        <div className="font-mono text-xs text-retro-light/60 tracking-wider">WIN</div>
                       </div>
                     </div>
 
-                    {/* Progress Bar */}
-                    <div className="mt-4">
-                      <div className="progress-bar">
+                    {/* Progress Bar - Thinner */}
+                    <div className="mt-3">
+                      <div className="h-1 bg-retro-dark rounded-full overflow-hidden">
                         <div
-                          className={`progress-fill bg-gradient-to-r ${config.gradient}`}
+                          className={`h-full bg-gradient-to-r ${config.gradient} transition-all duration-500`}
                           style={{ width: `${stats.winRate}%` }}
                         />
                       </div>
@@ -262,14 +267,14 @@ export default function RankingPage() {
             </div>
           )}
 
-          {/* Other Rankings */}
-          <div className="card p-6">
-            <h3 className="font-display font-bold text-lg text-retro-light mb-4 flex items-center gap-2">
-              <div className="w-2 h-2 bg-retro-cyan rounded-full animate-pulse"></div>
+          {/* Other Rankings - Mobile Optimized */}
+          <div className="card p-4">
+            <h3 className="font-display font-bold text-base text-retro-light mb-3 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-retro-cyan rounded-full animate-pulse"></div>
               OTHER RANKINGS
             </h3>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               {Object.entries(periodConfig)
                 .filter(([key]) => key !== params.period)
                 .map(([key, config]) => {
@@ -278,20 +283,20 @@ export default function RankingPage() {
                     <Link
                       key={key}
                       href={`/ranking/${key}`}
-                      className={`block p-4 rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 border border-${config.color}/20 hover:border-${config.color}/50 transition-all duration-300 hover:scale-[1.02] group`}
+                      className={`block p-3 rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 border border-${config.color}/20 hover:border-${config.color}/50 transition-all duration-300 hover:scale-[1.02] group`}
                     >
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <IconComponent className={`w-6 h-6 text-${config.color}`} />
-                          <span className={`font-display font-semibold text-${config.color}`}>
+                        <div className="flex items-center gap-2">
+                          <IconComponent className={`w-5 h-5 text-${config.color}`} />
+                          <span className={`font-display font-semibold text-${config.color} text-sm`}>
                             TOP 3 {config.name.toUpperCase()}
                           </span>
                         </div>
                         <div
-                          className={`flex items-center gap-2 text-${config.color}/60 group-hover:text-${config.color} transition-colors`}
+                          className={`flex items-center gap-1 text-${config.color}/60 group-hover:text-${config.color} transition-colors`}
                         >
-                          <span className="text-xs font-mono tracking-wider">ACCESS</span>
-                          <Target className="w-4 h-4" />
+                          <span className="text-xs font-mono tracking-wider">GO</span>
+                          <Target className="w-3 h-3" />
                         </div>
                       </div>
                     </Link>
@@ -300,12 +305,12 @@ export default function RankingPage() {
             </div>
           </div>
 
-          {/* System Status */}
-          <div className="text-center py-4">
+          {/* System Status - Compact */}
+          <div className="text-center py-3">
             <div className="font-mono text-xs text-retro-cyan/40 tracking-wider">
               RANKING.SYSTEM.ONLINE • LAST_UPDATE: {new Date().toLocaleTimeString()}
             </div>
-            <div className="w-32 h-px bg-gradient-to-r from-transparent via-retro-cyan/30 to-transparent mx-auto mt-2"></div>
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-retro-cyan/30 to-transparent mx-auto mt-1"></div>
           </div>
         </div>
       </main>

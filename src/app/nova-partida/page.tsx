@@ -140,21 +140,21 @@ export default function NovaPartida() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Header */}
-      <header className="p-4 border-b border-retro-cyan/30 relative">
-        <div className="max-w-md lg:max-w-lg xl:max-w-xl mx-auto flex items-center gap-4 relative z-10">
+      {/* Header - Mobile Optimized */}
+      <header className="p-3 border-b border-retro-cyan/30 relative">
+        <div className="max-w-sm mx-auto flex items-center gap-3 relative z-10">
           <Link
             href="/"
-            className="p-3 rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
+            className="p-2 rounded-lg border border-retro-cyan/30 hover:border-retro-cyan hover:bg-retro-cyan/10 transition-all duration-300 group"
           >
-            <ArrowLeft className="w-5 h-5 text-retro-cyan group-hover:scale-110 transition-transform" />
+            <ArrowLeft className="w-4 h-4 text-retro-cyan group-hover:scale-110 transition-transform" />
           </Link>
           <div className="flex-1">
-            <h1 className="text-xl font-display font-bold text-retro-cyan flex items-center gap-2">
-              <Zap className="w-6 h-6" />
+            <h1 className="text-lg font-display font-bold text-retro-cyan flex items-center gap-2">
+              <Zap className="w-5 h-5" />
               NOVA PARTIDA
             </h1>
-            <p className="text-sm font-mono text-retro-light/60 tracking-wider">
+            <p className="text-xs font-mono text-retro-light/60 tracking-wider">
               {step === "team1" && "[SYSTEM] Select Team Alpha"}
               {step === "team2" && "[SYSTEM] Select Team Beta"}
               {step === "confirm" && "[SYSTEM] Initialize Battle"}
@@ -163,24 +163,24 @@ export default function NovaPartida() {
         </div>
       </header>
 
-      <main className="p-4 max-w-md lg:max-w-lg xl:max-w-xl mx-auto relative z-10">
+      <main className="p-3 max-w-sm mx-auto relative z-10">
         {step !== "confirm" && (
-          <div className="space-y-6 mt-6">
-            {/* Progress */}
-            <div className="flex items-center gap-4 mb-8">
-              <div className="flex-1 flex items-center gap-3">
+          <div className="space-y-4 mt-4">
+            {/* Progress - Compact Mobile */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex-1 flex items-center gap-2">
                 <div
-                  className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-display text-sm font-bold transition-all duration-300 ${
+                  className={`w-8 h-8 rounded-full border-2 flex items-center justify-center font-display text-xs font-bold transition-all duration-300 ${
                     step === "team1"
                       ? "border-retro-cyan bg-retro-cyan/20 text-retro-cyan animate-pulse-glow"
                       : "border-retro-cyan/50 bg-retro-cyan/10 text-retro-cyan"
                   }`}
                 >
-                  <Shield className="w-5 h-5" />
+                  <Shield className="w-4 h-4" />
                 </div>
                 <div className="flex-1 h-1 bg-gradient-to-r from-retro-cyan/30 to-retro-pink/30 rounded"></div>
                 <div
-                  className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-display text-sm font-bold transition-all duration-300 ${
+                  className={`w-8 h-8 rounded-full border-2 flex items-center justify-center font-display text-xs font-bold transition-all duration-300 ${
                     step === "team2"
                       ? "border-retro-pink bg-retro-pink/20 text-retro-pink animate-pulse-glow"
                       : step !== "team1"
@@ -188,36 +188,36 @@ export default function NovaPartida() {
                       : "border-secondary bg-secondary/20 text-secondary"
                   }`}
                 >
-                  <Sword className="w-5 h-5" />
+                  <Sword className="w-4 h-4" />
                 </div>
               </div>
             </div>
 
-            {/* Current Team Selection */}
-            <div className="card-glow p-6 mb-6">
-              <div className="flex items-center gap-3 mb-4">
+            {/* Current Team Selection - Compact */}
+            <div className="card-glow p-4 mb-4">
+              <div className="flex items-center gap-2 mb-3">
                 {step === "team1" ? (
                   <>
-                    <Shield className="w-8 h-8 text-retro-cyan" />
+                    <Shield className="w-6 h-6 text-retro-cyan" />
                     <div>
-                      <h2 className="font-display font-bold text-xl text-retro-cyan">TEAM ALPHA</h2>
-                      <div className="font-mono text-sm text-retro-cyan/60">Select 2 warriors [{team1.length}/2]</div>
+                      <h2 className="font-display font-bold text-lg text-retro-cyan">TEAM ALPHA</h2>
+                      <div className="font-mono text-xs text-retro-cyan/60">Select 2 warriors [{team1.length}/2]</div>
                     </div>
                   </>
                 ) : (
                   <>
-                    <Sword className="w-8 h-8 text-retro-pink" />
+                    <Sword className="w-6 h-6 text-retro-pink" />
                     <div>
-                      <h2 className="font-display font-bold text-xl text-retro-pink">TEAM BETA</h2>
-                      <div className="font-mono text-sm text-retro-pink/60">Select 2 warriors [{team2.length}/2]</div>
+                      <h2 className="font-display font-bold text-lg text-retro-pink">TEAM BETA</h2>
+                      <div className="font-mono text-xs text-retro-pink/60">Select 2 warriors [{team2.length}/2]</div>
                     </div>
                   </>
                 )}
               </div>
             </div>
 
-            {/* Players List */}
-            <div className="space-y-3">
+            {/* Players List - Mobile Optimized */}
+            <div className="space-y-2">
               {players.map((player, index) => {
                 const selected = isPlayerSelected(player);
                 const disabled = isPlayerDisabled(player);
@@ -227,7 +227,7 @@ export default function NovaPartida() {
                     key={player.id}
                     onClick={() => !disabled && handlePlayerSelect(player)}
                     disabled={disabled}
-                    className={`w-full p-4 rounded-lg border-2 transition-all duration-300 relative group ${
+                    className={`w-full p-3 rounded-lg border-2 transition-all duration-300 relative group ${
                       disabled
                         ? "bg-muted/20 border-muted/30 text-muted-foreground cursor-not-allowed opacity-50"
                         : selected
@@ -238,15 +238,15 @@ export default function NovaPartida() {
                     }`}
                   >
                     <div className="flex items-center justify-between relative z-10">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
                         <div
-                          className={`w-3 h-3 rounded-full ${
+                          className={`w-2 h-2 rounded-full ${
                             selected ? (step === "team1" ? "bg-retro-cyan" : "bg-retro-pink") : "bg-retro-purple/50"
                           } ${selected ? "animate-pulse" : ""}`}
                         ></div>
-                        <span className="font-display font-semibold">{player.name}</span>
+                        <span className="font-display font-semibold text-sm">{player.name}</span>
                       </div>
-                      {selected && <Check className="w-6 h-6" />}
+                      {selected && <Check className="w-5 h-5" />}
                       {disabled && <div className="font-mono text-xs text-muted-foreground">TEAM_ALPHA</div>}
                     </div>
 
@@ -258,10 +258,10 @@ export default function NovaPartida() {
               })}
             </div>
 
-            {/* Navigation */}
-            <div className="flex gap-4 mt-8">
+            {/* Navigation - Mobile Optimized */}
+            <div className="flex gap-3 mt-6">
               {step === "team2" && (
-                <button onClick={handleBack} className="btn btn-secondary flex-1">
+                <button onClick={handleBack} className="btn btn-secondary flex-1 text-sm py-2">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   BACK
                 </button>
@@ -269,7 +269,7 @@ export default function NovaPartida() {
               <button
                 onClick={handleNext}
                 disabled={!canProceed()}
-                className="btn btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed text-sm py-2"
               >
                 {step === "team1" ? (
                   <>
@@ -288,84 +288,84 @@ export default function NovaPartida() {
         )}
 
         {step === "confirm" && (
-          <div className="space-y-8 mt-6">
-            {/* Team 1 */}
-            <div className="card p-6 border-retro-cyan/50">
-              <div className="flex items-center gap-3 mb-4">
-                <Shield className="w-8 h-8 text-retro-cyan" />
-                <h3 className="font-display font-bold text-xl text-retro-cyan">TEAM ALPHA</h3>
+          <div className="space-y-4 mt-4">
+            {/* Team 1 - Compact */}
+            <div className="card p-4 border-retro-cyan/50">
+              <div className="flex items-center gap-2 mb-3">
+                <Shield className="w-6 h-6 text-retro-cyan" />
+                <h3 className="font-display font-bold text-lg text-retro-cyan">TEAM ALPHA</h3>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {team1.map((player, index) => (
-                  <div key={player.id} className="p-3 bg-retro-cyan/10 rounded-lg border border-retro-cyan/30">
-                    <div className="flex items-center gap-3">
-                      <Cpu className="w-5 h-5 text-retro-cyan" />
-                      <span className="font-display font-semibold text-retro-cyan">{player.name}</span>
-                      <span className="font-mono text-xs text-retro-cyan/60">WARRIOR_{index + 1}</span>
+                  <div key={player.id} className="p-2 bg-retro-cyan/10 rounded-lg border border-retro-cyan/30">
+                    <div className="flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-retro-cyan" />
+                      <span className="font-display font-semibold text-retro-cyan text-sm">{player.name}</span>
+                      <span className="font-mono text-xs text-retro-cyan/60">W_{index + 1}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* VS Separator */}
-            <div className="text-center relative">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-retro-cyan via-retro-pink to-retro-purple rounded-full animate-pulse-glow">
-                <span className="font-display font-bold text-xl text-retro-dark">VS</span>
+            {/* VS Separator - Compact */}
+            <div className="text-center relative py-2">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-retro-cyan via-retro-pink to-retro-purple rounded-full animate-pulse-glow">
+                <span className="font-display font-bold text-lg text-retro-dark">VS</span>
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 border-2 border-retro-purple/30 rounded-full animate-ping"></div>
+                <div className="w-24 h-24 border-2 border-retro-purple/30 rounded-full animate-ping"></div>
               </div>
             </div>
 
-            {/* Team 2 */}
-            <div className="card p-6 border-retro-pink/50">
-              <div className="flex items-center gap-3 mb-4">
-                <Sword className="w-8 h-8 text-retro-pink" />
-                <h3 className="font-display font-bold text-xl text-retro-pink">TEAM BETA</h3>
+            {/* Team 2 - Compact */}
+            <div className="card p-4 border-retro-pink/50">
+              <div className="flex items-center gap-2 mb-3">
+                <Sword className="w-6 h-6 text-retro-pink" />
+                <h3 className="font-display font-bold text-lg text-retro-pink">TEAM BETA</h3>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {team2.map((player, index) => (
-                  <div key={player.id} className="p-3 bg-retro-pink/10 rounded-lg border border-retro-pink/30">
-                    <div className="flex items-center gap-3">
-                      <Cpu className="w-5 h-5 text-retro-pink" />
-                      <span className="font-display font-semibold text-retro-pink">{player.name}</span>
-                      <span className="font-mono text-xs text-retro-pink/60">WARRIOR_{index + 1}</span>
+                  <div key={player.id} className="p-2 bg-retro-pink/10 rounded-lg border border-retro-pink/30">
+                    <div className="flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-retro-pink" />
+                      <span className="font-display font-semibold text-retro-pink text-sm">{player.name}</span>
+                      <span className="font-mono text-xs text-retro-pink/60">W_{index + 1}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex gap-4 mt-8">
-              <button onClick={handleBack} className="btn btn-secondary flex-1" disabled={creating}>
+            {/* Actions - Mobile Optimized */}
+            <div className="flex gap-3 mt-6">
+              <button onClick={handleBack} className="btn btn-secondary flex-1 text-sm py-2" disabled={creating}>
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 MODIFY
               </button>
               <button
                 onClick={createMatch}
                 disabled={creating}
-                className="btn btn-primary flex-1 disabled:opacity-50 relative overflow-hidden"
+                className="btn btn-primary flex-1 disabled:opacity-50 relative overflow-hidden text-sm py-2"
               >
                 {creating ? (
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-retro-dark border-t-transparent rounded-full animate-spin"></div>
-                    INITIALIZING...
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-retro-dark border-t-transparent rounded-full animate-spin"></div>
+                    INIT...
                   </div>
                 ) : (
-                  <div className="flex items-center gap-3">
-                    <Play className="w-5 h-5" />
+                  <div className="flex items-center gap-2">
+                    <Play className="w-4 h-4" />
                     START BATTLE
                   </div>
                 )}
               </button>
             </div>
 
-            {/* Battle Info */}
-            <div className="text-center mt-6 p-4 bg-retro-purple/10 rounded-lg border border-retro-purple/30">
-              <div className="font-mono text-sm text-retro-purple/80 tracking-wider">
-                [SYSTEM] Battle arena ready. Awaiting commander authorization.
+            {/* Battle Info - Compact */}
+            <div className="text-center mt-4 p-3 bg-retro-purple/10 rounded-lg border border-retro-purple/30">
+              <div className="font-mono text-xs text-retro-purple/80 tracking-wider">
+                [SYSTEM] Battle arena ready. Awaiting authorization.
               </div>
             </div>
           </div>

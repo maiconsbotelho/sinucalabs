@@ -22,6 +22,22 @@ body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
   font-family: var(--font-mono), "Courier New", monospace;
+  /* Mobile-first optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mobile touch improvements */
+@media (max-width: 640px) {
+  * {
+    -webkit-tap-highlight-color: rgba(0, 255, 255, 0.1);
+  }
+
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
 }
 
 @layer components {
@@ -40,6 +56,18 @@ body {
     position: relative;
     overflow: hidden;
     font-family: var(--font-display), "Orbitron", monospace;
+    /* Mobile touch improvements */
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* Mobile button sizing */
+  @media (max-width: 640px) {
+    .btn {
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      min-height: 40px;
+    }
   }
 
   .btn-primary {
