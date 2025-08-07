@@ -50,9 +50,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     // Criar um mapa dos jogadores para fácil acesso
     const playersMap = {
       [team1Player1?.id || ""]: team1Player1?.name || "Jogador 1",
-      [team1Player2?.id || ""]: team1Player2?.name || "Jogador 2", 
+      [team1Player2?.id || ""]: team1Player2?.name || "Jogador 2",
       [team2Player1?.id || ""]: team2Player1?.name || "Jogador 3",
-      [team2Player2?.id || ""]: team2Player2?.name || "Jogador 4"
+      [team2Player2?.id || ""]: team2Player2?.name || "Jogador 4",
     };
 
     // Transformar dados para o formato esperado pela página
@@ -67,9 +67,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       games: games.map((game, index) => ({
         id: game.id,
         gameNumber: index + 1,
-        winner: { 
-          id: game.winner_id, 
-          name: playersMap[game.winner_id] || "Jogador"
+        winner: {
+          id: game.winner_id,
+          name: playersMap[game.winner_id] || "Jogador",
         },
         createdAt: game.created_at,
       })),
@@ -93,7 +93,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     if (action === "add_game") {
       // Buscar a partida atual
       const { data: match, error: matchError } = await matchesQuery.getById(id);
-      
+
       if (matchError || !match) {
         return NextResponse.json({ error: "Partida não encontrada" }, { status: 404 });
       }
@@ -101,23 +101,23 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       // Determinar qual dupla ganhou
       const team1PlayerIds = [match.team1_player1_id, match.team1_player2_id];
       const isTeam1Winner = team1PlayerIds.includes(winnerId);
-      
+
       // Atualizar o placar
       const newTeam1Score = isTeam1Winner ? match.team1_score + 1 : match.team1_score;
       const newTeam2Score = !isTeam1Winner ? match.team2_score + 1 : match.team2_score;
-      
+
       // Atualizar a partida no banco
       await matchesQuery.update(id, {
         team1_score: newTeam1Score,
         team2_score: newTeam2Score,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       });
 
       // Tentar adicionar o jogo na tabela games (se existir)
       try {
         await supabaseAdmin.from("games").insert({
           match_id: id,
-          winner_id: winnerId
+          winner_id: winnerId,
         });
       } catch (error) {
         // Tabela games ainda não existe, mas isso não é um erro crítico

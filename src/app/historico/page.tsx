@@ -18,17 +18,19 @@ interface Game {
 
 interface Match {
   id: string;
-  team1Player1: Player;
-  team1Player2: Player;
-  team2Player1: Player;
-  team2Player2: Player;
-  games: Game[];
-  createdAt: string;
-  team1Score: number;
-  team2Score: number;
+  team1: {
+    player1: Player;
+    player2: Player;
+    score: number;
+  };
+  team2: {
+    player1: Player;
+    player2: Player;
+    score: number;
+  };
   isFinished: boolean;
+  createdAt: string;
   winner: "team1" | "team2" | null;
-  totalGames: number;
 }
 
 export default function HistoricoPage() {
@@ -72,13 +74,13 @@ export default function HistoricoPage() {
 
     if (match.winner === "team1") {
       return {
-        players: [match.team1Player1, match.team1Player2],
-        score: match.team1Score,
+        players: [match.team1.player1, match.team1.player2],
+        score: match.team1.score,
       };
     } else {
       return {
-        players: [match.team2Player1, match.team2Player2],
-        score: match.team2Score,
+        players: [match.team2.player1, match.team2.player2],
+        score: match.team2.score,
       };
     }
   };
@@ -180,11 +182,11 @@ export default function HistoricoPage() {
                             <div>
                               <div className="font-display font-bold text-retro-cyan text-sm">TEAM ALPHA</div>
                               <div className="font-mono text-retro-light text-xs">
-                                {match.team1Player1.name} + {match.team1Player2.name}
+                                {match.team1.player1.name} + {match.team1.player2.name}
                               </div>
                             </div>
                           </div>
-                          <div className="text-2xl font-display font-bold text-retro-cyan">{match.team1Score}</div>
+                          <div className="text-2xl font-display font-bold text-retro-cyan">{match.team1.score}</div>
                         </div>
                       </div>
 
@@ -213,11 +215,11 @@ export default function HistoricoPage() {
                             <div>
                               <div className="font-display font-bold text-retro-pink text-sm">TEAM BETA</div>
                               <div className="font-mono text-retro-light text-xs">
-                                {match.team2Player1.name} + {match.team2Player2.name}
+                                {match.team2.player1.name} + {match.team2.player2.name}
                               </div>
                             </div>
                           </div>
-                          <div className="text-2xl font-display font-bold text-retro-pink">{match.team2Score}</div>
+                          <div className="text-2xl font-display font-bold text-retro-pink">{match.team2.score}</div>
                         </div>
                       </div>
                     </div>
@@ -226,7 +228,8 @@ export default function HistoricoPage() {
                     <div className="flex items-center justify-between text-xs font-mono text-retro-light/60 pt-4 border-t border-retro-purple/30 mt-4">
                       <div className="flex items-center gap-2">
                         <Target className="w-3 h-3" />
-                        {match.totalGames} battle{match.totalGames !== 1 ? "s" : ""}
+                        {match.team1.score + match.team2.score} battle
+                        {match.team1.score + match.team2.score !== 1 ? "s" : ""}
                       </div>
                       {match.isFinished ? (
                         <div className="flex items-center gap-1 text-retro-green">

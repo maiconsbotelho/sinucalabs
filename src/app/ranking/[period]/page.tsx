@@ -11,8 +11,11 @@ interface Player {
   name: string;
 }
 
-interface PlayerStats {
-  player: Player;
+interface TeamStats {
+  team: {
+    player1: Player;
+    player2: Player;
+  };
   wins: number;
   losses: number;
   gamesPlayed: number;
@@ -23,7 +26,7 @@ interface RankingData {
   period: string;
   startDate: string;
   endDate: string;
-  rankings: PlayerStats[];
+  rankings: TeamStats[];
   totalGames: number;
 }
 
@@ -198,7 +201,10 @@ export default function RankingPage() {
               {ranking.rankings.map((stats, index) => {
                 const position = index + 1;
                 return (
-                  <div key={stats.player.id} className={`${getRankStyle(position)} relative group`}>
+                  <div
+                    key={`${stats.team.player1.id}-${stats.team.player2.id}`}
+                    className={`${getRankStyle(position)} relative group`}
+                  >
                     <div className="flex items-center gap-4">
                       {/* Position Badge */}
                       <div className="flex items-center gap-3">
@@ -206,9 +212,13 @@ export default function RankingPage() {
                         {getRankIcon(position)}
                       </div>
 
-                      {/* Player Info */}
+                      {/* Team Info */}
                       <div className="flex-1">
-                        <h3 className="font-display font-bold text-lg text-retro-light">{stats.player.name}</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-display font-bold text-lg text-retro-light">{stats.team.player1.name}</h3>
+                          <span className="text-retro-cyan font-mono text-sm">+</span>
+                          <h3 className="font-display font-bold text-lg text-retro-light">{stats.team.player2.name}</h3>
+                        </div>
                         <div className="flex items-center gap-4 font-mono text-sm text-retro-light/60 mt-1">
                           <span className="flex items-center gap-1">
                             <div className="w-2 h-2 bg-retro-green rounded-full"></div>

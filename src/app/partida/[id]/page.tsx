@@ -136,8 +136,8 @@ export default function PartidaPage() {
               </div>
               <h3 className="font-semibold text-sm mb-1">Dupla 1</h3>
               <div className="text-xs text-muted-foreground space-y-1">
-                <div>{match.team1Player1?.name || 'Jogador 1'}</div>
-                <div>{match.team1Player2?.name || 'Jogador 2'}</div>
+                <div>{match.team1Player1?.name || "Jogador 1"}</div>
+                <div>{match.team1Player2?.name || "Jogador 2"}</div>
               </div>
               <div className="mt-3">
                 <div className="text-2xl font-bold text-primary">{match.team1Wins}</div>
@@ -159,8 +159,8 @@ export default function PartidaPage() {
               </div>
               <h3 className="font-semibold text-sm mb-1">Dupla 2</h3>
               <div className="text-xs text-muted-foreground space-y-1">
-                <div>{match.team2Player1?.name || 'Jogador 3'}</div>
-                <div>{match.team2Player2?.name || 'Jogador 4'}</div>
+                <div>{match.team2Player1?.name || "Jogador 3"}</div>
+                <div>{match.team2Player2?.name || "Jogador 4"}</div>
               </div>
               <div className="mt-3">
                 <div className="text-2xl font-bold text-primary">{match.team2Wins}</div>
