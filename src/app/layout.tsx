@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-mono",
+});
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +25,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="dark">
-      <body className={`${inter.variable} font-sans antialiased`}>
-        <div className="min-h-screen bg-background">
+      <body className={`${jetbrainsMono.variable} ${orbitron.variable} font-mono antialiased bg-retro-dark`}>
+        <div className="min-h-screen bg-gradient-to-br from-retro-dark via-retro-purple/10 to-retro-cyan/10 relative overflow-hidden">
+          {/* Retro Grid Background */}
+          <div className="absolute inset-0 bg-retro-grid opacity-5 pointer-events-none"></div>
+          
+          {/* Scanlines Effect */}
+          <div className="absolute inset-0 bg-scanlines opacity-10 pointer-events-none"></div>
+          
           {children}
         </div>
       </body>
