@@ -1,6 +1,6 @@
 // Types
 export * from "./types/ranking";
-export * from "./types/match";
+export type { MatchPlayer, Match, EnrichedMatch, CreateMatchRequest, TeamScore, ScoreUpdate } from "./types/match";
 export * from "./types/game";
 
 // Services
@@ -13,4 +13,21 @@ export { TeamValidator } from "./services/teamValidator";
 export * from "./utils/dateRanges";
 export * from "./utils/rankingHelpers";
 export * from "./utils/matchHelpers";
-export * from "./utils/formatters";
+export { 
+  formatDate, 
+  formatDateTime, 
+  formatTime, 
+  formatRelativeDate, 
+  formatPercentage, 
+  formatScore, 
+  formatRecord, 
+  formatMatchDuration, 
+  formatOrdinal, 
+  formatStreak, 
+  formatMatchStatus, 
+  formatPerformanceLevel, 
+  formatNumber, 
+  formatPeriod, 
+  formatAdvantage, 
+  formatMomentum
+} from "./utils/formatters";

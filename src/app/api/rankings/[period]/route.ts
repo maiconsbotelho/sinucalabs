@@ -5,7 +5,7 @@ import {
   getDateRangeForPeriod, 
   RankingPeriod,
   Player,
-  Match 
+  MatchWithWinner 
 } from "@/core";
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ period: string }> }) {
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     // Determinar vencedor da partida baseado no score
-    const matchesWithWinner: Match[] = (matches || []).map((match: any) => ({
+    const matchesWithWinner: MatchWithWinner[] = (matches || []).map((match: any) => ({
       ...match,
       winner_team: match.team1_score > match.team2_score ? 1 : 2
     }));

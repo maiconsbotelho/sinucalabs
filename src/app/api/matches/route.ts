@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { MatchManager, CreateMatchRequest } from "@/core";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -8,40 +9,31 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const body = await request.json();
+    const body: CreateMatchRequest = await request.json();
     const { team1Player1Id, team1Player2Id, team2Player1Id, team2Player2Id } = body;
 
-    // Validar se todos os IDs foram fornecidos
-    if (!team1Player1Id || !team1Player2Id || !team2Player1Id || !team2Player2Id) {
-      return NextResponse.json({ error: "Todos os jogadores devem ser selecionados" }, { status: 400 });
-    }
-
-    // Validar se não há jogadores duplicados
-    const playerIds = [team1Player1Id, team1Player2Id, team2Player1Id, team2Player2Id];
-    const uniquePlayerIds = new Set(playerIds);
-    if (uniquePlayerIds.size !== 4) {
-      return NextResponse.json({ error: "Não é possível ter jogadores duplicados" }, { status: 400 });
+    // Validar usando core business logic
+    try {
+      MatchManager.validateMatchCreation(body);
+    } catch (validationError: any) {
+      return NextResponse.json({ error: validationError.message }, { status: 400 });
     }
 
     // Verificar se todos os jogadores existem
+    const playerIds = [team1Player1Id, team1Player2Id, team2Player1Id, team2Player2Id];
     const { data: players, error: playersError } = await supabase.from("players").select("id").in("id", playerIds);
 
     if (playersError || !players || players.length !== 4) {
       return NextResponse.json({ error: "Um ou mais jogadores não foram encontrados" }, { status: 400 });
     }
 
-    // Criar a partida
+    // Criar dados da partida usando core
+    const matchData = MatchManager.createMatchData(body);
+
+    // Inserir no banco
     const { data: match, error } = await supabase
       .from("matches")
-      .insert({
-        team1_player1_id: team1Player1Id,
-        team1_player2_id: team1Player2Id,
-        team2_player1_id: team2Player1Id,
-        team2_player2_id: team2Player2Id,
-        team1_score: 0,
-        team2_score: 0,
-        is_finished: false,
-      })
+      .insert(matchData)
       .select()
       .single();
 

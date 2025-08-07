@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { matchesQuery, supabaseAdmin } from "@/lib/supabase";
+import { MatchManager, MatchPlayer } from "@/core";
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -11,27 +12,16 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: "Partida não encontrada" }, { status: 404 });
     }
 
-    // Buscar os jogadores
-    const { data: team1Player1 } = await supabaseAdmin
+    // Buscar todos os jogadores em uma única query
+    const playerIds = [match.team1_player1_id, match.team1_player2_id, match.team2_player1_id, match.team2_player2_id];
+    const { data: players } = await supabaseAdmin
       .from("players")
-      .select("*")
-      .eq("id", match.team1_player1_id)
-      .single();
-    const { data: team1Player2 } = await supabaseAdmin
-      .from("players")
-      .select("*")
-      .eq("id", match.team1_player2_id)
-      .single();
-    const { data: team2Player1 } = await supabaseAdmin
-      .from("players")
-      .select("*")
-      .eq("id", match.team2_player1_id)
-      .single();
-    const { data: team2Player2 } = await supabaseAdmin
-      .from("players")
-      .select("*")
-      .eq("id", match.team2_player2_id)
-      .single();
+      .select("id, name")
+      .in("id", playerIds);
+
+    if (!players || players.length === 0) {
+      return NextResponse.json({ error: "Jogadores não encontrados" }, { status: 404 });
+    }
 
     // Buscar jogos da partida (se a tabela existir)
     let games: any[] = [];
@@ -43,37 +33,34 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         .order("created_at", { ascending: true });
       games = gamesData || [];
     } catch (error) {
-      // Tabela games ainda não existe
       games = [];
     }
 
-    // Criar um mapa dos jogadores para fácil acesso
-    const playersMap = {
-      [team1Player1?.id || ""]: team1Player1?.name || "Jogador 1",
-      [team1Player2?.id || ""]: team1Player2?.name || "Jogador 2",
-      [team2Player1?.id || ""]: team2Player1?.name || "Jogador 3",
-      [team2Player2?.id || ""]: team2Player2?.name || "Jogador 4",
-    };
+    // Enriquecer partida usando core
+    const enrichedMatch = MatchManager.enrichMatch(match, players as MatchPlayer[]);
+
+    // Criar um mapa dos jogadores para o games
+    const playersMap = new Map(players.map(p => [p.id, p.name]));
 
     // Transformar dados para o formato esperado pela página
     const transformedMatch = {
-      id: match.id,
-      team1Player1: { id: team1Player1?.id || "", name: team1Player1?.name || "Jogador 1" },
-      team1Player2: { id: team1Player2?.id || "", name: team1Player2?.name || "Jogador 2" },
-      team2Player1: { id: team2Player1?.id || "", name: team2Player1?.name || "Jogador 3" },
-      team2Player2: { id: team2Player2?.id || "", name: team2Player2?.name || "Jogador 4" },
-      team1Wins: match.team1_score,
-      team2Wins: match.team2_score,
+      id: enrichedMatch.id,
+      team1Player1: enrichedMatch.team1_player1,
+      team1Player2: enrichedMatch.team1_player2,
+      team2Player1: enrichedMatch.team2_player1,
+      team2Player2: enrichedMatch.team2_player2,
+      team1Wins: enrichedMatch.team1_score,
+      team2Wins: enrichedMatch.team2_score,
       games: games.map((game, index) => ({
         id: game.id,
         gameNumber: index + 1,
         winner: {
           id: game.winner_id,
-          name: playersMap[game.winner_id] || "Jogador",
+          name: playersMap.get(game.winner_id) || "Jogador",
         },
         createdAt: game.created_at,
       })),
-      isActive: !match.is_finished,
+      isActive: !enrichedMatch.is_finished,
     };
 
     return NextResponse.json(transformedMatch);
@@ -98,18 +85,21 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
         return NextResponse.json({ error: "Partida não encontrada" }, { status: 404 });
       }
 
-      // Determinar qual dupla ganhou
-      const team1PlayerIds = [match.team1_player1_id, match.team1_player2_id];
-      const isTeam1Winner = team1PlayerIds.includes(winnerId);
+      // Processar adição do jogo usando core business logic
+      let gameProcessing;
+      try {
+        gameProcessing = MatchManager.processGameAddition(match, winnerId);
+      } catch (coreError: any) {
+        return NextResponse.json({ error: coreError.message }, { status: 400 });
+      }
 
-      // Atualizar o placar
-      const newTeam1Score = isTeam1Winner ? match.team1_score + 1 : match.team1_score;
-      const newTeam2Score = !isTeam1Winner ? match.team2_score + 1 : match.team2_score;
+      const { scoreUpdate, shouldFinish } = gameProcessing;
 
       // Atualizar a partida no banco
       await matchesQuery.update(id, {
-        team1_score: newTeam1Score,
-        team2_score: newTeam2Score,
+        team1_score: scoreUpdate.newTeam1Score,
+        team2_score: scoreUpdate.newTeam2Score,
+        is_finished: shouldFinish,
         updated_at: new Date().toISOString(),
       });
 

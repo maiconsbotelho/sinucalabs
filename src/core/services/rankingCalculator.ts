@@ -1,4 +1,4 @@
-import { TeamStats, Match, Player, Team } from "../types/ranking";
+import { TeamStats, MatchWithWinner, Player, Team } from "../types/ranking";
 
 interface PlayersMap {
   [key: string]: Player;
@@ -17,7 +17,7 @@ export class RankingCalculator {
   /**
    * Calcula estatísticas de ranking para todas as duplas baseado nas partidas
    */
-  calculateTeamRankings(matches: Match[]): TeamStats[] {
+  calculateTeamRankings(matches: MatchWithWinner[]): TeamStats[] {
     const teamStatsMap: { [key: string]: TeamStats } = {};
 
     matches.forEach((match) => {

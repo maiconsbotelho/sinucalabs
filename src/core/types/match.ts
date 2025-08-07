@@ -1,8 +1,3 @@
-export interface Player {
-  id: string;
-  name: string;
-}
-
 export interface MatchPlayer {
   id: string;
   name: string;

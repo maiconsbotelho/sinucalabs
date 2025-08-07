@@ -1,4 +1,4 @@
-import { Player } from "../types/match";
+import { Player } from "../types/ranking";
 
 export class TeamValidator {
   /**

@@ -1,9 +1,5 @@
 import { Trophy, Medal, Crown } from "lucide-react";
-
-export interface Player {
-  id: string;
-  name: string;
-}
+import { Player } from "@/core";
 
 export interface TeamStats {
   team: {

@@ -19,7 +19,7 @@ export interface TeamStats {
   matchesLost: number;
 }
 
-export interface Match {
+export interface MatchWithWinner {
   id: string;
   team1_player1_id: string;
   team1_player2_id: string;
