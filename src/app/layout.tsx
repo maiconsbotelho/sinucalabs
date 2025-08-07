@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="dark">
       <body className={`${jetbrainsMono.variable} ${orbitron.variable} font-mono antialiased bg-retro-dark`}>
-        <div className="min-h-screen bg-gradient-to-br from-retro-dark via-retro-purple/10 to-retro-cyan/10 relative overflow-hidden">
+        <div>
           {/* Retro Grid Background */}
           <div className="absolute inset-0 bg-retro-grid opacity-5 pointer-events-none"></div>
 
