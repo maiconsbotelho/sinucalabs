@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   themeColor: "#0A050F",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "SinucaLabs",
   },
   icons: {
@@ -42,6 +42,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="dark">
+      <head>
+        <meta name="theme-color" content="#0A050F" />
+        <meta name="msapplication-navbutton-color" content="#0A050F" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      </head>
       <body className={`${jetbrainsMono.variable} ${orbitron.variable} font-mono antialiased bg-retro-dark`}>
         <div className="p-[10px]">
           {/* Retro Grid Background */}
