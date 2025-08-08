@@ -19,9 +19,7 @@ export default function StartMatchCard() {
 
         <h2 className="text-lg font-display font-bold text-retro-light mb-2">NOVA PARTIDA</h2>
 
-        <div className="text-retro-cyan/80 text-xs font-mono mb-4 tracking-wider">
-          [SYSTEM] Ready to initialize match...
-        </div>
+        <div className="text-retro-cyan/80 text-xs font-mono mb-4 tracking-wider">[SYSTEM] Vocês estão prontos??</div>
 
         <Link href="/nova-partida" className="btn btn-primary w-[80%] mx-auto mt-[16px] text-base py-3">
           <Users className="w-5 h-5" />

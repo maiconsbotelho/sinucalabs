@@ -115,7 +115,7 @@ export default function ScoreBoard({ match }: ScoreBoardProps) {
                       team2IsWinning ? "text-retro-pink" : "text-retro-light"
                     }`}
                   >
-                    [TEAM BRAVO]
+                    [TEAM OMEGA]
                   </h3>
                 </div>
                 <div

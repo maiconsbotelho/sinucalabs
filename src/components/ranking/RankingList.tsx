@@ -68,12 +68,12 @@ export default function RankingList({ rankings, period }: RankingListProps) {
 
               {/* Team Info - Mobile Layout */}
               <div className="flex-1">
-                <div className="flex items-center gap-1 mb-1">
-                  <h3 className="font-display font-bold text-sm text-retro-light truncate max-w-[80px]">
+                <div className="flex flex-col items-center  mb-1">
+                  <h3 className="font-display font-bold text-sm text-retro-light truncate max-w-[150px]">
                     {stats.team.player1.name}
                   </h3>
-                  <span className="text-retro-cyan font-mono text-xs">+</span>
-                  <h3 className="font-display font-bold text-sm text-retro-light truncate max-w-[80px]">
+
+                  <h3 className="font-display font-bold text-sm text-retro-light truncate max-w-[150px]">
                     {stats.team.player2.name}
                   </h3>
                 </div>
@@ -95,9 +95,7 @@ export default function RankingList({ rankings, period }: RankingListProps) {
 
               {/* Win Rate - Compact */}
               <div className="text-right">
-                <div className={`text-lg font-display font-bold text-${config.color}`}>
-                  {stats.winRate.toFixed(1)}%
-                </div>
+                <div className={`text-lg font-display font-bold text-${config.color}`}>{stats.winRate.toFixed(1)}%</div>
                 <div className="font-mono text-xs text-retro-light/60 tracking-wider">WIN</div>
               </div>
             </div>

@@ -5,25 +5,25 @@ export default function RankingsSection() {
   const rankings = [
     {
       href: "/ranking/semana",
-      title: "TOP 3 SEMANA",
+      title: "MELHORES DA SEMANA",
       color: "retro-cyan",
       borderColor: "retro-cyan/20",
-      hoverBorder: "retro-cyan/50"
+      hoverBorder: "retro-cyan/50",
     },
     {
       href: "/ranking/mes",
-      title: "TOP 3 MÊS",
+      title: "MELHORES DO MÊS",
       color: "retro-pink",
       borderColor: "retro-pink/20",
-      hoverBorder: "retro-pink/50"
+      hoverBorder: "retro-pink/50",
     },
     {
       href: "/ranking/ano",
-      title: "TOP 3 ANO",
+      title: "MELHORES DO ANO",
       color: "retro-purple",
       borderColor: "retro-purple/20",
-      hoverBorder: "retro-purple/50"
-    }
+      hoverBorder: "retro-purple/50",
+    },
   ];
 
   return (
@@ -38,16 +38,12 @@ export default function RankingsSection() {
           <Link
             key={ranking.href}
             href={ranking.href}
-            className={`block p-[10px] rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 border border-${ranking.borderColor} hover:border-${ranking.hoverBorder} transition-all duration-300 hover:scale-[1.02] group`}
+            className={`block p-[10px] rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20  hover:border-${ranking.hoverBorder} transition-all duration-300 hover:scale-[1.02] group`}
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center text-[22px] justify-between">
               <div className="flex items-center gap-[10px]">
                 <div className={`w-1.5 h-1.5 bg-${ranking.color} rounded-full animate-pulse`}></div>
                 <span className={`font-display font-semibold text-${ranking.color} text-sm`}>{ranking.title}</span>
-              </div>
-              <div className={`flex items-center gap-1 text-${ranking.color}/60 group-hover:text-${ranking.color} transition-colors`}>
-                <span className="text-xs font-mono">ACCESS</span>
-                <Target className="w-3 h-3" />
               </div>
             </div>
           </Link>
