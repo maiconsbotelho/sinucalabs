@@ -44,7 +44,7 @@ Transformei a aplicação de sinuca em uma interface retro futurista moderna, ap
 ### **Nova Partida (`/nova-partida`)**
 
 - Fluxo step-by-step com design de batalha
-- Teams Alpha/Beta com Shield e Sword icons
+- Teams Alpha/Omega com Shield e Sword icons
 - Progress bar temático com cores por equipe
 - Confirmação final estilo "arena de batalha"
 
@@ -60,7 +60,7 @@ Transformei a aplicação de sinuca em uma interface retro futurista moderna, ap
 - Interface de "database" com tema terminal
 - Cards de partida estilo "Partidas records"
 - Status indicators animados (COMPLETED/IN_PROGRESS)
-- Layout de times Alpha vs Beta consistente
+- Layout de times Alpha vs Omega consistente
 
 ## 🎯 Componentes Reutilizáveis
 

@@ -11,7 +11,7 @@ export default function Header({ step }: HeaderProps) {
       case "team1":
         return "[SYSTEM] Select Team Alpha";
       case "team2":
-        return "[SYSTEM] Select Team Beta";
+        return "[SYSTEM] Select Team Omega";
       case "confirm":
         return "[SYSTEM] Initialize Partidas";
       default:
