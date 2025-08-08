@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   title: "SinucaLabs - Ranking de Sinuca",
   description: "Aplicação para gerenciar partidas e rankings de sinuca do laboratório",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+  authors: [{ name: "Maicon Botelho" }],
+  creator: "Maicon Botelho",
+  publisher: "Maicon Botelho",
+  icons: {
+    icon: "/favicon.jpg",
+    shortcut: "/favicon.jpg",
+    apple: "/favicon.jpg",
+  },
 };
 
 export default function RootLayout({

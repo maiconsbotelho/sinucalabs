@@ -29,7 +29,7 @@ export default function Header({ gamesCount }: HeaderProps) {
         <div className="flex">
           <div className="flex items-center gap-[10px]">
             <div>
-              <h1 className="text-xl font-display font-bold text-gradient-cyber">Pool Arena</h1>
+              <h1 className="text-xl font-display font-bold text-gradient-cyber">Snooker Arena</h1>
               <div className="flex items-center gap-2 -mt-[30px]">
                 <p className="font-mono text-[14px] text-retro-light/70">
                   [{gamesCount.toString().padStart(2, "0")}] JOGO{gamesCount !== 1 ? "S" : ""} DISPUTADO

@@ -66,7 +66,7 @@ export default function ConfirmationScreen({ team1, team2, creating, onCreateMat
       {/* Partidas Info - Compact */}
       <div className="text-center mt-[32px] p-[10px] bg-retro-purple/10 rounded-lg border border-retro-purple/30">
         <div className="font-mono text-xs text-retro-purple/80 tracking-wider">
-          [SYSTEM] Pool table ready. Awaiting authorization.
+          [SYSTEM] Snooker table ready. Awaiting authorization.
         </div>
       </div>
     </div>
