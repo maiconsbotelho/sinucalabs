@@ -200,7 +200,7 @@ export default function HistoricoPage() {
                               <Sword className="w-4 h-4 text-retro-pink" />
                             )}
                             <div>
-                              <div className="font-display font-bold text-retro-pink text-xs">TEAM Omega</div>
+                              <div className="font-display font-bold text-retro-pink text-xs">TEAM OMEGA</div>
                               <div className="font-mono text-retro-light text-xs">
                                 {match.team2.player1.name} + {match.team2.player2.name}
                               </div>

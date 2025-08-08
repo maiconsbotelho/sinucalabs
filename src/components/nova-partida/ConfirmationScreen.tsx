@@ -48,7 +48,7 @@ export default function ConfirmationScreen({ team1, team2, creating, onCreateMat
       <div className="card p-[10px] border-retro-pink/50">
         <div className="flex items-center gap-[10px] mb-3">
           <Sword className="w-6 h-6 text-retro-pink" />
-          <h3 className="font-display font-bold text-lg text-retro-pink">TEAM Omega</h3>
+          <h3 className="font-display font-bold text-lg text-retro-pink">TEAM OMEGA</h3>
         </div>
         <div className="space-y-2">
           {team2.map((player, index) => (
