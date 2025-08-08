@@ -71,6 +71,8 @@ const config: Config = {
         "neon-cyan": "0 0 5px rgb(0 255 255), 0 0 10px rgb(0 255 255), 0 0 15px rgb(0 255 255)",
         "neon-pink": "0 0 5px rgb(255 20 147), 0 0 10px rgb(255 20 147), 0 0 15px rgb(255 20 147)",
         "neon-purple": "0 0 5px rgb(138 43 226), 0 0 10px rgb(138 43 226), 0 0 15px rgb(138 43 226)",
+        "neon-yellow": "0 0 5px rgb(255 255 0), 0 0 10px rgb(255 255 0), 0 0 15px rgb(255 255 0)",
+        "neon-green": "0 0 5px rgb(50 205 50), 0 0 10px rgb(50 205 50), 0 0 15px rgb(50 205 50)",
       },
       animation: {
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",

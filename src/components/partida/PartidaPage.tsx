@@ -36,24 +36,24 @@ interface Match {
 
 export default function PartidaPage() {
   const params = useParams();
-  
+
   // Zustand stores
   const { currentMatch: match, fetchMatch, addGameToMatch, loading, error } = useMatchesStore();
   const { invalidateCache } = useOptimisticUpdates();
 
   useEffect(() => {
-    if (params.id && typeof params.id === 'string') {
+    if (params.id && typeof params.id === "string") {
       fetchMatch(params.id);
     }
   }, [params.id, fetchMatch]);
 
   const addGame = async (winnerId: string) => {
     try {
-      if (params.id && typeof params.id === 'string') {
+      if (params.id && typeof params.id === "string") {
         await addGameToMatch(params.id, winnerId);
-        
+
         // Invalidar cache para atualizar rankings
-        await invalidateCache('game');
+        await invalidateCache("game");
       }
     } catch (error) {
       console.error("Erro ao adicionar jogo:", error);
@@ -69,14 +69,37 @@ export default function PartidaPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
+    <div className="min-h-screen bg-gradient-to-br from-background via-retro-purple/5 to-background relative overflow-hidden">
+      {/* Background grid pattern */}
+      <div className="absolute inset-0 bg-retro-grid bg-retro-grid opacity-5 pointer-events-none"></div>
+
+      {/* Background scanlines */}
+      <div className="absolute inset-0 bg-scanlines opacity-20 pointer-events-none"></div>
+
+      {/* Floating background elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 border border-retro-cyan/10 rounded-full animate-float opacity-30"></div>
+      <div
+        className="absolute top-40 right-10 w-20 h-20 border border-retro-pink/10 rounded-full animate-float opacity-20"
+        style={{ animationDelay: "1s" }}
+      ></div>
+      <div
+        className="absolute bottom-40 left-16 w-24 h-24 border border-retro-purple/10 rounded-full animate-float opacity-25"
+        style={{ animationDelay: "2s" }}
+      ></div>
+
       <Header gamesCount={match.games?.length || 0} />
 
-      <main className="p-[10px] max-w-md mx-auto">
+      <main className="relative z-10 p-[10px] max-w-md mx-auto">
         <div className="space-y-6 mt-6">
-          <ScoreBoard match={match} />
-          <AddGameSection match={match} addingGame={loading} onAddGame={addGame} />
-          <GameHistory games={match.games} match={match} />
+          <div className="animate-slide-up" style={{ animationDelay: "0.2s", opacity: 0 }}>
+            <AddGameSection match={match} addingGame={loading} onAddGame={addGame} />
+          </div>
+          <div className="animate-slide-up" style={{ animationDelay: "0.1s", opacity: 0 }}>
+            <ScoreBoard match={match} />
+          </div>
+          <div className="animate-slide-up mt-[30px]" style={{ animationDelay: "0.3s", opacity: 0 }}>
+            <GameHistory games={match.games} match={match} />
+          </div>
         </div>
       </main>
     </div>
