@@ -36,9 +36,9 @@ interface Match {
 export default function HistoricoPage() {
   // Zustand store
   const { matches, loading, error } = useHistoryStore();
-  
+
   // Pré-carregamento
-  usePreloadPageData('history');
+  usePreloadPageData("history");
 
   const getMatchStatus = (match: Match) => {
     if (match.isFinished) {
@@ -116,11 +116,11 @@ export default function HistoricoPage() {
               <Database className="w-12 h-12 mx-auto text-retro-purple/60 mb-4 animate-float" />
               <h3 className="font-display font-bold text-lg text-retro-light mb-2">DATABASE EMPTY</h3>
               <p className="font-mono text-retro-light/60 text-xs mb-4 tracking-wide">
-                [SYSTEM] No battle records found in database
+                [SYSTEM] No Partidas records found in database
               </p>
               <Link href="/nova-partida" className="btn btn-primary text-sm py-2">
                 <Zap className="w-4 h-4 mr-2" />
-                INITIATE FIRST BATTLE
+                INITIATE FIRST Partidas
               </Link>
             </div>
           ) : (
@@ -149,7 +149,7 @@ export default function HistoricoPage() {
                       </div>
                     </div>
 
-                    {/* Battle Arena - Mobile Layout */}
+                    {/* Partidas Arena - Mobile Layout */}
                     <div className="space-y-2">
                       {/* Team Alpha - Compact */}
                       <div
@@ -211,11 +211,11 @@ export default function HistoricoPage() {
                       </div>
                     </div>
 
-                    {/* Battle Stats - Compact */}
+                    {/* Partidas Stats - Compact */}
                     <div className="flex items-center justify-between text-xs font-mono text-retro-light/60 pt-3 border-t border-retro-purple/30 mt-3">
                       <div className="flex items-center gap-1">
                         <Target className="w-3 h-3" />
-                        {match.team1.score + match.team2.score} battle
+                        {match.team1.score + match.team2.score} Partidas
                         {match.team1.score + match.team2.score !== 1 ? "s" : ""}
                       </div>
                       {match.isFinished ? (

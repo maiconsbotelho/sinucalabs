@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 interface RetroCardProps {
   children: ReactNode;
-  variant?: "default" | "glow" | "battle";
+  variant?: "default" | "glow" | "Partidas";
   className?: string;
   glowColor?: "cyan" | "pink" | "purple" | "green";
 }
@@ -21,7 +21,7 @@ export default function RetroCard({
       case "glow":
         return `${baseClasses} border-retro-${glowColor}/50 from-card/80 to-card/60 hover:scale-[1.02] shadow-neon-${glowColor} hover:shadow-retro-strong`;
 
-      case "battle":
+      case "Partidas":
         return `${baseClasses} border-retro-purple/30 from-card/90 to-card/70 hover:scale-[1.01] group`;
 
       default:

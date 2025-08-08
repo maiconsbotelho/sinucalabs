@@ -22,15 +22,15 @@ export default function Header({ period, totalGames }: HeaderProps) {
         </Link>
         <div className="flex-1">
           <div className="flex items-center gap-[10px]">
-            <IconComponent className={`w-6 h-6 text-${config.color} animate-float`} />
             <div>
               <h1 className={`text-lg font-display font-bold text-${config.color}`}>
-                TOP 3 {config.name.toUpperCase()}
+                MELHORES {config.name.toUpperCase()}
               </h1>
               <div className="font-mono text-xs text-retro-light/60">
-                {totalGames} battle{totalGames !== 1 ? "s" : ""} recorded
+                {totalGames} Partidas{totalGames !== 1 ? "s" : ""} registradas
               </div>
             </div>
+            <IconComponent className={`w-[62px] h-[62px] text-${config.color} animate-float`} />
           </div>
         </div>
       </div>

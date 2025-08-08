@@ -9,22 +9,18 @@ interface NavigationButtonsProps {
   onCreateMatch?: () => void;
 }
 
-export default function NavigationButtons({ 
-  step, 
-  canProceed, 
+export default function NavigationButtons({
+  step,
+  canProceed,
   creating = false,
-  onNext, 
-  onBack, 
-  onCreateMatch 
+  onNext,
+  onBack,
+  onCreateMatch,
 }: NavigationButtonsProps) {
   if (step === "confirm") {
     return (
       <div className="flex gap-[10px] mt-[32px]">
-        <button 
-          onClick={onBack} 
-          className="btn btn-secondary flex-1 text-sm py-2" 
-          disabled={creating}
-        >
+        <button onClick={onBack} className="btn btn-secondary flex-1 text-sm py-2" disabled={creating}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           MODIFY
         </button>
@@ -41,7 +37,7 @@ export default function NavigationButtons({
           ) : (
             <div className="flex items-center gap-[10px]">
               <Play className="w-4 h-4" />
-              START BATTLE
+              START Partidas
             </div>
           )}
         </button>

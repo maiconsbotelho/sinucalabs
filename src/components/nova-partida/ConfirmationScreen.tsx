@@ -12,12 +12,7 @@ interface ConfirmationScreenProps {
   onCreateMatch: () => void;
 }
 
-export default function ConfirmationScreen({ 
-  team1, 
-  team2, 
-  creating, 
-  onCreateMatch 
-}: ConfirmationScreenProps) {
+export default function ConfirmationScreen({ team1, team2, creating, onCreateMatch }: ConfirmationScreenProps) {
   return (
     <div className="space-y-4 mt-4">
       {/* Team 1 - Compact */}
@@ -68,7 +63,7 @@ export default function ConfirmationScreen({
         </div>
       </div>
 
-      {/* Battle Info - Compact */}
+      {/* Partidas Info - Compact */}
       <div className="text-center mt-[32px] p-[10px] bg-retro-purple/10 rounded-lg border border-retro-purple/30">
         <div className="font-mono text-xs text-retro-purple/80 tracking-wider">
           [SYSTEM] Pool table ready. Awaiting authorization.

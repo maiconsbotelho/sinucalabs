@@ -58,7 +58,7 @@ Transformei a aplicação de sinuca em uma interface retro futurista moderna, ap
 ### **Histórico (`/historico`)**
 
 - Interface de "database" com tema terminal
-- Cards de partida estilo "battle records"
+- Cards de partida estilo "Partidas records"
 - Status indicators animados (COMPLETED/IN_PROGRESS)
 - Layout de times Alpha vs Beta consistente
 

@@ -8,10 +8,14 @@ interface HeaderProps {
 export default function Header({ step }: HeaderProps) {
   const getStepMessage = () => {
     switch (step) {
-      case "team1": return "[SYSTEM] Select Team Alpha";
-      case "team2": return "[SYSTEM] Select Team Beta";
-      case "confirm": return "[SYSTEM] Initialize Battle";
-      default: return "";
+      case "team1":
+        return "[SYSTEM] Select Team Alpha";
+      case "team2":
+        return "[SYSTEM] Select Team Beta";
+      case "confirm":
+        return "[SYSTEM] Initialize Partidas";
+      default:
+        return "";
     }
   };
 
@@ -29,9 +33,7 @@ export default function Header({ step }: HeaderProps) {
             <Zap className="w-5 h-5" />
             NOVA PARTIDA
           </h1>
-          <p className="text-xs font-mono text-retro-light/60 tracking-wider">
-            {getStepMessage()}
-          </p>
+          <p className="text-xs font-mono text-retro-light/60 tracking-wider">{getStepMessage()}</p>
         </div>
       </div>
     </header>
