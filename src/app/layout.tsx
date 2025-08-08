@@ -19,11 +19,20 @@ export const metadata: Metadata = {
   authors: [{ name: "Maicon Botelho" }],
   creator: "Maicon Botelho",
   publisher: "Maicon Botelho",
+  manifest: "/manifest.json",
+  themeColor: "#00FFFF",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "SinucaLabs",
+  },
   icons: {
     icon: "/favicon.jpg",
     shortcut: "/favicon.jpg",
     apple: "/favicon.jpg",
   },
+  keywords: ["sinuca", "ranking", "partidas", "laboratório", "jogos", "bilhar"],
+  category: "games",
 };
 
 export default function RootLayout({
