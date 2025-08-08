@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   creator: "Maicon Botelho",
   publisher: "Maicon Botelho",
   manifest: "/manifest.json",
-  themeColor: "#00FFFF",
+  themeColor: "#0A050F",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

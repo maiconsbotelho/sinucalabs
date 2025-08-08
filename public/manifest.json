@@ -2,7 +2,7 @@
   "name": "SinucaLabs - Ranking de Sinuca",
   "short_name": "SinucaLabs",
   "description": "Aplicação para gerenciar partidas e rankings de sinuca do laboratório",
-  "theme_color": "#00FFFF",
+  "theme_color": "#0A050F",
   "background_color": "#0A050F",
   "display": "standalone",
   "orientation": "portrait",
