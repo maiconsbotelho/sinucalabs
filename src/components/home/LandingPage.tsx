@@ -9,13 +9,13 @@ import Footer from "./Footer";
 import { usePreloadPageData } from "@/stores";
 
 export default function LandingPage() {
-  usePreloadPageData('home');
+  usePreloadPageData("home");
   return (
     <div className="min-h-screen">
       <Header />
-      
-      <main className="p-[10px] max-w-[90%] mx-auto relative z-10 mt-[32px]">
-        <div className="space-y-4 mt-4">
+
+      <main className="p-[10px] max-w-[90%] mx-auto relative z-10 mt-[20px]">
+        <div className="space-y-4">
           <StartMatchCard />
           <PlayersSection />
           <RankingsSection />

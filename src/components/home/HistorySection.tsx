@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function HistorySection() {
   return (
-    <div className="card p-[10px] mt-[32px]">
+    <div className="card p-[10px] mt-[20px]">
       <h2 className="text-base font-display font-bold text-retro-light mb-3 flex items-center gap-[10px]">
         <div className="w-1.5 h-1.5 bg-retro-cyan rounded-full animate-pulse"></div>
         HISTÓRICO

@@ -48,7 +48,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className={`${jetbrainsMono.variable} ${orbitron.variable} font-mono antialiased bg-retro-dark`}>
-        <div className="p-[10px]">
+        <div>
           {/* Retro Grid Background */}
           <div className="absolute inset-0 bg-retro-grid opacity-5 pointer-events-none"></div>
 

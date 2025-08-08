@@ -27,7 +27,7 @@ export default function RankingsSection() {
   ];
 
   return (
-    <div className="card p-[10px] relative group mt-[32px]">
+    <div className="card p-[10px] relative group mt-[20px]">
       <div className="flex items-center gap-[10px] mb-4">
         <BarChart3 className="w-6 h-6 text-retro-pink" />
         <h2 className="text-lg font-display font-bold text-retro-light">RANKINGS</h2>
