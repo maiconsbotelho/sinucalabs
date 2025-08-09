@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
-import { Player } from '@/core';
+import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
+import { Player } from "@/core";
 
 interface PlayersState {
   players: Player[];
@@ -12,6 +12,7 @@ interface PlayersState {
 interface PlayersActions {
   fetchPlayers: () => Promise<void>;
   addPlayer: (player: Player) => void;
+  updatePlayer: (player: Player) => void;
   clearError: () => void;
   shouldRefetch: () => boolean;
 }
@@ -33,21 +34,21 @@ export const usePlayersStore = create<PlayersStore>()(
         // Actions
         fetchPlayers: async () => {
           const { shouldRefetch, loading } = get();
-          
+
           // Evitar múltiplas requisições simultâneas
           if (loading || !shouldRefetch()) return;
 
           set({ loading: true, error: null });
 
           try {
-            const response = await fetch('/api/players');
-            
+            const response = await fetch("/api/players");
+
             if (!response.ok) {
-              throw new Error('Erro ao buscar jogadores');
+              throw new Error("Erro ao buscar jogadores");
             }
 
             const players = await response.json();
-            
+
             set({
               players,
               loading: false,
@@ -57,7 +58,7 @@ export const usePlayersStore = create<PlayersStore>()(
           } catch (error) {
             set({
               loading: false,
-              error: error instanceof Error ? error.message : 'Erro desconhecido',
+              error: error instanceof Error ? error.message : "Erro desconhecido",
             });
           }
         },
@@ -65,6 +66,12 @@ export const usePlayersStore = create<PlayersStore>()(
         addPlayer: (player) => {
           set((state) => ({
             players: [...state.players, player],
+          }));
+        },
+
+        updatePlayer: (player) => {
+          set((state) => ({
+            players: state.players.map((p) => (p.id === player.id ? { ...p, name: player.name } : p)),
           }));
         },
 
@@ -76,13 +83,13 @@ export const usePlayersStore = create<PlayersStore>()(
         },
       }),
       {
-        name: 'players-store',
+        name: "players-store",
         partialize: (state) => ({
           players: state.players,
           lastFetch: state.lastFetch,
         }),
       }
     ),
-    { name: 'players-store' }
+    { name: "players-store" }
   )
 );

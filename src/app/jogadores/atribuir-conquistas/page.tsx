@@ -42,6 +42,16 @@ export default function AtribuirConquistasPage() {
     );
   }, [achievements, filter]);
 
+  const groupedByCategory = useMemo(() => {
+    const groups: Record<string, Achievement[]> = {};
+    for (const a of filtered) {
+      const cat = (a.category || "outros").toLowerCase();
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(a);
+    }
+    return groups;
+  }, [filtered]);
+
   const assign = async () => {
     if (!selectedPlayerId || !selectedAchievement) return;
     setAssigning(true);
@@ -115,7 +125,31 @@ export default function AtribuirConquistasPage() {
               </div>
             </div>
 
-            {/* Lista de conquistas */}
+            {/* Select de conquistas (agrupado por categoria) */}
+            <div className="space-y-2 mt-3">
+              <label className="text-xs text-retro-light/70">Conquista</label>
+              <select
+                className="w-full p-2 rounded bg-card border border-retro-purple/30"
+                value={selectedAchievement}
+                onChange={(e) => setSelectedAchievement(e.target.value)}
+              >
+                <option value="">Selecione uma conquista</option>
+                {Object.entries(groupedByCategory).map(([cat, items]) => (
+                  <optgroup key={cat} label={cat.toUpperCase()}>
+                    {items.map((a) => (
+                      <option key={a.code} value={a.code}>
+                        {a.name} — {a.description}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              {filtered.length === 0 && (
+                <div className="text-xs text-retro-light/50">Nenhuma conquista encontrada para este filtro.</div>
+              )}
+            </div>
+
+            {/* Lista clicável (opcional) */}
             <div className="max-h-52 overflow-auto mt-2 space-y-2">
               {filtered.map((a) => (
                 <button

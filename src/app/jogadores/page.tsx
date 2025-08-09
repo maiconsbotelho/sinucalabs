@@ -6,14 +6,14 @@ import { ArrowLeft, Users, UserPlus, Edit3, Trash2, Save, X } from "lucide-react
 import { usePlayersStore, usePreloadPageData } from "@/stores";
 
 export default function JogadoresPage() {
-  const { players, loading, addPlayer } = usePlayersStore();
+  const { players, loading, addPlayer, updatePlayer } = usePlayersStore();
   const [showAddForm, setShowAddForm] = useState(false);
   const [newPlayerName, setNewPlayerName] = useState("");
   const [adding, setAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
 
-  usePreloadPageData('nova-partida'); // Pré-carrega jogadores
+  usePreloadPageData("nova-partida"); // Pré-carrega jogadores
 
   const handleAddPlayer = async () => {
     if (!newPlayerName.trim()) return;
@@ -55,10 +55,25 @@ export default function JogadoresPage() {
 
   const saveEdit = async () => {
     if (!editName.trim() || !editingId) return;
-
-    // TODO: Implementar edição na API quando necessário
-    alert("Funcionalidade de edição será implementada em breve");
-    cancelEdit();
+    try {
+      const res = await fetch(`/api/players/${editingId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: editName.trim() }),
+      });
+      if (!res.ok) {
+        const e = await res.json();
+        alert(e.error || "Erro ao atualizar jogador");
+        return;
+      }
+      const updated = await res.json();
+      updatePlayer(updated);
+    } catch (e) {
+      console.error("Erro ao atualizar jogador", e);
+      alert("Erro ao atualizar jogador");
+    } finally {
+      cancelEdit();
+    }
   };
 
   if (loading) {
@@ -84,9 +99,7 @@ export default function JogadoresPage() {
             <Users className="w-6 h-6 text-retro-pink" />
             <h1 className="text-xl font-display font-bold text-retro-light">JOGADORES</h1>
           </div>
-          <div className="text-xs font-mono text-retro-cyan/60">
-            {players.length} players
-          </div>
+          <div className="text-xs font-mono text-retro-cyan/60">{players.length} players</div>
         </div>
       </header>
 
@@ -108,7 +121,7 @@ export default function JogadoresPage() {
                   <UserPlus className="w-5 h-5" />
                   <span className="font-display font-semibold">NOVO JOGADOR</span>
                 </div>
-                
+
                 <input
                   type="text"
                   value={newPlayerName}
@@ -117,12 +130,12 @@ export default function JogadoresPage() {
                   className="w-full p-[10px] bg-secondary/50 border border-retro-cyan/30 rounded-lg text-retro-light placeholder-retro-light/40 focus:outline-none focus:border-retro-cyan"
                   autoFocus
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === "Enter") {
                       handleAddPlayer();
                     }
                   }}
                 />
-                
+
                 <div className="flex gap-[10px]">
                   <button
                     onClick={handleAddPlayer}
@@ -130,11 +143,9 @@ export default function JogadoresPage() {
                     className="flex-1 flex items-center justify-center gap-[10px] p-[10px] rounded-lg bg-retro-cyan/20 border border-retro-cyan/30 hover:bg-retro-cyan/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Save className="w-4 h-4 text-retro-cyan" />
-                    <span className="font-mono text-sm text-retro-cyan">
-                      {adding ? "SALVANDO..." : "SALVAR"}
-                    </span>
+                    <span className="font-mono text-sm text-retro-cyan">{adding ? "SALVANDO..." : "SALVAR"}</span>
                   </button>
-                  
+
                   <button
                     onClick={() => {
                       setShowAddForm(false);
@@ -148,6 +159,19 @@ export default function JogadoresPage() {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Link para Atribuir Conquistas */}
+          <div className="card p-[10px]">
+            <Link
+              href="/jogadores/atribuir-conquistas"
+              className="block p-[10px] rounded-lg bg-gradient-to-r from-retro-yellow/10 to-retro-purple/10 border border-retro-yellow/40 hover:border-retro-yellow transition-all duration-300 hover:scale-[1.02]"
+            >
+              <div className="text-center font-display font-bold text-retro-yellow">ATRIBUIR CONQUISTAS</div>
+              <div className="text-center text-xs font-mono text-retro-light/60 mt-1">
+                Abrir painel para dar insígnias
+              </div>
+            </Link>
           </div>
 
           {/* Players List */}
@@ -174,22 +198,25 @@ export default function JogadoresPage() {
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-retro-cyan to-retro-pink flex items-center justify-center text-xs font-bold text-primary">
                         {index + 1}
                       </div>
-                      
+
                       {editingId === player.id ? (
                         <input
                           type="text"
                           value={editName}
                           onChange={(e) => setEditName(e.target.value)}
-                          className="bg-secondary/50 border border-retro-cyan/30 rounded px-2 py-1 text-retro-light focus:outline-none focus:border-retro-cyan"
+                          className="flex-1 bg-white text-black placeholder-black/50 border border-retro-cyan/60 rounded px-3 py-2 focus:outline-none focus:border-retro-cyan focus:ring-2 focus:ring-retro-cyan/30 shadow-sm"
                           onKeyPress={(e) => {
-                            if (e.key === 'Enter') {
+                            if (e.key === "Enter") {
                               saveEdit();
                             }
                           }}
                           autoFocus
                         />
                       ) : (
-                        <span className="font-mono text-retro-light group-hover:text-retro-cyan transition-colors">
+                        <span
+                          className="font-mono text-retro-light group-hover:text-retro-cyan transition-colors cursor-pointer sm:cursor-default"
+                          onClick={() => startEdit(player.id, player.name)}
+                        >
                           {player.name}
                         </span>
                       )}
@@ -198,23 +225,18 @@ export default function JogadoresPage() {
                     <div className="flex items-center gap-[10px]">
                       {editingId === player.id ? (
                         <>
-                          <button
-                            onClick={saveEdit}
-                            className="p-1 text-retro-cyan hover:bg-retro-cyan/20 rounded"
-                          >
+                          <button onClick={saveEdit} className="p-1 text-retro-cyan hover:bg-retro-cyan/20 rounded">
                             <Save className="w-4 h-4" />
                           </button>
-                          <button
-                            onClick={cancelEdit}
-                            className="p-1 text-red-400 hover:bg-red-500/20 rounded"
-                          >
+                          <button onClick={cancelEdit} className="p-1 text-red-400 hover:bg-red-500/20 rounded">
                             <X className="w-4 h-4" />
                           </button>
                         </>
                       ) : (
                         <button
                           onClick={() => startEdit(player.id, player.name)}
-                          className="p-1 text-retro-cyan/60 hover:text-retro-cyan hover:bg-retro-cyan/20 rounded transition-colors opacity-0 group-hover:opacity-100"
+                          aria-label="Editar jogador"
+                          className="p-2 text-retro-cyan/80 hover:text-retro-cyan hover:bg-retro-cyan/20 rounded transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
                         >
                           <Edit3 className="w-4 h-4" />
                         </button>
@@ -233,7 +255,7 @@ export default function JogadoresPage() {
                 <div className="w-1.5 h-1.5 bg-retro-purple rounded-full animate-pulse"></div>
                 <h3 className="font-display font-bold text-retro-light text-sm">ESTATÍSTICAS</h3>
               </div>
-              
+
               <div className="text-xs font-mono text-retro-light/60 space-y-1">
                 <div className="flex justify-between">
                   <span>Total de jogadores:</span>

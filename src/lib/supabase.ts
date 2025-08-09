@@ -68,6 +68,8 @@ export const playersQuery = {
   getAll: () => supabaseAdmin.from("players").select("*").order("name", { ascending: true }),
   getById: (id: string) => supabaseAdmin.from("players").select("*").eq("id", id).single(),
   create: (name: string) => supabaseAdmin.from("players").insert({ name }).select().single(),
+  update: (id: string, name: string) =>
+    supabaseAdmin.from("players").update({ name, updated_at: new Date().toISOString() }).eq("id", id).select().single(),
 };
 
 export const matchesQuery = {
