@@ -20,10 +20,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Verificar se todos os jogadores existem
-    const playerIds = [team1Player1Id, team1Player2Id, team2Player1Id, team2Player2Id];
-    const { data: players, error: playersError } = await supabase.from("players").select("id").in("id", playerIds);
+    const providedIds = [team1Player1Id, team1Player2Id, team2Player1Id, team2Player2Id].filter((id): id is string =>
+      Boolean(id)
+    );
+    const { data: players, error: playersError } = await supabase.from("players").select("id").in("id", providedIds);
 
-    if (playersError || !players || players.length !== 4) {
+    if (playersError || !players || players.length !== providedIds.length) {
       return NextResponse.json({ error: "Um ou mais jogadores não foram encontrados" }, { status: 400 });
     }
 
@@ -31,11 +33,7 @@ export async function POST(request: NextRequest) {
     const matchData = MatchManager.createMatchData(body);
 
     // Inserir no banco
-    const { data: match, error } = await supabase
-      .from("matches")
-      .insert(matchData)
-      .select()
-      .single();
+    const { data: match, error } = await supabase.from("matches").insert(matchData).select().single();
 
     if (error) {
       console.error("Erro ao criar partida:", error);

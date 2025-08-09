@@ -7,9 +7,9 @@ interface Player {
 
 interface Match {
   team1Player1: Player;
-  team1Player2: Player;
+  team1Player2?: Player | null;
   team2Player1: Player;
-  team2Player2: Player;
+  team2Player2?: Player | null;
   team1Wins: number;
   team2Wins: number;
 }
@@ -75,9 +75,11 @@ export default function ScoreBoard({ match }: ScoreBoardProps) {
                 <div className={`font-mono text-xs uppercase tracking-wide p-[10px] `}>
                   ► {match.team1Player1?.name || "PLAYER_01"}
                 </div>
-                <div className={`font-mono text-xs uppercase tracking-wide p-[10px] `}>
-                  ► {match.team1Player2?.name || "PLAYER_02"}
-                </div>
+                {match.team1Player2?.id && (
+                  <div className={`font-mono text-xs uppercase tracking-wide p-[10px] `}>
+                    ► {match.team1Player2?.name}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -131,9 +133,11 @@ export default function ScoreBoard({ match }: ScoreBoardProps) {
                 <div className={`font-mono text-xs uppercase tracking-wide p-[10px] `}>
                   ► {match.team2Player1?.name || "PLAYER_03"}
                 </div>
-                <div className={`font-mono text-xs uppercase tracking-wide p-[10px] `}>
-                  ► {match.team2Player2?.name || "PLAYER_04"}
-                </div>
+                {match.team2Player2?.id && (
+                  <div className={`font-mono text-xs uppercase tracking-wide p-[10px] `}>
+                    ► {match.team2Player2?.name}
+                  </div>
+                )}
               </div>
             </div>
           </div>

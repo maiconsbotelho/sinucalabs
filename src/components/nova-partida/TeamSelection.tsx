@@ -9,9 +9,10 @@ interface TeamSelectionProps {
   step: "team1" | "team2";
   team1: Player[];
   team2: Player[];
+  requiredSize: number;
 }
 
-export default function TeamSelection({ step, team1, team2 }: TeamSelectionProps) {
+export default function TeamSelection({ step, team1, team2, requiredSize }: TeamSelectionProps) {
   return (
     <div className="card-glow p-[10px] mb-4">
       <div className="flex items-center gap-[10px] mb-3">
@@ -20,7 +21,9 @@ export default function TeamSelection({ step, team1, team2 }: TeamSelectionProps
             <Shield className="w-6 h-6 text-retro-cyan" />
             <div>
               <h2 className="font-display font-bold text-lg text-retro-cyan">TEAM ALPHA</h2>
-              <div className="font-mono text-xs text-retro-cyan/60">Select 2 warriors [{team1.length}/2]</div>
+              <div className="font-mono text-xs text-retro-cyan/60">
+                Select {requiredSize} warriors [{team1.length}/{requiredSize}]
+              </div>
             </div>
           </>
         ) : (
@@ -28,7 +31,9 @@ export default function TeamSelection({ step, team1, team2 }: TeamSelectionProps
             <Sword className="w-6 h-6 text-retro-pink" />
             <div>
               <h2 className="font-display font-bold text-lg text-retro-pink">TEAM OMEGA</h2>
-              <div className="font-mono text-xs text-retro-pink/60">Select 2 warriors [{team2.length}/2]</div>
+              <div className="font-mono text-xs text-retro-pink/60">
+                Select {requiredSize} warriors [{team2.length}/{requiredSize}]
+              </div>
             </div>
           </>
         )}

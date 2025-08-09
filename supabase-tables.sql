@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS players (
 CREATE TABLE IF NOT EXISTS matches (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   team1_player1_id UUID REFERENCES players(id),
-  team1_player2_id UUID REFERENCES players(id),
+  team1_player2_id UUID REFERENCES players(id), -- pode ser NULL para 1x1
   team2_player1_id UUID REFERENCES players(id),
-  team2_player2_id UUID REFERENCES players(id),
+  team2_player2_id UUID REFERENCES players(id), -- pode ser NULL para 1x1
   team1_score INTEGER DEFAULT 0,
   team2_score INTEGER DEFAULT 0,
   is_finished BOOLEAN DEFAULT FALSE,

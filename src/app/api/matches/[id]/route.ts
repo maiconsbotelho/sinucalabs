@@ -13,11 +13,13 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     // Buscar todos os jogadores em uma única query
-    const playerIds = [match.team1_player1_id, match.team1_player2_id, match.team2_player1_id, match.team2_player2_id];
-    const { data: players } = await supabaseAdmin
-      .from("players")
-      .select("id, name")
-      .in("id", playerIds);
+    const playerIds = [
+      match.team1_player1_id,
+      match.team1_player2_id,
+      match.team2_player1_id,
+      match.team2_player2_id,
+    ].filter((id): id is string => Boolean(id));
+    const { data: players } = await supabaseAdmin.from("players").select("id, name").in("id", playerIds);
 
     if (!players || players.length === 0) {
       return NextResponse.json({ error: "Jogadores não encontrados" }, { status: 404 });
@@ -40,7 +42,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const enrichedMatch = MatchManager.enrichMatch(match, players as MatchPlayer[]);
 
     // Criar um mapa dos jogadores para o games
-    const playersMap = new Map(players.map(p => [p.id, p.name]));
+    const playersMap = new Map(players.map((p) => [p.id, p.name]));
 
     // Transformar dados para o formato esperado pela página
     const transformedMatch = {

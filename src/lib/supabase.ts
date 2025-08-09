@@ -28,9 +28,9 @@ export interface Player {
 export interface Match {
   id: string;
   team1_player1_id: string;
-  team1_player2_id: string;
+  team1_player2_id: string | null;
   team2_player1_id: string;
-  team2_player2_id: string;
+  team2_player2_id: string | null;
   team1_score: number;
   team2_score: number;
   is_finished: boolean;

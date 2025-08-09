@@ -14,9 +14,9 @@ interface Game {
 
 interface Match {
   team1Player1: Player;
-  team1Player2: Player;
+  team1Player2?: Player | null;
   team2Player1: Player;
-  team2Player2: Player;
+  team2Player2?: Player | null;
 }
 
 interface GameHistoryProps {
@@ -26,7 +26,7 @@ interface GameHistoryProps {
 
 export default function GameHistory({ games, match }: GameHistoryProps) {
   const getTeamWinner = (game: Game) => {
-    const team1PlayerIds = [match.team1Player1.id, match.team1Player2.id];
+    const team1PlayerIds = [match.team1Player1?.id, match.team1Player2?.id].filter(Boolean) as string[];
     return team1PlayerIds.includes(game.winner.id) ? "team1" : "team2";
   };
 

@@ -18,42 +18,45 @@ interface Player {
 
 export default function NovaPartidaPage() {
   const router = useRouter();
-  
+
   // Zustand stores
   const { players, loading: playersLoading } = usePlayersStore();
   const { createMatch: createMatchAPI, loading: matchLoading } = useMatchesStore();
   const { invalidateCache } = useOptimisticUpdates();
-  
+
   // Local state
   const [step, setStep] = useState<"team1" | "team2" | "confirm">("team1");
+  const [mode, setMode] = useState<"1x1" | "2x2">("2x2");
   const [team1, setTeam1] = useState<Player[]>([]);
   const [team2, setTeam2] = useState<Player[]>([]);
 
   // Pré-carregamento
-  usePreloadPageData('nova-partida');
+  usePreloadPageData("nova-partida");
 
   const loading = playersLoading;
   const creating = matchLoading;
 
   const handlePlayerSelect = (player: Player) => {
+    const maxSize = mode === "1x1" ? 1 : 2;
     if (step === "team1") {
       if (team1.find((p) => p.id === player.id)) {
         setTeam1(team1.filter((p) => p.id !== player.id));
-      } else if (team1.length < 2) {
+      } else if (team1.length < maxSize) {
         setTeam1([...team1, player]);
       }
     } else if (step === "team2") {
       if (team2.find((p) => p.id === player.id)) {
         setTeam2(team2.filter((p) => p.id !== player.id));
-      } else if (team2.length < 2) {
+      } else if (team2.length < maxSize) {
         setTeam2([...team2, player]);
       }
     }
   };
 
   const canProceed = () => {
-    if (step === "team1") return team1.length === 2;
-    if (step === "team2") return team2.length === 2;
+    const required = mode === "1x1" ? 1 : 2;
+    if (step === "team1") return team1.length === required;
+    if (step === "team2") return team2.length === required;
     return true;
   };
 
@@ -75,16 +78,24 @@ export default function NovaPartidaPage() {
 
   const createMatch = async () => {
     try {
-      const matchId = await createMatchAPI({
+      const isSingles = mode === "1x1";
+      const payload: any = {
         team1Player1Id: team1[0].id,
-        team1Player2Id: team1[1].id,
         team2Player1Id: team2[0].id,
-        team2Player2Id: team2[1].id,
-      });
+      };
+      if (!isSingles) {
+        payload.team1Player2Id = team1[1].id;
+        payload.team2Player2Id = team2[1].id;
+      } else {
+        payload.team1Player2Id = null;
+        payload.team2Player2Id = null;
+      }
+
+      const matchId = await createMatchAPI(payload);
 
       // Invalidar cache para atualizar outras páginas
-      await invalidateCache('match');
-      
+      await invalidateCache("match");
+
       router.push(`/partida/${matchId}`);
     } catch (error) {
       console.error("Erro ao criar partida:", error);
@@ -100,10 +111,33 @@ export default function NovaPartidaPage() {
       <Header step={step} />
 
       <main className="max-w-sm mt-[32px] mx-auto relative z-10">
+        {/* Mode toggle */}
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <button
+            className={`px-3 py-1 rounded-md text-xs border ${
+              mode === "1x1" ? "border-retro-cyan text-retro-cyan" : "border-retro-purple/30 text-retro-light/70"
+            }`}
+            onClick={() => {
+              setMode("1x1");
+              setTeam1((prev) => prev.slice(0, 1));
+              setTeam2((prev) => prev.slice(0, 1));
+            }}
+          >
+            1x1
+          </button>
+          <button
+            className={`px-3 py-1 rounded-md text-xs border ${
+              mode === "2x2" ? "border-retro-pink text-retro-pink" : "border-retro-purple/30 text-retro-light/70"
+            }`}
+            onClick={() => setMode("2x2")}
+          >
+            2x2
+          </button>
+        </div>
         {step !== "confirm" && (
           <div className="space-y-4 mt-4">
             <ProgressIndicator step={step} />
-            <TeamSelection step={step} team1={team1} team2={team2} />
+            <TeamSelection step={step} team1={team1} team2={team2} requiredSize={mode === "1x1" ? 1 : 2} />
             <PlayersList
               players={players}
               step={step}
