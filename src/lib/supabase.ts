@@ -45,6 +45,24 @@ export interface Game {
   created_at: string;
 }
 
+export interface Achievement {
+  code: string;
+  name: string;
+  description: string;
+  category?: string;
+  allow_multiple?: boolean;
+  created_at: string;
+}
+
+export interface PlayerAchievement {
+  id: string;
+  player_id: string;
+  achievement_code: string;
+  notes?: string | null;
+  awarded_by?: string | null;
+  created_at: string;
+}
+
 // Queries helpers
 export const playersQuery = {
   getAll: () => supabaseAdmin.from("players").select("*").order("name", { ascending: true }),
@@ -66,4 +84,28 @@ export const gamesQuery = {
     supabaseAdmin.from("games").select("*").eq("match_id", matchId).order("created_at", { ascending: true }),
   create: (matchId: string, winnerId: string) =>
     supabaseAdmin.from("games").insert({ match_id: matchId, winner_id: winnerId }).select().single(),
+};
+
+export const achievementsQuery = {
+  getAll: () => supabaseAdmin.from("achievements").select("*").order("name", { ascending: true }),
+  upsertMany: (items: Omit<Achievement, "created_at">[]) =>
+    supabaseAdmin.from("achievements").upsert(items, { onConflict: "code" }).select(),
+};
+
+export const playerAchievementsQuery = {
+  getByPlayer: (playerId: string) =>
+    supabaseAdmin
+      .from("player_achievements")
+      .select(
+        "id, player_id, achievement_code, notes, awarded_by, created_at, achievements:achievement_code(code, name, description, category)"
+      )
+      .eq("player_id", playerId)
+      .order("created_at", { ascending: false }),
+  assign: (playerId: string, achievementCode: string, notes?: string, awardedBy?: string) =>
+    supabaseAdmin
+      .from("player_achievements")
+      .insert({ player_id: playerId, achievement_code: achievementCode, notes, awarded_by: awardedBy })
+      .select()
+      .single(),
+  revoke: (awardId: string) => supabaseAdmin.from("player_achievements").delete().eq("id", awardId),
 };

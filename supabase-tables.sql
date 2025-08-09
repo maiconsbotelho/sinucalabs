@@ -31,6 +31,27 @@ CREATE TABLE IF NOT EXISTS games (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Criar tabela de conquistas (catálogo)
+CREATE TABLE IF NOT EXISTS achievements (
+  code TEXT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  category VARCHAR(50), -- habilidade | sorte | zueira | persistencia | caos
+  allow_multiple BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Conquistas atribuídas aos jogadores
+CREATE TABLE IF NOT EXISTS player_achievements (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  player_id UUID REFERENCES players(id) ON DELETE CASCADE,
+  achievement_code TEXT REFERENCES achievements(code) ON DELETE CASCADE,
+  notes TEXT,
+  awarded_by VARCHAR(255),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(player_id, achievement_code)
+);
+
 -- Inserir jogadores reais
 INSERT INTO players (name) VALUES
   ('Maicão Marreta'),
@@ -48,6 +69,8 @@ ON CONFLICT (name) DO NOTHING;
 ALTER TABLE players ENABLE ROW LEVEL SECURITY;
 ALTER TABLE matches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE games ENABLE ROW LEVEL SECURITY;
+ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
+ALTER TABLE player_achievements ENABLE ROW LEVEL SECURITY;
 
 -- Políticas de acesso (permitir todas as operações)
 DROP POLICY IF EXISTS "Allow all operations on players" ON players;
@@ -58,6 +81,10 @@ CREATE POLICY "Allow all operations on matches" ON matches FOR ALL USING (true);
 
 DROP POLICY IF EXISTS "Allow all operations on games" ON games;
 CREATE POLICY "Allow all operations on games" ON games FOR ALL USING (true);
+DROP POLICY IF EXISTS "Allow all operations on achievements" ON achievements;
+CREATE POLICY "Allow all operations on achievements" ON achievements FOR ALL USING (true);
+DROP POLICY IF EXISTS "Allow all operations on player_achievements" ON player_achievements;
+CREATE POLICY "Allow all operations on player_achievements" ON player_achievements FOR ALL USING (true);
 
 -- Verificar se as tabelas foram criadas
 SELECT 'Tabelas criadas com sucesso!' as status;

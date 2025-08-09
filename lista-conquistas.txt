@@ -1,0 +1,51 @@
+- Habilidade técnica 🧠
+- Sorte 🍀
+- Zueira 🤪
+- Persistência 🔥
+- e claro, puro caos sinuquístico 🎱
+
+Aqui vai a **lista completa de conquistas possíveis**, categorizadas por tipo:
+
+Código	Nome	Descrição
+indesnucavel	Indesnucável	Escapou de 3 snookers na mesma partida usando tabelas.
+rei_desnuque	Rei do Desnuque	Deu 5 snookers na mesma partida.
+gato_doido	Gato Mais Doido	Jogou tudo errado, mas venceu a partida.
+roleta_sorte	Roleta da Sorte	Acertou uma bola sem mirar e ainda fez ponto.
+relampago	Relâmpago	Ganhou uma partida em menos de 3 minutos.
+ceo_sinuca	CEO da Sinuca	Jogou 50 partidas.
+taco_destino	Taco do Destino	Ganhou com a última bola, na última jogada.
+mestre_tatica	Mestre da Tática	Eliminou só a última bola do adversário.
+nunca_erraram	Nunca Erraram!	Fez uma partida perfeita (sem erros).
+acabou_comigo	Acabou Comigo	Foi derrotado sem fazer um único ponto.
+zerado	Zerado	Terminou a partida com 0 pontos.
+combo_5x	Combo 5x	Acertou 5 bolas consecutivas.
+sniper	Sniper	Acertou uma bola impossível (ângulo quase nulo).
+marretao	Marretão	Jogou com força máxima e acertou.
+tabelinha	Tabelinha Mágica	Acertou usando 2 ou mais tabelas.
+vira_vira	Virada Histórica	Estava perdendo feio e virou o jogo.
+campeao	Campeão do Torneio	Ganhou um campeonato.
+viciado	Viciado em Sinuca	Jogou todos os dias da semana.
+camaleao	Camaleão	Jogou com 5 skins de taco diferentes.
+colecionador	Colecionador de Insígnias	Desbloqueou 10 conquistas.
+solitario	Jogada Solo	Jogou uma partida sozinho (modo treino).
+fantasma	Fantasma da Sinuca	Ganhou uma partida sem ser percebido (sem falar no chat, sem errar).
+zagueiro	Bola na Contra	Fez um ponto contra si mesmo.
+palhaco	Palhaço da Rodada	Tentou esnucar, errou feio e caiu a própria bola.
+lagartixa	Jogada no Estilo Lagartixa	Se deitou no chão pra mirar (ativa pelo modo câmera, opcional).
+sem_choro	Sem Choro!	Perdeu 3 vezes seguidas sem reclamar.
+sanguenozoi	Sangue no Zóio	Jogou uma partida atrás da outra sem parar (mínimo 5 seguidas).
+testa_fria	Testa Fria	Acertou uma bola após 10 segundos parado mirando.
+zen_master	Mestre Zen	Ganhou uma partida sem falar nada no chat e sem fazer gesto.
+alquimista	Taco de Ouro	Ganhou 10 partidas com o mesmo taco.
+karma	Karma Instantâneo	Zombou de um adversário e errou a jogada seguinte.
+meme_bola8	Caiu a Bola 8 Primeiro	Derrubou a bola 8 logo no início do jogo.
+espirito_olimpico	Espírito Olímpico	Terminou empatado e aplaudiu o adversário (reação positiva).
+sem_dedao	Joguei Sem o Dedão	Ativou modo "desafio aleatório" e venceu.
+tomou_capote Perdeu sem fazer nenhuma bolinha.
+rei_do_capote Ganhou sem deixa o adversario fazer nenhuma bolinha
+
+### 🎖️ Observações:
+
+- Todas essas conquistas devem ser representadas com **insígnias/ícones únicos**.
+- Algumas são **recompensas de habilidade**, outras de **sorte**, outras são **cômicas** (diversão > perfeição).
+
