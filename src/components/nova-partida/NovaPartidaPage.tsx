@@ -111,12 +111,22 @@ export default function NovaPartidaPage() {
       <Header step={step} />
 
       <main className="max-w-sm mt-[32px] mx-auto relative z-10">
-        {/* Mode toggle */}
-        <div className="flex items-center justify-center gap-2 mb-4">
+        {/* Mode toggle - retro modern design */}
+        <div className="flex items-center justify-center gap-3 mb-4">
           <button
-            className={`px-3 py-1 rounded-md text-xs border ${
-              mode === "1x1" ? "border-retro-cyan text-retro-cyan" : "border-retro-purple/30 text-retro-light/70"
-            }`}
+            className={`btn btn-secondary text-xs px-4 py-2 border-2 font-mono font-bold transition-all relative
+              ${
+                mode === "1x1"
+                  ? "border-retro-cyan bg-retro-cyan text-retro-dark shadow-[0_0_32px_8px_rgb(0,255,255,0.9)] animate-pulse-glow"
+                  : "border-retro-cyan text-retro-cyan bg-transparent"
+              }`}
+            style={
+              mode === "1x1"
+                ? {
+                    textShadow: "0 0 2px #000, 0 0 12px #0ff, 0 0 24px #0ff",
+                  }
+                : {}
+            }
             onClick={() => {
               setMode("1x1");
               setTeam1((prev) => prev.slice(0, 1));
@@ -126,9 +136,13 @@ export default function NovaPartidaPage() {
             1x1
           </button>
           <button
-            className={`px-3 py-1 rounded-md text-xs border ${
-              mode === "2x2" ? "border-retro-pink text-retro-pink" : "border-retro-purple/30 text-retro-light/70"
-            }`}
+            className={`btn btn-secondary text-xs px-4 py-2 border-2 font-mono font-bold transition-all relative
+              ${
+                mode === "2x2"
+                  ? "border-retro-pink bg-retro-pink text-retro-light shadow-[0_0_32px_8px_rgb(255,20,147,0.9)] animate-pulse-glow"
+                  : "border-retro-pink text-retro-pink bg-transparent"
+              }`}
+            style={mode === "2x2" ? { textShadow: "0 0 2px #fff, 0 0 12px #ff1493, 0 0 24px #ff1493" } : {}}
             onClick={() => setMode("2x2")}
           >
             2x2
