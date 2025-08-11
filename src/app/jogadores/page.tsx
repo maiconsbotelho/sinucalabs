@@ -111,6 +111,7 @@ export default function JogadoresPage() {
               <button
                 onClick={() => setShowAddForm(true)}
                 className="w-full flex items-center justify-center gap-[10px] p-[10px] rounded-lg bg-gradient-to-r from-retro-cyan/20 to-retro-pink/20 border border-retro-cyan/30 hover:border-retro-cyan/60 transition-all duration-300 hover:scale-[1.02] group"
+                style={{ background: "transparent" }}
               >
                 <UserPlus className="w-5 h-5 text-retro-cyan" />
                 <span className="font-display font-semibold text-retro-cyan">ADICIONAR JOGADOR</span>
