@@ -7,7 +7,7 @@ import { Game, GameWithWinner } from "../types/game";
 export function isPlayerInTeam(match: Match, playerId: string, team: 1 | 2): boolean {
   const team1Ids = [match.team1_player1_id, match.team1_player2_id];
   const team2Ids = [match.team2_player1_id, match.team2_player2_id];
-  
+
   if (team === 1) {
     return team1Ids.includes(playerId);
   } else {
@@ -18,19 +18,14 @@ export function isPlayerInTeam(match: Match, playerId: string, team: 1 | 2): boo
 /**
  * Obtém todos os IDs de jogadores de uma partida
  */
-export function getAllPlayerIds(match: Match): string[] {
-  return [
-    match.team1_player1_id,
-    match.team1_player2_id,
-    match.team2_player1_id,
-    match.team2_player2_id,
-  ];
+export function getAllPlayerIds(match: Match): (string | null)[] {
+  return [match.team1_player1_id, match.team1_player2_id, match.team2_player1_id, match.team2_player2_id];
 }
 
 /**
  * Obtém IDs dos jogadores de um time específico
  */
-export function getTeamPlayerIds(match: Match, team: 1 | 2): string[] {
+export function getTeamPlayerIds(match: Match, team: 1 | 2): (string | null)[] {
   if (team === 1) {
     return [match.team1_player1_id, match.team1_player2_id];
   } else {
@@ -44,21 +39,19 @@ export function getTeamPlayerIds(match: Match, team: 1 | 2): string[] {
 export function areSameTeams(match1: Match, match2: Match): boolean {
   const team1_match1 = [match1.team1_player1_id, match1.team1_player2_id].sort();
   const team2_match1 = [match1.team2_player1_id, match1.team2_player2_id].sort();
-  
+
   const team1_match2 = [match2.team1_player1_id, match2.team1_player2_id].sort();
   const team2_match2 = [match2.team2_player1_id, match2.team2_player2_id].sort();
-  
+
   // Verifica se os times são iguais (team1 vs team2 ou team2 vs team1)
-  const sameOrder = (
+  const sameOrder =
     JSON.stringify(team1_match1) === JSON.stringify(team1_match2) &&
-    JSON.stringify(team2_match1) === JSON.stringify(team2_match2)
-  );
-  
-  const reversedOrder = (
+    JSON.stringify(team2_match1) === JSON.stringify(team2_match2);
+
+  const reversedOrder =
     JSON.stringify(team1_match1) === JSON.stringify(team2_match2) &&
-    JSON.stringify(team2_match1) === JSON.stringify(team1_match2)
-  );
-  
+    JSON.stringify(team2_match1) === JSON.stringify(team1_match2);
+
   return sameOrder || reversedOrder;
 }
 
@@ -77,23 +70,21 @@ export function calculateHeadToHead(
   team1Games: number;
   team2Games: number;
 } {
-  const relevantMatches = matches.filter(match => {
+  const relevantMatches = matches.filter((match) => {
     const matchTeam1 = [match.team1_player1_id, match.team1_player2_id].sort();
     const matchTeam2 = [match.team2_player1_id, match.team2_player2_id].sort();
-    
+
     const inputTeam1 = [...team1PlayerIds].sort();
     const inputTeam2 = [...team2PlayerIds].sort();
-    
-    const sameOrder = (
+
+    const sameOrder =
       JSON.stringify(matchTeam1) === JSON.stringify(inputTeam1) &&
-      JSON.stringify(matchTeam2) === JSON.stringify(inputTeam2)
-    );
-    
-    const reversedOrder = (
+      JSON.stringify(matchTeam2) === JSON.stringify(inputTeam2);
+
+    const reversedOrder =
       JSON.stringify(matchTeam1) === JSON.stringify(inputTeam2) &&
-      JSON.stringify(matchTeam2) === JSON.stringify(inputTeam1)
-    );
-    
+      JSON.stringify(matchTeam2) === JSON.stringify(inputTeam1);
+
     return sameOrder || reversedOrder;
   });
 
@@ -102,12 +93,12 @@ export function calculateHeadToHead(
   let team1Games = 0;
   let team2Games = 0;
 
-  relevantMatches.forEach(match => {
+  relevantMatches.forEach((match) => {
     const matchTeam1 = [match.team1_player1_id, match.team1_player2_id].sort();
     const inputTeam1 = [...team1PlayerIds].sort();
-    
+
     const isTeam1Playing = JSON.stringify(matchTeam1) === JSON.stringify(inputTeam1);
-    
+
     if (match.is_finished) {
       if (isTeam1Playing) {
         // Team1 é team1 na partida
@@ -138,13 +129,9 @@ export function calculateHeadToHead(
 /**
  * Obtém últimas partidas de um jogador
  */
-export function getRecentMatches<T extends Match>(
-  matches: T[],
-  playerId: string,
-  limit: number = 5
-): T[] {
+export function getRecentMatches<T extends Match>(matches: T[], playerId: string, limit: number = 5): T[] {
   return matches
-    .filter(match => getAllPlayerIds(match).includes(playerId))
+    .filter((match) => getAllPlayerIds(match).includes(playerId))
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, limit);
 }
@@ -152,33 +139,34 @@ export function getRecentMatches<T extends Match>(
 /**
  * Calcula streak de vitórias de um jogador
  */
-export function calculatePlayerStreak(matches: Match[], playerId: string): {
-  type: 'win' | 'loss';
+export function calculatePlayerStreak(
+  matches: Match[],
+  playerId: string
+): {
+  type: "win" | "loss";
   count: number;
 } {
   const playerMatches = matches
-    .filter(match => getAllPlayerIds(match).includes(playerId) && match.is_finished)
+    .filter((match) => getAllPlayerIds(match).includes(playerId) && match.is_finished)
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
   if (playerMatches.length === 0) {
-    return { type: 'win', count: 0 };
+    return { type: "win", count: 0 };
   }
 
   const lastMatch = playerMatches[0];
   const team1Ids = [lastMatch.team1_player1_id, lastMatch.team1_player2_id];
   const isTeam1 = team1Ids.includes(playerId);
-  const lastWin = isTeam1 
+  const lastWin = isTeam1
     ? lastMatch.team1_score > lastMatch.team2_score
     : lastMatch.team2_score > lastMatch.team1_score;
 
   let streak = 0;
-  
+
   for (const match of playerMatches) {
     const matchTeam1Ids = [match.team1_player1_id, match.team1_player2_id];
     const matchIsTeam1 = matchTeam1Ids.includes(playerId);
-    const matchWin = matchIsTeam1
-      ? match.team1_score > match.team2_score
-      : match.team2_score > match.team1_score;
+    const matchWin = matchIsTeam1 ? match.team1_score > match.team2_score : match.team2_score > match.team1_score;
 
     if (matchWin === lastWin) {
       streak++;
@@ -188,7 +176,7 @@ export function calculatePlayerStreak(matches: Match[], playerId: string): {
   }
 
   return {
-    type: lastWin ? 'win' : 'loss',
+    type: lastWin ? "win" : "loss",
     count: streak,
   };
 }
@@ -199,10 +187,10 @@ export function calculatePlayerStreak(matches: Match[], playerId: string): {
 export function groupMatchesByTeams(matches: EnrichedMatch[]): Map<string, EnrichedMatch[]> {
   const groups = new Map<string, EnrichedMatch[]>();
 
-  matches.forEach(match => {
-    const team1Key = [match.team1_player1.name, match.team1_player2.name].sort().join(' & ');
-    const team2Key = [match.team2_player1.name, match.team2_player2.name].sort().join(' & ');
-    const matchKey = [team1Key, team2Key].sort().join(' vs ');
+  matches.forEach((match) => {
+    const team1Key = [match.team1_player1.name, match.team1_player2?.name].filter(Boolean).sort().join(" & ");
+    const team2Key = [match.team2_player1.name, match.team2_player2?.name].filter(Boolean).sort().join(" & ");
+    const matchKey = [team1Key, team2Key].sort().join(" vs ");
 
     if (!groups.has(matchKey)) {
       groups.set(matchKey, []);
@@ -217,7 +205,7 @@ export function groupMatchesByTeams(matches: EnrichedMatch[]): Map<string, Enric
  * Converte jogos para formato de histórico
  */
 export function transformGamesForHistory(games: GameWithWinner[]): any[] {
-  return games.map(game => ({
+  return games.map((game) => ({
     id: game.id,
     gameNumber: game.game_number,
     winner: game.winner,
@@ -232,7 +220,7 @@ export function isRecentMatch(match: Match, hoursThreshold: number = 24): boolea
   const now = new Date();
   const matchDate = new Date(match.created_at);
   const hoursDiff = (now.getTime() - matchDate.getTime()) / (1000 * 60 * 60);
-  
+
   return hoursDiff <= hoursThreshold;
 }
 
@@ -240,29 +228,29 @@ export function isRecentMatch(match: Match, hoursThreshold: number = 24): boolea
  * Obtém status de uma partida para exibição
  */
 export function getMatchDisplayStatus(match: Match): {
-  status: 'waiting' | 'in_progress' | 'finished';
+  status: "waiting" | "in_progress" | "finished";
   message: string;
   canAddGame: boolean;
 } {
   if (match.is_finished) {
     return {
-      status: 'finished',
-      message: 'Partida finalizada',
+      status: "finished",
+      message: "Partida finalizada",
       canAddGame: false,
     };
   }
 
   if (match.team1_score === 0 && match.team2_score === 0) {
     return {
-      status: 'waiting',
-      message: 'Aguardando primeiro jogo',
+      status: "waiting",
+      message: "Aguardando primeiro jogo",
       canAddGame: true,
     };
   }
 
   return {
-    status: 'in_progress',
-    message: 'Partida em andamento',
+    status: "in_progress",
+    message: "Partida em andamento",
     canAddGame: true,
   };
 }

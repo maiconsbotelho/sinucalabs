@@ -117,7 +117,7 @@ export default function NovaPartidaPage() {
             className={`btn btn-secondary text-xs px-4 py-2 border-2 font-mono font-bold transition-all relative
               ${
                 mode === "1x1"
-                  ? "border-retro-cyan bg-retro-cyan text-retro-dark shadow-[0_0_32px_8px_rgb(0,255,255,0.9)] animate-pulse-glow"
+                  ? "border-retro-cyan bg-retro-cyan text-retro-dark  shadow-[0_0_32px_8px_rgb(255,20,147,0.9)]  animate-pulse-glow"
                   : "border-retro-cyan text-retro-cyan bg-transparent"
               }`}
             style={
