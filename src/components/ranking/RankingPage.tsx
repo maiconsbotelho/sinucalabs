@@ -16,7 +16,7 @@ export default function RankingPage() {
   const params = useParams();
   
   // Local state for mode selection
-  const [mode, setMode] = useState<"1x1" | "2x2">("2x2");
+  const [mode, setMode] = useState<"1x1" | "2x2" | "individual">("2x2");
   
   // Zustand store
   const { rankings, fetchRanking, loading, error } = useRankingsStore();
@@ -49,9 +49,9 @@ export default function RankingPage() {
       <main className="p-[10px] max-w-sm mx-auto relative z-10">
         <div className="space-y-4 mt-4">
           {/* Mode toggle - retro modern design */}
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2">
             <button
-              className={`btn btn-secondary text-xs px-4 py-2 border-2 font-mono font-bold transition-all relative
+              className={`btn btn-secondary text-xs px-3 py-2 border-2 font-mono font-bold transition-all relative
                 ${
                   mode === "1x1"
                     ? "border-retro-cyan bg-retro-cyan text-retro-dark  shadow-[0_0_32px_8px_rgb(255,20,147,0.9)]  animate-pulse-glow"
@@ -69,7 +69,7 @@ export default function RankingPage() {
               1x1
             </button>
             <button
-              className={`btn btn-secondary text-xs px-4 py-2 border-2 font-mono font-bold transition-all relative
+              className={`btn btn-secondary text-xs px-3 py-2 border-2 font-mono font-bold transition-all relative
                 ${
                   mode === "2x2"
                     ? "border-retro-pink bg-retro-pink text-retro-light shadow-[0_0_32px_8px_rgb(255,20,147,0.9)] animate-pulse-glow"
@@ -79,6 +79,24 @@ export default function RankingPage() {
               onClick={() => setMode("2x2")}
             >
               2x2
+            </button>
+            <button
+              className={`btn btn-secondary text-xs px-2 py-2 border-2 font-mono font-bold transition-all relative
+                ${
+                  mode === "individual"
+                    ? "border-retro-yellow bg-retro-yellow text-retro-dark shadow-[0_0_32px_8px_rgb(255,255,0,0.9)] animate-pulse-glow"
+                    : "border-retro-yellow text-retro-yellow bg-transparent"
+                }`}
+              style={
+                mode === "individual"
+                  ? {
+                      textShadow: "0 0 2px #000, 0 0 12px #ffff00, 0 0 24px #ffff00",
+                    }
+                  : {}
+              }
+              onClick={() => setMode("individual")}
+            >
+              Individual
             </button>
           </div>
 

@@ -285,4 +285,84 @@ export class RankingCalculator {
       avgWinRate,
     };
   }
+
+  /**
+   * Calcula ranking individual combinando estatísticas de jogos 1x1 e 2x2
+   */
+  calculateIndividualPlayerRankings(matches1x1: MatchWithWinner[], matches2x2: MatchWithWinner[]): PlayerStats[] {
+    const playerStatsMap: { [key: string]: PlayerStats } = {};
+
+    // Processar partidas 1x1
+    matches1x1.forEach((match) => {
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team1_player1_id,
+        match.team1_score,
+        match.team2_score,
+        match.winner_team === 1 ? 1 : 0,
+        1
+      );
+
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team2_player1_id,
+        match.team2_score,
+        match.team1_score,
+        match.winner_team === 2 ? 1 : 0,
+        1
+      );
+    });
+
+    // Processar partidas 2x2 (cada jogador recebe as estatísticas da dupla)
+    matches2x2.forEach((match) => {
+      // Processar jogadores da dupla 1
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team1_player1_id,
+        match.team1_score,
+        match.team2_score,
+        match.winner_team === 1 ? 1 : 0,
+        1
+      );
+
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team1_player2_id,
+        match.team1_score,
+        match.team2_score,
+        match.winner_team === 1 ? 1 : 0,
+        1
+      );
+
+      // Processar jogadores da dupla 2
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team2_player1_id,
+        match.team2_score,
+        match.team1_score,
+        match.winner_team === 2 ? 1 : 0,
+        1
+      );
+
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team2_player2_id,
+        match.team2_score,
+        match.team1_score,
+        match.winner_team === 2 ? 1 : 0,
+        1
+      );
+    });
+
+    // Calcular win rate e ordenar
+    return Object.values(playerStatsMap)
+      .map((player) => this.calculatePlayerWinRate(player))
+      .filter((player) => player.gamesPlayed > 0)
+      .sort((a, b) => {
+        if (b.winRate !== a.winRate) {
+          return b.winRate - a.winRate;
+        }
+        return b.gamesPlayed - a.gamesPlayed;
+      });
+  }
 }

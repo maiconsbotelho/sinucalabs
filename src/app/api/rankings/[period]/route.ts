@@ -20,8 +20,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     // Validar modo
-    if (!["1x1", "2x2"].includes(mode)) {
-      return NextResponse.json({ error: "Modo inválido. Use: 1x1 ou 2x2" }, { status: 400 });
+    if (!["1x1", "2x2", "individual"].includes(mode)) {
+      return NextResponse.json({ error: "Modo inválido. Use: 1x1, 2x2 ou individual" }, { status: 400 });
     }
 
     // Obter range de datas usando core
@@ -49,30 +49,56 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     // Filtrar matches baseado no modo
-    const filteredMatches = (matches || []).filter((match: any) => {
-      if (mode === '1x1') {
-        // 1x1: team1_player2_id e team2_player2_id devem ser null
-        return match.team1_player2_id === null && match.team2_player2_id === null;
-      } else {
-        // 2x2: team1_player2_id e team2_player2_id não devem ser null
-        return match.team1_player2_id !== null && match.team2_player2_id !== null;
-      }
-    });
+    let filteredMatches1x1: any[] = [];
+    let filteredMatches2x2: any[] = [];
+    let rankings: any;
 
-    // Determinar vencedor da partida baseado no score
-    const matchesWithWinner: MatchWithWinner[] = filteredMatches.map((match: any) => ({
-      ...match,
-      winner_team: match.team1_score > match.team2_score ? 1 : 2
-    }));
+    if (mode === 'individual') {
+      // Para ranking individual, precisamos de ambos os tipos de partidas
+      filteredMatches1x1 = (matches || []).filter((match: any) => 
+        match.team1_player2_id === null && match.team2_player2_id === null
+      );
+      filteredMatches2x2 = (matches || []).filter((match: any) => 
+        match.team1_player2_id !== null && match.team2_player2_id !== null
+      );
 
-    // Calcular rankings usando core
-    const calculator = new RankingCalculator(players || []);
-    const rankings = mode === '1x1' 
-      ? calculator.calculatePlayerRankings(matchesWithWinner)
-      : calculator.calculateTeamRankings(matchesWithWinner);
+      // Determinar vencedor das partidas
+      const matches1x1WithWinner: MatchWithWinner[] = filteredMatches1x1.map((match: any) => ({
+        ...match,
+        winner_team: match.team1_score > match.team2_score ? 1 : 2
+      }));
+
+      const matches2x2WithWinner: MatchWithWinner[] = filteredMatches2x2.map((match: any) => ({
+        ...match,
+        winner_team: match.team1_score > match.team2_score ? 1 : 2
+      }));
+
+      // Calcular ranking individual combinado
+      const calculator = new RankingCalculator(players || []);
+      rankings = calculator.calculateIndividualPlayerRankings(matches1x1WithWinner, matches2x2WithWinner);
+    } else {
+      // Lógica original para 1x1 e 2x2
+      const filteredMatches = (matches || []).filter((match: any) => {
+        if (mode === '1x1') {
+          return match.team1_player2_id === null && match.team2_player2_id === null;
+        } else {
+          return match.team1_player2_id !== null && match.team2_player2_id !== null;
+        }
+      });
+
+      const matchesWithWinner: MatchWithWinner[] = filteredMatches.map((match: any) => ({
+        ...match,
+        winner_team: match.team1_score > match.team2_score ? 1 : 2
+      }));
+
+      const calculator = new RankingCalculator(players || []);
+      rankings = mode === '1x1' 
+        ? calculator.calculatePlayerRankings(matchesWithWinner)
+        : calculator.calculateTeamRankings(matchesWithWinner);
+    }
 
     // Obter top 10
-    const topRankings = mode === '1x1' 
+    const topRankings = (mode === '1x1' || mode === 'individual')
       ? RankingCalculator.getTopPlayers(rankings as any, 10)
       : RankingCalculator.getTopTeams(rankings as any, 10);
 

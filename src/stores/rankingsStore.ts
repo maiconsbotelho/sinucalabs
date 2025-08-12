@@ -19,7 +19,7 @@ interface RankingsState {
 }
 
 interface RankingsActions {
-  fetchRanking: (period: 'semana' | 'mes' | 'ano', mode?: '1x1' | '2x2') => Promise<void>;
+  fetchRanking: (period: 'semana' | 'mes' | 'ano', mode?: '1x1' | '2x2' | 'individual') => Promise<void>;
   clearError: () => void;
   shouldRefetch: (rankingKey: string) => boolean;
 }
@@ -39,7 +39,7 @@ export const useRankingsStore = create<RankingsStore>()(
         cache: new Map(),
 
         // Actions
-        fetchRanking: async (period: 'semana' | 'mes' | 'ano', mode: '1x1' | '2x2' = '2x2') => {
+        fetchRanking: async (period: 'semana' | 'mes' | 'ano', mode: '1x1' | '2x2' | 'individual' = '2x2') => {
           const { cache, shouldRefetch, loading } = get();
           
           const rankingKey = `${period}_${mode}`;
