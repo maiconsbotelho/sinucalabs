@@ -1,13 +1,30 @@
 import { Crown, Medal, Award, Star, Target } from "lucide-react";
-import { TeamStats, periodConfig } from "./types";
+import { TeamStats, PlayerStats, RankingStats, periodConfig } from "./types";
 
 interface RankingListProps {
-  rankings: TeamStats[];
+  rankings: RankingStats[];
   period: string;
 }
 
 export default function RankingList({ rankings, period }: RankingListProps) {
   const config = periodConfig[period as keyof typeof periodConfig] || periodConfig.semana;
+
+  // Type guard functions
+  const isTeamStats = (stats: RankingStats): stats is TeamStats => {
+    return 'team' in stats;
+  };
+
+  const isPlayerStats = (stats: RankingStats): stats is PlayerStats => {
+    return 'player' in stats;
+  };
+
+  const getStatsKey = (stats: RankingStats): string => {
+    if (isTeamStats(stats)) {
+      return `${stats.team.player1.id}-${stats.team.player2.id}`;
+    } else {
+      return stats.player.id;
+    }
+  };
 
   const getRankIcon = (position: number) => {
     switch (position) {
@@ -56,7 +73,7 @@ export default function RankingList({ rankings, period }: RankingListProps) {
         const position = index + 1;
         return (
           <div
-            key={`${stats.team.player1.id}-${stats.team.player2.id}`}
+            key={getStatsKey(stats)}
             className={`${getRankStyle(position)} relative group`}
           >
             {/* Main Content Row */}
@@ -67,16 +84,22 @@ export default function RankingList({ rankings, period }: RankingListProps) {
                 {getRankIcon(position)}
               </div>
 
-              {/* Center - Team Names */}
+              {/* Center - Player/Team Names */}
               <div className="flex-1 min-w-0">
-                <div className="space-y-1">
+                {isTeamStats(stats) ? (
+                  <div className="space-y-1">
+                    <div className="font-display font-bold text-sm text-retro-light truncate">
+                      {stats.team.player1.name}
+                    </div>
+                    <div className="font-display font-bold text-sm text-retro-light/80 truncate">
+                      {stats.team.player2.name}
+                    </div>
+                  </div>
+                ) : (
                   <div className="font-display font-bold text-sm text-retro-light truncate">
-                    {stats.team.player1.name}
+                    {stats.player.name}
                   </div>
-                  <div className="font-display font-bold text-sm text-retro-light/80 truncate">
-                    {stats.team.player2.name}
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Right Side - Win Rate */}

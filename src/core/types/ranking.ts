@@ -19,6 +19,17 @@ export interface TeamStats {
   matchesLost: number;
 }
 
+export interface PlayerStats {
+  player: Player;
+  wins: number;
+  losses: number;
+  gamesPlayed: number;
+  winRate: number;
+  matchesPlayed: number;
+  matchesWon: number;
+  matchesLost: number;
+}
+
 export interface MatchWithWinner {
   id: string;
   team1_player1_id: string;

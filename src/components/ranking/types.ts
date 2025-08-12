@@ -1,5 +1,5 @@
 import { Trophy, Medal, Crown } from "lucide-react";
-import { Player } from "@/core";
+import { Player, PlayerStats as CorePlayerStats, TeamStats as CoreTeamStats } from "@/core";
 
 export interface TeamStats {
   team: {
@@ -12,11 +12,21 @@ export interface TeamStats {
   winRate: number;
 }
 
+export interface PlayerStats {
+  player: Player;
+  wins: number;
+  losses: number;
+  gamesPlayed: number;
+  winRate: number;
+}
+
+export type RankingStats = TeamStats | PlayerStats;
+
 export interface RankingData {
   period: string;
   startDate: string;
   endDate: string;
-  rankings: TeamStats[];
+  rankings: RankingStats[];
   totalGames: number;
 }
 

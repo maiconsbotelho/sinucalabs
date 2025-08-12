@@ -11,10 +11,17 @@ import {
 export async function GET(request: NextRequest, { params }: { params: Promise<{ period: string }> }) {
   try {
     const { period } = await params;
+    const { searchParams } = new URL(request.url);
+    const mode = searchParams.get('mode') || '2x2';
 
     // Validar período
     if (!["semana", "mes", "ano"].includes(period)) {
       return NextResponse.json({ error: "Período inválido. Use: semana, mes ou ano" }, { status: 400 });
+    }
+
+    // Validar modo
+    if (!["1x1", "2x2"].includes(mode)) {
+      return NextResponse.json({ error: "Modo inválido. Use: 1x1 ou 2x2" }, { status: 400 });
     }
 
     // Obter range de datas usando core
@@ -41,21 +48,36 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 });
     }
 
+    // Filtrar matches baseado no modo
+    const filteredMatches = (matches || []).filter((match: any) => {
+      if (mode === '1x1') {
+        // 1x1: team1_player2_id e team2_player2_id devem ser null
+        return match.team1_player2_id === null && match.team2_player2_id === null;
+      } else {
+        // 2x2: team1_player2_id e team2_player2_id não devem ser null
+        return match.team1_player2_id !== null && match.team2_player2_id !== null;
+      }
+    });
+
     // Determinar vencedor da partida baseado no score
-    const matchesWithWinner: MatchWithWinner[] = (matches || []).map((match: any) => ({
+    const matchesWithWinner: MatchWithWinner[] = filteredMatches.map((match: any) => ({
       ...match,
       winner_team: match.team1_score > match.team2_score ? 1 : 2
     }));
 
     // Calcular rankings usando core
     const calculator = new RankingCalculator(players || []);
-    const rankings = calculator.calculateTeamRankings(matchesWithWinner);
+    const rankings = mode === '1x1' 
+      ? calculator.calculatePlayerRankings(matchesWithWinner)
+      : calculator.calculateTeamRankings(matchesWithWinner);
 
     // Obter top 10
-    const topRankings = RankingCalculator.getTopTeams(rankings, 10);
+    const topRankings = mode === '1x1' 
+      ? RankingCalculator.getTopPlayers(rankings as any, 10)
+      : RankingCalculator.getTopTeams(rankings as any, 10);
 
     // Calcular estatísticas do período
-    const summary = RankingCalculator.calculatePeriodSummary(rankings);
+    const summary = RankingCalculator.calculatePeriodSummary(rankings as any);
 
     return NextResponse.json({
       period,

@@ -19,9 +19,9 @@ interface RankingsState {
 }
 
 interface RankingsActions {
-  fetchRanking: (period: 'semana' | 'mes' | 'ano') => Promise<void>;
+  fetchRanking: (period: 'semana' | 'mes' | 'ano', mode?: '1x1' | '2x2') => Promise<void>;
   clearError: () => void;
-  shouldRefetch: (period: string) => boolean;
+  shouldRefetch: (rankingKey: string) => boolean;
 }
 
 type RankingsStore = RankingsState & RankingsActions;
@@ -39,14 +39,16 @@ export const useRankingsStore = create<RankingsStore>()(
         cache: new Map(),
 
         // Actions
-        fetchRanking: async (period: 'semana' | 'mes' | 'ano') => {
+        fetchRanking: async (period: 'semana' | 'mes' | 'ano', mode: '1x1' | '2x2' = '2x2') => {
           const { cache, shouldRefetch, loading } = get();
           
+          const rankingKey = `${period}_${mode}`;
+          
           // Verificar cache
-          const cached = cache.get(period);
-          if (cached && !shouldRefetch(period)) {
+          const cached = cache.get(rankingKey);
+          if (cached && !shouldRefetch(rankingKey)) {
             set((state) => ({
-              rankings: { ...state.rankings, [period]: cached.data },
+              rankings: { ...state.rankings, [rankingKey]: cached.data },
             }));
             return;
           }
@@ -56,20 +58,20 @@ export const useRankingsStore = create<RankingsStore>()(
           set({ loading: true, error: null });
 
           try {
-            const response = await fetch(`/api/rankings/${period}`);
+            const response = await fetch(`/api/rankings/${period}?mode=${mode}`);
             
             if (!response.ok) {
-              throw new Error(`Erro ao buscar ranking ${period}`);
+              throw new Error(`Erro ao buscar ranking ${period} ${mode}`);
             }
 
             const rankingData = await response.json();
             
             // Atualizar cache
             const newCache = new Map(cache);
-            newCache.set(period, { data: rankingData, timestamp: Date.now() });
+            newCache.set(rankingKey, { data: rankingData, timestamp: Date.now() });
             
             set((state) => ({
-              rankings: { ...state.rankings, [period]: rankingData },
+              rankings: { ...state.rankings, [rankingKey]: rankingData },
               cache: newCache,
               loading: false,
               error: null,
@@ -84,9 +86,9 @@ export const useRankingsStore = create<RankingsStore>()(
 
         clearError: () => set({ error: null }),
 
-        shouldRefetch: (period: string) => {
+        shouldRefetch: (rankingKey: string) => {
           const { cache } = get();
-          const cached = cache.get(period);
+          const cached = cache.get(rankingKey);
           return !cached || Date.now() - cached.timestamp > CACHE_DURATION;
         },
       }),

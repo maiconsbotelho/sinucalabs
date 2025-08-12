@@ -1,4 +1,4 @@
-import { TeamStats, MatchWithWinner, Player, Team } from "../types/ranking";
+import { TeamStats, PlayerStats, MatchWithWinner, Player, Team } from "../types/ranking";
 
 interface PlayersMap {
   [key: string]: Player;
@@ -12,6 +12,47 @@ export class RankingCalculator {
     players.forEach((player) => {
       this.playersMap[player.id] = player;
     });
+  }
+
+  /**
+   * Calcula estatísticas de ranking para jogadores individuais baseado nas partidas 1x1
+   */
+  calculatePlayerRankings(matches: MatchWithWinner[]): PlayerStats[] {
+    const playerStatsMap: { [key: string]: PlayerStats } = {};
+
+    matches.forEach((match) => {
+      // Processar jogador 1
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team1_player1_id,
+        match.team1_score, // vitórias do jogador 1
+        match.team2_score, // derrotas do jogador 1
+        match.winner_team === 1 ? 1 : 0, // partida ganha
+        1 // partida jogada
+      );
+
+      // Processar jogador 2
+      this.processPlayerStats(
+        playerStatsMap,
+        match.team2_player1_id,
+        match.team2_score, // vitórias do jogador 2
+        match.team1_score, // derrotas do jogador 2
+        match.winner_team === 2 ? 1 : 0, // partida ganha
+        1 // partida jogada
+      );
+    });
+
+    // Calcular win rate e ordenar
+    return Object.values(playerStatsMap)
+      .map((player) => this.calculatePlayerWinRate(player))
+      .filter((player) => player.gamesPlayed > 0) // Só incluir jogadores que jogaram
+      .sort((a, b) => {
+        // Ordenar por win rate, depois por jogos disputados
+        if (b.winRate !== a.winRate) {
+          return b.winRate - a.winRate;
+        }
+        return b.gamesPlayed - a.gamesPlayed;
+      });
   }
 
   /**
@@ -55,6 +96,46 @@ export class RankingCalculator {
         }
         return b.gamesPlayed - a.gamesPlayed;
       });
+  }
+
+  /**
+   * Processa estatísticas de um jogador específico para partidas 1x1
+   */
+  private processPlayerStats(
+    statsMap: { [key: string]: PlayerStats },
+    playerId: string,
+    wins: number,
+    losses: number,
+    matchWins: number,
+    matchesPlayed: number
+  ): void {
+    const player = this.playersMap[playerId];
+
+    if (!player) {
+      console.warn(`Jogador não encontrado: ${playerId}`);
+      return;
+    }
+
+    if (!statsMap[playerId]) {
+      statsMap[playerId] = {
+        player,
+        wins: 0,
+        losses: 0,
+        gamesPlayed: 0,
+        winRate: 0,
+        matchesPlayed: 0,
+        matchesWon: 0,
+        matchesLost: 0,
+      };
+    }
+
+    const stats = statsMap[playerId];
+    stats.wins += wins;
+    stats.losses += losses;
+    stats.gamesPlayed += wins + losses;
+    stats.matchesPlayed += matchesPlayed;
+    stats.matchesWon += matchWins;
+    stats.matchesLost += matchesPlayed - matchWins;
   }
 
   /**
@@ -111,6 +192,16 @@ export class RankingCalculator {
   }
 
   /**
+   * Calcula a taxa de vitória para jogador individual
+   */
+  private calculatePlayerWinRate(player: PlayerStats): PlayerStats {
+    return {
+      ...player,
+      winRate: player.gamesPlayed > 0 ? (player.wins / player.gamesPlayed) * 100 : 0,
+    };
+  }
+
+  /**
    * Calcula a taxa de vitória baseada em jogos individuais
    */
   private calculateWinRate(team: TeamStats): TeamStats {
@@ -118,6 +209,13 @@ export class RankingCalculator {
       ...team,
       winRate: team.gamesPlayed > 0 ? (team.wins / team.gamesPlayed) * 100 : 0,
     };
+  }
+
+  /**
+   * Filtra top N jogadores do ranking
+   */
+  static getTopPlayers(rankings: PlayerStats[], limit: number = 10): PlayerStats[] {
+    return rankings.slice(0, limit);
   }
 
   /**
@@ -143,19 +241,41 @@ export class RankingCalculator {
   }
 
   /**
-   * Calcula estatísticas resumidas do período
+   * Calcula estatísticas resumidas do período para jogadores individuais
+   */
+  static calculatePeriodSummary(rankings: PlayerStats[]): {
+    totalTeams: number;
+    totalGames: number;
+    totalMatches: number;
+    avgWinRate: number;
+  };
+  /**
+   * Calcula estatísticas resumidas do período para duplas
    */
   static calculatePeriodSummary(rankings: TeamStats[]): {
     totalTeams: number;
     totalGames: number;
     totalMatches: number;
     avgWinRate: number;
+  };
+  /**
+   * Calcula estatísticas resumidas do período
+   */
+  static calculatePeriodSummary(rankings: TeamStats[] | PlayerStats[]): {
+    totalTeams: number;
+    totalGames: number;
+    totalMatches: number;
+    avgWinRate: number;
   } {
     const totalTeams = rankings.length;
-    const totalGames = rankings.reduce((sum, team) => sum + team.gamesPlayed, 0);
-    const totalMatches = rankings.reduce((sum, team) => sum + team.matchesPlayed, 0);
+    
+    // Para ambos os casos (1x1 e 2x2), cada partida é contada duas vezes 
+    // (uma para cada participante), então dividimos por 2
+    const totalGames = rankings.reduce((sum, item) => sum + item.gamesPlayed, 0) / 2;
+    const totalMatches = rankings.reduce((sum, item) => sum + item.matchesPlayed, 0) / 2;
+    
     const avgWinRate = totalTeams > 0 
-      ? rankings.reduce((sum, team) => sum + team.winRate, 0) / totalTeams 
+      ? rankings.reduce((sum, item) => sum + item.winRate, 0) / totalTeams 
       : 0;
 
     return {
