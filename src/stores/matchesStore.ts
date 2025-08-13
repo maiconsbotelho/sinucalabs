@@ -172,8 +172,8 @@ export const useMatchesStore = create<MatchesStore>()(
             ],
           };
 
-          // Update imediato na UI
-          set({ currentMatch: optimisticMatch, loading: true });
+          // Update imediato na UI SEM loading
+          set({ currentMatch: optimisticMatch });
         }
 
         try {

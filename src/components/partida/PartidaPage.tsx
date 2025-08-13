@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useMatchesStore, useOptimisticUpdates } from "@/stores";
 import Header from "./Header";
@@ -36,6 +36,7 @@ interface Match {
 
 export default function PartidaPage() {
   const params = useParams();
+  const [isAddingGame, setIsAddingGame] = useState(false);
 
   // Zustand stores
   const { currentMatch: match, fetchMatch, addGameToMatch, loading, error } = useMatchesStore();
@@ -48,6 +49,12 @@ export default function PartidaPage() {
   }, [params.id, fetchMatch]);
 
   const addGame = async (winnerId: string) => {
+    if (isAddingGame) return; // Prevenir múltiplos cliques
+    
+    // Loading bem curto apenas para feedback visual
+    setIsAddingGame(true);
+    setTimeout(() => setIsAddingGame(false), 500); // Loading de apenas 500ms
+    
     try {
       if (params.id && typeof params.id === "string") {
         // Adicionar o jogo (já tem update otimista)
@@ -58,6 +65,7 @@ export default function PartidaPage() {
       }
     } catch (error) {
       console.error("Erro ao adicionar jogo:", error);
+      setIsAddingGame(false); // Para o loading em caso de erro
     }
   };
 
@@ -93,7 +101,7 @@ export default function PartidaPage() {
       <main className="relative z-10 p-[10px] max-w-md mx-auto">
         <div className="space-y-6 mt-6">
           <div className="animate-slide-up" style={{ animationDelay: "0.2s", opacity: 0 }}>
-            <AddGameSection match={match} addingGame={loading} onAddGame={addGame} />
+            <AddGameSection match={match} addingGame={isAddingGame} onAddGame={addGame} />
           </div>
           <div className="animate-slide-up" style={{ animationDelay: "0.1s", opacity: 0 }}>
             <ScoreBoard match={match} />
