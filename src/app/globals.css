@@ -10,6 +10,10 @@
   --retro-pink: 255 20 147;
   --retro-purple: 138 43 226;
   --retro-green: 50 205 50;
+  --retro-darker: 5 2 8;
+  --retro-light: 240 240 255;
+  --retro-yellow: 255 255 0;
+  --retro-orange: 255 140 0;
 
   /* UI Colors */
   --background: var(--retro-dark);
@@ -182,6 +186,12 @@ body {
   .text-retro-light {
     color: rgb(var(--retro-light));
   }
+  .text-retro-yellow {
+    color: rgb(var(--retro-yellow));
+  }
+  .text-retro-green {
+    color: rgb(var(--retro-green));
+  }
 
   .bg-retro-cyan {
     background-color: rgb(var(--retro-cyan));
@@ -191,6 +201,12 @@ body {
   }
   .bg-retro-purple {
     background-color: rgb(var(--retro-purple));
+  }
+  .bg-retro-yellow {
+    background-color: rgb(var(--retro-yellow));
+  }
+  .bg-retro-green {
+    background-color: rgb(var(--retro-green));
   }
 
   /* Gradient text utility */
@@ -217,6 +233,9 @@ body {
   .border-retro-purple {
     border-color: rgb(var(--retro-purple));
   }
+  .border-retro-yellow {
+    border-color: rgb(var(--retro-yellow));
+  }
   .border-retro-green {
     border-color: rgb(var(--retro-green));
   }
@@ -230,6 +249,36 @@ body {
   }
   50% {
     box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes pulse-glow-cyan {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgb(0 255 255);
+  }
+  50% {
+    box-shadow: 0 0 20px rgb(0 255 255), 0 0 30px rgb(0 255 255);
+  }
+}
+
+@keyframes pulse-glow-pink {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgb(255 20 147);
+  }
+  50% {
+    box-shadow: 0 0 20px rgb(255 20 147), 0 0 30px rgb(255 20 147);
+  }
+}
+
+@keyframes pulse-glow-yellow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgb(255 255 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgb(255 255 0), 0 0 30px rgb(255 255 0);
   }
 }
 
@@ -266,6 +315,15 @@ body {
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
+.animate-pulse-glow-cyan {
+  animation: pulse-glow-cyan 2s ease-in-out infinite;
+}
+.animate-pulse-glow-pink {
+  animation: pulse-glow-pink 2s ease-in-out infinite;
+}
+.animate-pulse-glow-yellow {
+  animation: pulse-glow-yellow 2s ease-in-out infinite;
+}
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -294,3 +352,9 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 255, 255, 0.8);
 }
+
+/* 
+Force Tailwind to include dynamic classes used in components
+This ensures the purge doesn't remove these classes
+Classes: border-retro-yellow bg-retro-yellow text-retro-dark text-retro-yellow bg-retro-green border-retro-cyan bg-retro-cyan text-retro-cyan border-retro-pink bg-retro-pink text-retro-pink text-retro-light animate-pulse-glow animate-pulse-glow-cyan animate-pulse-glow-pink animate-pulse-glow-yellow
+*/
