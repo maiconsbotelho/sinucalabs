@@ -46,7 +46,7 @@ export class MatchManager {
    * Enriquece partida com dados dos jogadores
    */
   static enrichMatch(match: Match, players: MatchPlayer[]): EnrichedMatch {
-    const playersMap = new Map(players.map((p) => [p.id, p]));
+    const playersMap = new Map(players.filter(p => p && p.id).map((p) => [p.id, p]));
 
     const enrichedMatch: EnrichedMatch = {
       ...match,

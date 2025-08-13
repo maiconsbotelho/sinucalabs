@@ -169,7 +169,7 @@ export default function HistoricoPage() {
                             <div>
                               <div className="font-display font-bold text-retro-cyan text-xs">TEAM ALPHA</div>
                               <div className="font-mono text-retro-light text-xs">
-                                {match.team1.player1.name} + {match.team1.player2.name}
+                                {match.team1.player1.name}{match.team1.player2 ? ` + ${match.team1.player2.name}` : ''}
                               </div>
                             </div>
                           </div>
@@ -202,7 +202,7 @@ export default function HistoricoPage() {
                             <div>
                               <div className="font-display font-bold text-retro-pink text-xs">TEAM OMEGA</div>
                               <div className="font-mono text-retro-light text-xs">
-                                {match.team2.player1.name} + {match.team2.player2.name}
+                                {match.team2.player1.name}{match.team2.player2 ? ` + ${match.team2.player2.name}` : ''}
                               </div>
                             </div>
                           </div>

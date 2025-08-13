@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useMatchesStore } from "@/stores/matchesStore";
 import { useHistoryStore } from "@/stores/historyStore";
 import { useRankingsStore } from "@/stores/rankingsStore";
@@ -55,7 +55,10 @@ export function useAutoSync() {
   const { fetchHistory } = useHistoryStore();
   const { fetchRanking } = useRankingsStore();
 
-  useCallback(() => {
+  useEffect(() => {
+    // Verificar se estamos no cliente antes de acessar document
+    if (typeof window === 'undefined') return;
+
     const handleVisibilityChange = () => {
       if (!document.hidden) {
         // Usuário voltou para a aba - revalidar dados importantes

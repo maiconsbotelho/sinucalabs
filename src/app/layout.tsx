@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 
@@ -12,15 +12,20 @@ const orbitron = Orbitron({
   variable: "--font-display",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#0A050F",
+};
+
 export const metadata: Metadata = {
   title: "SinucaLabs - Ranking de Sinuca",
   description: "Aplicação para gerenciar partidas e rankings de sinuca do laboratório",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   authors: [{ name: "Maicon Botelho" }],
   creator: "Maicon Botelho",
   publisher: "Maicon Botelho",
   manifest: "/manifest.json",
-  themeColor: "#0A050F",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -46,8 +51,11 @@ export default function RootLayout({
         <meta name="theme-color" content="#0A050F" />
         <meta name="msapplication-navbutton-color" content="#0A050F" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        {process.env.NODE_ENV === 'development' && (
+          <script src="/unregister-sw.js" async />
+        )}
       </head>
-      <body className={`${jetbrainsMono.variable} ${orbitron.variable} font-mono antialiased bg-retro-dark`}>
+      <body className={`${jetbrainsMono.variable} ${orbitron.variable} font-mono antialiased bg-retro-dark`} suppressHydrationWarning={true}>
         <div>
           {/* Retro Grid Background */}
           <div className="absolute inset-0 bg-retro-grid opacity-5 pointer-events-none"></div>
