@@ -50,10 +50,11 @@ export default function PartidaPage() {
   const addGame = async (winnerId: string) => {
     try {
       if (params.id && typeof params.id === "string") {
+        // Adicionar o jogo (já tem update otimista)
         await addGameToMatch(params.id, winnerId);
 
-        // Invalidar cache para atualizar rankings
-        await invalidateCache("game");
+        // Invalidar cache em background sem bloquear a UI
+        invalidateCache("game");
       }
     } catch (error) {
       console.error("Erro ao adicionar jogo:", error);

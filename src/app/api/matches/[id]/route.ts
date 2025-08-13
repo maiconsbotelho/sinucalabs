@@ -106,18 +106,80 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       });
 
       // Tentar adicionar o jogo na tabela games (se existir)
+      let newGame: any = null;
       try {
-        await supabaseAdmin.from("games").insert({
-          match_id: id,
-          winner_id: winnerId,
-        });
+        const { data: gameData } = await supabaseAdmin
+          .from("games")
+          .insert({
+            match_id: id,
+            winner_id: winnerId,
+          })
+          .select()
+          .single();
+        newGame = gameData;
       } catch (error) {
         // Tabela games ainda não existe, mas isso não é um erro crítico
         console.log("Tabela games não existe ainda, apenas atualizando o placar");
       }
 
-      // Retornar os dados atualizados (reaproveitando a lógica do GET)
-      return GET(request, { params });
+      // Buscar jogadores apenas uma vez para montar resposta otimizada
+      const playerIds = [
+        match.team1_player1_id,
+        match.team1_player2_id,
+        match.team2_player1_id,
+        match.team2_player2_id,
+      ].filter((id): id is string => Boolean(id));
+
+      const { data: players } = await supabaseAdmin.from("players").select("id, name").in("id", playerIds);
+
+      if (!players) {
+        return NextResponse.json({ error: "Erro ao buscar jogadores" }, { status: 500 });
+      }
+
+      // Buscar jogos atualizados apenas se necessário
+      let games: any[] = [];
+      if (newGame) {
+        const { data: gamesData } = await supabaseAdmin
+          .from("games")
+          .select("*")
+          .eq("match_id", match.id)
+          .order("created_at", { ascending: true });
+        games = gamesData || [];
+      }
+
+      // Criar resposta otimizada sem reprocessar tudo
+      const playersMap = new Map(players.map((p) => [p.id, p.name]));
+      const updatedMatch = MatchManager.enrichMatch(
+        {
+          ...match,
+          team1_score: scoreUpdate.newTeam1Score,
+          team2_score: scoreUpdate.newTeam2Score,
+          is_finished: shouldFinish,
+        },
+        players as MatchPlayer[]
+      );
+
+      const response = {
+        id: updatedMatch.id,
+        team1Player1: updatedMatch.team1_player1,
+        team1Player2: updatedMatch.team1_player2,
+        team2Player1: updatedMatch.team2_player1,
+        team2Player2: updatedMatch.team2_player2,
+        team1Wins: updatedMatch.team1_score,
+        team2Wins: updatedMatch.team2_score,
+        games: games.map((game, index) => ({
+          id: game.id,
+          gameNumber: index + 1,
+          winner: {
+            id: game.winner_id,
+            name: playersMap.get(game.winner_id) || "Jogador",
+          },
+          createdAt: game.created_at,
+        })),
+        isActive: !updatedMatch.is_finished,
+      };
+
+      return NextResponse.json(response);
     }
 
     return NextResponse.json({ error: "Ação não reconhecida" }, { status: 400 });
