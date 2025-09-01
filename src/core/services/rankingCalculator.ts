@@ -47,9 +47,9 @@ export class RankingCalculator {
       .map((player) => this.calculatePlayerWinRate(player))
       .filter((player) => player.gamesPlayed > 0) // Só incluir jogadores que jogaram
       .sort((a, b) => {
-        // Ordenar por win rate, depois por jogos disputados
-        if (b.winRate !== a.winRate) {
-          return b.winRate - a.winRate;
+        // Ordenar por número de vitórias, depois por jogos disputados
+        if (b.wins !== a.wins) {
+          return b.wins - a.wins;
         }
         return b.gamesPlayed - a.gamesPlayed;
       });
@@ -90,9 +90,9 @@ export class RankingCalculator {
       .map((team) => this.calculateWinRate(team))
       .filter((team) => team.gamesPlayed > 0) // Só incluir duplas que jogaram
       .sort((a, b) => {
-        // Ordenar por win rate, depois por jogos disputados
-        if (b.winRate !== a.winRate) {
-          return b.winRate - a.winRate;
+        // Ordenar por número de vitórias, depois por jogos disputados
+        if (b.wins !== a.wins) {
+          return b.wins - a.wins;
         }
         return b.gamesPlayed - a.gamesPlayed;
       });
@@ -359,8 +359,9 @@ export class RankingCalculator {
       .map((player) => this.calculatePlayerWinRate(player))
       .filter((player) => player.gamesPlayed > 0)
       .sort((a, b) => {
-        if (b.winRate !== a.winRate) {
-          return b.winRate - a.winRate;
+        // Ordenar por número de vitórias, depois por jogos disputados
+        if (b.wins !== a.wins) {
+          return b.wins - a.wins;
         }
         return b.gamesPlayed - a.gamesPlayed;
       });
